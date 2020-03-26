@@ -113,6 +113,7 @@ public class ServerInstance {
                     String result = obj.cancelEvent(customerID, eventID, eventType);
                     sendingResult = result + ";";
                 }
+                sendingResult = sendingResult.trim();
                 byte[] sendData = sendingResult.getBytes();
                 DatagramPacket reply = new DatagramPacket(sendData, sendingResult.length(), request.getAddress(),
                         request.getPort());
