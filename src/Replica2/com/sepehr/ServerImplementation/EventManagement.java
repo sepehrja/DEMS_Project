@@ -514,7 +514,7 @@ public class EventManagement implements ServerInterface {
             DatagramPacket reply = new DatagramPacket(buffer, buffer.length);
 
             aSocket.receive(reply);
-            result = new String(reply.getData());
+            result = new String(reply.getData()).trim();
             String[] parts = result.split(";");
             result = parts[0];
         } catch (SocketException e) {
@@ -724,6 +724,10 @@ public class EventManagement implements ServerInterface {
     public void addNewCustomerToClients(String customerID) {
         ClientModel newCustomer = new ClientModel(customerID);
         serverClients.put(newCustomer.getClientID(), newCustomer);
-        clientEvents.put(newCustomer.getClientID(), new ConcurrentHashMap<>());
+        Map<String, List<String>> emptyEvents = new ConcurrentHashMap<>();
+        emptyEvents.put(EventModel.CONFERENCES, new ArrayList<>());
+        emptyEvents.put(EventModel.TRADE_SHOWS, new ArrayList<>());
+        emptyEvents.put(EventModel.SEMINARS, new ArrayList<>());
+        clientEvents.put(newCustomer.getClientID(), emptyEvents);
     }
 }
