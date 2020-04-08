@@ -42,17 +42,6 @@ public class EventManagement implements ServerInterface {
 //        addTestData();
     }
 
-    private static int getServerPort(String branchAcronym) {
-        if (branchAcronym.equalsIgnoreCase("MTL")) {
-            return Montreal_Server_Port;
-        } else if (branchAcronym.equalsIgnoreCase("SHE")) {
-            return Sherbrooke_Server_Port;
-        } else if (branchAcronym.equalsIgnoreCase("QUE")) {
-            return Quebec_Server_Port;
-        }
-        return 1;
-    }
-
     private void addTestData() {
 //        ClientModel testManager = new ClientModel(serverID + "M1111");
         ClientModel testCustomer = new ClientModel(serverID + "C1111");
@@ -78,6 +67,17 @@ public class EventManagement implements ServerInterface {
         allEvents.get(EventModel.CONFERENCES).put(sampleConf.getEventID(), sampleConf);
         allEvents.get(EventModel.TRADE_SHOWS).put(sampleTrade.getEventID(), sampleTrade);
         allEvents.get(EventModel.SEMINARS).put(sampleSemi.getEventID(), sampleSemi);
+    }
+
+    private static int getServerPort(String branchAcronym) {
+        if (branchAcronym.equalsIgnoreCase("MTL")) {
+            return Montreal_Server_Port;
+        } else if (branchAcronym.equalsIgnoreCase("SHE")) {
+            return Sherbrooke_Server_Port;
+        } else if (branchAcronym.equalsIgnoreCase("QUE")) {
+            return Quebec_Server_Port;
+        }
+        return 1;
     }
 
     @Override
@@ -135,7 +135,7 @@ public class EventManagement implements ServerInterface {
                 List<String> registeredClients = allEvents.get(eventType).get(eventID).getRegisteredClientIDs();
                 allEvents.get(eventType).remove(eventID);
                 addCustomersToNextSameEvent(eventID, eventType, registeredClients);
-                response = "Success: Event Removed Successfully";
+                response = "Success: Event " + eventID + " Removed Successfully";
                 try {
                     Logger.serverLog(serverID, "null", " CORBA removeEvent ", " eventID: " + eventID + " eventType: " + eventType + " ", response);
                 } catch (IOException e) {
@@ -204,11 +204,21 @@ public class EventManagement implements ServerInterface {
         checkClientExists(customerID);
         if (isEventOfThisServer(eventID)) {
             EventModel bookedEvent = allEvents.get(eventType).get(eventID);
+            if (bookedEvent == null) {
+                response = "Failed: Event " + eventID + " Does not exists";
+                try {
+                    Logger.serverLog(serverID, customerID, " CORBA bookEvent ", " eventID: " + eventID + " eventType: " + eventType + " ", response);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return response;
+            }
             if (!bookedEvent.isFull()) {
                 if (clientEvents.containsKey(customerID)) {
                     if (clientEvents.get(customerID).containsKey(eventType)) {
                         if (!clientHasEvent(customerID, eventType, eventID)) {
-                            clientEvents.get(customerID).get(eventType).add(eventID);
+                            if (isCustomerOfThisServer(customerID))
+                                clientEvents.get(customerID).get(eventType).add(eventID);
                         } else {
                             response = "Failed: Event " + eventID + " Already Booked";
                             try {
@@ -219,10 +229,12 @@ public class EventManagement implements ServerInterface {
                             return response;
                         }
                     } else {
-                        addEventTypeAndEvent(customerID, eventType, eventID);
+                        if (isCustomerOfThisServer(customerID))
+                            addEventTypeAndEvent(customerID, eventType, eventID);
                     }
                 } else {
-                    addCustomerAndEvent(customerID, eventType, eventID);
+                    if (isCustomerOfThisServer(customerID))
+                        addCustomerAndEvent(customerID, eventType, eventID);
                 }
                 if (allEvents.get(eventType).get(eventID).addRegisteredClientID(customerID) == EventModel.ADD_SUCCESS) {
                     response = "Success: Event " + eventID + " Booked Successfully";
@@ -247,7 +259,16 @@ public class EventManagement implements ServerInterface {
                 return response;
             }
         } else {
-            if (!exceedWeeklyLimit(customerID, eventID.substring(4))) {
+            if (clientHasEvent(customerID, eventType, eventID)) {
+                String serverResponse = "Failed: Event " + eventID + " Already Booked";
+                try {
+                    Logger.serverLog(serverID, customerID, " CORBA bookEvent ", " eventID: " + eventID + " eventType: " + eventType + " ", serverResponse);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return serverResponse;
+            }
+            if (exceedWeeklyLimit(customerID, eventID.substring(4))) {
                 String serverResponse = sendUDPMessage(getServerPort(eventID.substring(0, 3)), "bookEvent", customerID, eventType, eventID);
                 if (serverResponse.startsWith("Success:")) {
                     if (clientEvents.get(customerID).containsKey(eventType)) {
@@ -409,7 +430,7 @@ public class EventManagement implements ServerInterface {
                 String bookResp = "Failed: did not send book request for your newEvent " + newEventID;
                 String cancelResp = "Failed: did not send cancel request for your oldEvent " + oldEventID;
                 synchronized (this) {
-                    if (onTheSameWeek(newEventID.substring(4), oldEventID) && exceedWeeklyLimit(customerID, newEventID.substring(4))) {
+                    if (onTheSameWeek(newEventID.substring(4), oldEventID) && !exceedWeeklyLimit(customerID, newEventID.substring(4))) {
                         cancelResp = cancelEvent(customerID, oldEventID, oldEventType);
                         if (cancelResp.startsWith("Success:")) {
                             bookResp = bookEvent(customerID, newEventID, newEventType);
@@ -428,8 +449,8 @@ public class EventManagement implements ServerInterface {
                     response = "Failed: Your oldEvent " + oldEventID + " Could not be Canceled reason: " + cancelResp;
                 } else if (bookResp.startsWith("Failed:") && cancelResp.startsWith("Success:")) {
                     //hope this won't happen, but just in case.
-                    bookEvent(customerID, oldEventID, oldEventType);
-                    response = "Failed: Your newEvent " + newEventID + " Could not be Booked reason: " + bookResp;
+                    String resp1 = bookEvent(customerID, oldEventID, oldEventType);
+                    response = "Failed: Your newEvent " + newEventID + " Could not be Booked reason: " + bookResp + " And your old event Rolling back: " + resp1;
                 } else {
                     response = "Failed: on Both newEvent " + newEventID + " Booking reason: " + bookResp + " and oldEvent " + oldEventID + " Canceling reason: " + cancelResp;
                 }
@@ -450,7 +471,6 @@ public class EventManagement implements ServerInterface {
             }
         }
     }
-
 
     /**
      * for udp calls only
@@ -608,14 +628,14 @@ public class EventManagement implements ServerInterface {
             }
             for (String eventID :
                     registeredIDs) {
-                if (onTheSameWeek(eventDate, eventID)) {
+                if (onTheSameWeek(eventDate, eventID) && !isEventOfThisServer(eventID)) {
                     limit++;
                 }
                 if (limit == 3)
-                    return true;
+                    return false;
             }
         }
-        return false;
+        return true;
     }
 
     private void addCustomersToNextSameEvent(String oldEventID, String eventType, List<String> registeredClients) {
@@ -724,10 +744,6 @@ public class EventManagement implements ServerInterface {
     public void addNewCustomerToClients(String customerID) {
         ClientModel newCustomer = new ClientModel(customerID);
         serverClients.put(newCustomer.getClientID(), newCustomer);
-        Map<String, List<String>> emptyEvents = new ConcurrentHashMap<>();
-        emptyEvents.put(EventModel.CONFERENCES, new ArrayList<>());
-        emptyEvents.put(EventModel.TRADE_SHOWS, new ArrayList<>());
-        emptyEvents.put(EventModel.SEMINARS, new ArrayList<>());
-        clientEvents.put(newCustomer.getClientID(), emptyEvents);
+        clientEvents.put(newCustomer.getClientID(), new ConcurrentHashMap<>());
     }
 }
