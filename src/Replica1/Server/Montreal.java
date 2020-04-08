@@ -79,7 +79,7 @@ public class Montreal {
 					response= result;
 				}
 				else if(function.equals("boook_next_event")) {
-					String result = ServerImpl.boook_next_event(eventID, eventType);
+					String result = ServerImpl.boook_next_event(eventID, eventType, customerID);
 					response= result;
 				}
 				byte[] sendData = response.getBytes();
