@@ -44,6 +44,17 @@ public class EventManagement extends UnicastRemoteObject implements ServerInterf
 //        addTestData();
     }
 
+    private static int getServerPort(String branchAcronym) {
+        if (branchAcronym.equalsIgnoreCase("MTL")) {
+            return Montreal_Server_Port;
+        } else if (branchAcronym.equalsIgnoreCase("SHE")) {
+            return Sherbrooke_Server_Port;
+        } else if (branchAcronym.equalsIgnoreCase("QUE")) {
+            return Quebec_Server_Port;
+        }
+        return 1;
+    }
+
     private void addTestData() {
 //        ClientModel testManager = new ClientModel(serverID + "M1111");
         ClientModel testCustomer = new ClientModel(serverID + "C1111");
@@ -69,17 +80,6 @@ public class EventManagement extends UnicastRemoteObject implements ServerInterf
         allEvents.get(EventModel.CONFERENCES).put(sampleConf.getEventID(), sampleConf);
         allEvents.get(EventModel.TRADE_SHOWS).put(sampleTrade.getEventID(), sampleTrade);
         allEvents.get(EventModel.SEMINARS).put(sampleSemi.getEventID(), sampleSemi);
-    }
-
-    private static int getServerPort(String branchAcronym) {
-        if (branchAcronym.equalsIgnoreCase("MTL")) {
-            return Montreal_Server_Port;
-        } else if (branchAcronym.equalsIgnoreCase("SHE")) {
-            return Sherbrooke_Server_Port;
-        } else if (branchAcronym.equalsIgnoreCase("QUE")) {
-            return Quebec_Server_Port;
-        }
-        return 1;
     }
 
     @Override
