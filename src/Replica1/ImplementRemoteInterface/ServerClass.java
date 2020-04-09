@@ -1,4 +1,4 @@
-package ImplementRemoteInterface;
+package Replica1.ImplementRemoteInterface;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -8,37 +8,27 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.concurrent.*; 
-import org.omg.CORBA.ORB;
 
-import ServerModule.ServerInterfacePOA;
-import DataBase.*;
+import ServerInterface.EventManagementInterface;
+import Replica1.DataBase.*;
 
-public class ServerClass extends ServerInterfacePOA{
-	ORB orb;
+public class ServerClass extends UnicastRemoteObject implements EventManagementInterface{
 	
-	public void setORB(ORB orb_val) {
-		orb = orb_val;
-	}
-	
-	public void shutdown() {
-		orb.shutdown(false);
-	}
-	
-	private ConcurrentHashMap<String, ConcurrentHashMap<String, EventDetail>> EventMap;
-	private ConcurrentHashMap<String, ConcurrentHashMap<String, ClientDetail>> ClientMap;
-	private int quebec_port, montreal_port, sherbrooke_port;
-	private String serverName;
-	public ServerClass(int quebec_port, int montreal_port, int sherbrooke_port, String serverName) throws RemoteException {
+	private final ConcurrentHashMap<String, ConcurrentHashMap<String, EventDetail>> EventMap;
+	private final ConcurrentHashMap<String, ConcurrentHashMap<String, ClientDetail>> ClientMap;
+	private final int quebec_port, montreal_port, sherbrooke_port;
+	private final String serverName;
+	public ServerClass(final int quebec_port, final int montreal_port, final int sherbrooke_port, final String serverName) throws RemoteException {
 		super();
 		
 		this.quebec_port = quebec_port;
@@ -50,17 +40,18 @@ public class ServerClass extends ServerInterfacePOA{
 		
 	}
 
-	public synchronized String addEvent(String eventID, String eventType, int bookingCapacity){
+	@Override
+	public synchronized String addEvent(final String eventID, final String eventType, final int bookingCapacity) throws RemoteException {
 		if(EventMap.containsKey(eventType.toUpperCase().trim()) && EventMap.get(eventType.toUpperCase().trim()).containsKey(eventID.toUpperCase().trim()))
 		{
-			int currentCapacity = EventMap.get(eventType.toUpperCase().trim()).get(eventID.toUpperCase().trim()).bookingCapacity;
+			final int currentCapacity = EventMap.get(eventType.toUpperCase().trim()).get(eventID.toUpperCase().trim()).bookingCapacity;
 			EventMap.get(eventType.toUpperCase().trim()).replace(eventID,new EventDetail(eventType.toUpperCase().trim(), eventID.toUpperCase().trim(), currentCapacity + bookingCapacity));
 
 			try 
 			{
 				serverLog("Add event", " EventType:"+eventType+ " EventID:"+eventID +
 						"bookingCapacity:"+ bookingCapacity,"successfully completed", "Capacity added to event");				
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				e.printStackTrace();
 			}
 			return "Event added capacity";
@@ -72,37 +63,37 @@ public class ServerClass extends ServerInterfacePOA{
 			{
 				serverLog("Add event", " EventType:"+eventType+ " EventID:"+eventID +
 						"bookingCapacity:"+ bookingCapacity,"successfully completed", "Event added to" + serverName.toUpperCase().trim());
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				e.printStackTrace();
 			}
 			return "Event added to" + serverName.toUpperCase().trim();
 		}	
 		else
 		{
-			ConcurrentHashMap <String, EventDetail> subHashMap = new ConcurrentHashMap<>();
+			final ConcurrentHashMap <String, EventDetail> subHashMap = new ConcurrentHashMap<>();
 			subHashMap.put(eventID.toUpperCase().trim(), new EventDetail(eventType.toUpperCase().trim(), eventID.toUpperCase().trim(), bookingCapacity));
 			EventMap.put(eventType.toUpperCase().trim(), subHashMap);
 			try 
 			{
 				serverLog("Add event", " EventType:"+eventType+ " EventID:"+eventID +
 						"bookingCapacity:"+ bookingCapacity,"successfully completed", "Event added to" + serverName.toUpperCase().trim());
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				e.printStackTrace();
 			}
 			return "Event added to" + serverName.toUpperCase().trim();
 		}
 	}
 	@Override
-	public synchronized String removeEvent(String eventID, String eventType){
+	public synchronized String removeEvent(final String eventID, final String eventType) throws RemoteException{
 		if(EventMap.containsKey(eventType.toUpperCase().trim()) && EventMap.get(eventType.toUpperCase().trim()).containsKey(eventID.toUpperCase().trim()))
 		{			
 			String response="";
-			String branch = eventID.substring(0,3).toUpperCase().trim();
+			final String branch = eventID.substring(0,3).toUpperCase().trim();
 			EventMap.get(eventType.toUpperCase().trim()).remove(eventID.toUpperCase().trim());
 			try {
 				serverLog("Remove event", " EventType:"+eventType+ " EventID:"+eventID
 						,"successfully completed", "Event removed from server" + serverName.toUpperCase().trim());
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				e.printStackTrace();
 			}
 			
@@ -133,20 +124,20 @@ public class ServerClass extends ServerInterfacePOA{
 		}
 	}
 	
-	public String remove_client_event(String eventID, String eventType) 
+	public String remove_client_event(final String eventID, final String eventType) 
 	{
 		String data = "";
 		String new_eventID = "";
-		for(Entry<String, ConcurrentHashMap<String, ClientDetail>> customer : ClientMap.entrySet())
+		for(final Entry<String, ConcurrentHashMap<String, ClientDetail>> customer : ClientMap.entrySet())
 		{
-			ConcurrentHashMap<String, ClientDetail> eventDetail = customer.getValue();
-			String branch = eventID.substring(0,3).toUpperCase().trim();
+			final ConcurrentHashMap<String, ClientDetail> eventDetail = customer.getValue();
+			final String branch = eventID.substring(0,3).toUpperCase().trim();
 
 			if(eventDetail.containsKey(eventType.toUpperCase().trim() +";"+ eventID.toUpperCase().trim()+""))
 			{	
 				eventDetail.remove(eventType.toUpperCase().trim() +";"+ eventID.toUpperCase().trim());
 
-				for (ConcurrentHashMap.Entry<String,ClientDetail> entry : customer.getValue().entrySet()) 
+				for (final ConcurrentHashMap.Entry<String,ClientDetail> entry : customer.getValue().entrySet()) 
 				{
 					data +=(entry.getValue().eventID.toUpperCase().trim()+":");
 				}
@@ -181,7 +172,7 @@ public class ServerClass extends ServerInterfacePOA{
 						
 							clientLog(customer.getKey().toUpperCase().trim(), "Remove event", "eventType:" + eventType+" eventID:"+new_eventID+" has been replaced");
 					}
-				} catch (IOException e) {
+				} catch (final IOException e) {
 					e.printStackTrace();
 				}
 			}
@@ -190,10 +181,10 @@ public class ServerClass extends ServerInterfacePOA{
 		return "Event with eventID:"+ eventID.toUpperCase().trim() +" and eventType: "+eventType.toUpperCase().trim() +" for clients has been removed for server\n";
 	}
 	
-	public String boook_next_event(String temp,String removedEventID, String eventType) {
+	public String boook_next_event(final String temp,final String removedEventID, final String eventType) {
 		
-		String response="";
-		String [] data = temp.split(":");
+		final String response="";
+		final String [] data = temp.split(":");
 		String eventID="";
 		int capacity =0;
         List<String> sortedEventIDs = new ArrayList<String>();
@@ -226,7 +217,7 @@ public class ServerClass extends ServerInterfacePOA{
 						{
 							serverLog("Remove event", " EventType:"+eventType+ " EventID:"+eventID,"successfully completed", 
 									"Next available event replaced for client:");
-						} catch (IOException e) {
+						} catch (final IOException e) {
 							e.printStackTrace();
 						}
 						return eventID;
@@ -244,7 +235,7 @@ public class ServerClass extends ServerInterfacePOA{
 					{
 						serverLog("Remove event", " EventType:"+eventType+ " EventID:"+eventID,"successfully completed", 
 								"Next available event replaced for client:");
-					} catch (IOException e) {
+					} catch (final IOException e) {
 						e.printStackTrace();
 					}
 					return eventID;
@@ -255,13 +246,13 @@ public class ServerClass extends ServerInterfacePOA{
 		return response;	
 	}
 
-	private List<String> getSortedEventID(String eventType, String removedEventID) {
-        List<String> sortedEventIDs = new ArrayList<String>();
-        List<String> morningEventIDs = new ArrayList<String>();
-        List<String> afternoonEventIDs = new ArrayList<String>();
-        List<String> eveningEventIDs = new ArrayList<String>();
+	private List<String> getSortedEventID(final String eventType, final String removedEventID) {
+        final List<String> sortedEventIDs = new ArrayList<String>();
+        final List<String> morningEventIDs = new ArrayList<String>();
+        final List<String> afternoonEventIDs = new ArrayList<String>();
+        final List<String> eveningEventIDs = new ArrayList<String>();
 
-		for (ConcurrentHashMap.Entry<String,EventDetail> entry : EventMap.get(eventType).entrySet()) 
+		for (final ConcurrentHashMap.Entry<String,EventDetail> entry : EventMap.get(eventType).entrySet()) 
 		{
 			if(entry.getValue().eventID.substring(3,4).equals("M") && !removedEventID.substring(3,4).equals("A")&& !removedEventID.substring(3,4).equals("E"))
 			{
@@ -297,14 +288,14 @@ public class ServerClass extends ServerInterfacePOA{
 		return sortedEventIDs;
 	}
 	
-	private List<String> sortByDate(List<String> list) {
-		int n = list.size(); 
+	private List<String> sortByDate(final List<String> list) {
+		final int n = list.size(); 
 		//sort by year
 		for (int i = 0; i < n-1; i++) 
 			for (int j = 0; j < n-i-1; j++) 
 			{
-				int a = Integer.parseInt(list.get(j).substring(8));
-				int b = Integer.parseInt(list.get(j+1).substring(8));
+				final int a = Integer.parseInt(list.get(j).substring(8));
+				final int b = Integer.parseInt(list.get(j+1).substring(8));
 
 				if (a > b) 
 				{ 
@@ -315,8 +306,8 @@ public class ServerClass extends ServerInterfacePOA{
 		for (int i = 0; i < n-1; i++) 
 			for (int j = 0; j < n-i-1; j++) 
 			{
-				int a = Integer.parseInt(list.get(j).substring(6,8));
-				int b = Integer.parseInt(list.get(j+1).substring(6,8));
+				final int a = Integer.parseInt(list.get(j).substring(6,8));
+				final int b = Integer.parseInt(list.get(j+1).substring(6,8));
 
 				if (a > b) 
 				{ 
@@ -327,8 +318,8 @@ public class ServerClass extends ServerInterfacePOA{
 		for (int i = 0; i < n-1; i++) 
 			for (int j = 0; j < n-i-1; j++) 
 			{
-				int a = Integer.parseInt(list.get(j).substring(4,6));
-				int b = Integer.parseInt(list.get(j+1).substring(4,6));
+				final int a = Integer.parseInt(list.get(j).substring(4,6));
+				final int b = Integer.parseInt(list.get(j+1).substring(4,6));
 
 				if (a > b) 
 				{ 
@@ -337,12 +328,13 @@ public class ServerClass extends ServerInterfacePOA{
 			}
 		return list;
 	}
+
 	@Override
-	public String listEventAvailability(String eventType){
+	public String listEventAvailability(final String eventType) throws RemoteException{
 		String response = "List of availability for "+ eventType +":\n";
 		if(EventMap.containsKey(eventType.toUpperCase().trim()))
 		{
-			for (Map.Entry<String, EventDetail> entry : EventMap.get(eventType.toUpperCase().trim()).entrySet()) 
+			for (final Map.Entry<String, EventDetail> entry : EventMap.get(eventType.toUpperCase().trim()).entrySet()) 
 			{
 				response += "\n" + entry.getKey() + " " + entry.getValue().bookingCapacity;
 			}
@@ -366,13 +358,13 @@ public class ServerClass extends ServerInterfacePOA{
 		
 		return response;
 	}
-	public String list_events(String eventType) 
+	public String list_events(final String eventType) 
 	{
 		String response = "";
 
 		if(EventMap.containsKey(eventType.toUpperCase().trim()))
 		{	
-			for (ConcurrentHashMap.Entry<String, EventDetail> entry : EventMap.get(eventType).entrySet()) 
+			for (final ConcurrentHashMap.Entry<String, EventDetail> entry : EventMap.get(eventType).entrySet()) 
 			{
 				response += "\n" + entry.getKey() + " " + entry.getValue().bookingCapacity;
 			}
@@ -380,10 +372,11 @@ public class ServerClass extends ServerInterfacePOA{
 		return response;
 	}
 	
-	public synchronized String bookEvent(String customerID, String eventID, String eventType){
+	@Override
+	public synchronized String bookEvent(final String customerID, final String eventID, final String eventType) throws RemoteException{
 		String response="";
-		String city = eventID.substring(0,3).toUpperCase().trim();
-		String eventDetail = eventType.toUpperCase().trim()+ ";" + eventID.toUpperCase().trim();
+		final String city = eventID.substring(0,3).toUpperCase().trim();
+		final String eventDetail = eventType.toUpperCase().trim()+ ";" + eventID.toUpperCase().trim();
 
 		if(city.trim().equals(serverName))
 		{
@@ -396,7 +389,7 @@ public class ServerClass extends ServerInterfacePOA{
 					serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID +" CustomerID:"+ customerID,"failed","There is no capacity for this event");
 					clientLog(customerID, "Book an event", "There is no capacity for eventType:" + eventType+" eventID:"+eventID);
 
-				} catch (IOException e) {
+				} catch (final IOException e) {
 					e.printStackTrace();
 				}
 			}
@@ -406,7 +399,7 @@ public class ServerClass extends ServerInterfacePOA{
 				{
 					serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID+" CustomerID:"+ customerID,"failed","There is no such an event");
 					clientLog(customerID, "Book an event", "There is no such an event --> eventType:" + eventType+" eventID:"+eventID);
-				} catch (IOException e) {
+				} catch (final IOException e) {
 					e.printStackTrace();
 				}
 			}
@@ -414,7 +407,7 @@ public class ServerClass extends ServerInterfacePOA{
 			{
 				try 
 				{
-					int capacity = EventMap.get(eventType.toUpperCase().trim()).get(eventID.toUpperCase().trim()).bookingCapacity;
+					final int capacity = EventMap.get(eventType.toUpperCase().trim()).get(eventID.toUpperCase().trim()).bookingCapacity;
 					if(serverName.trim().equals(customerID.substring(0,3).toUpperCase().trim()))
 					{
 						if(ClientMap.containsKey(customerID.toUpperCase().trim()) && ClientMap.get(customerID.toUpperCase().trim()).containsKey(eventDetail))			
@@ -424,7 +417,7 @@ public class ServerClass extends ServerInterfacePOA{
 								serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID +" CustomerID:"+ customerID,"failed","This event has already been booked");
 								clientLog(customerID, "Book an event", "This event has already been booked --> eventType:" + eventType+" eventID:"+eventID);
 
-							} catch (IOException e) {
+							} catch (final IOException e) {
 								e.printStackTrace();
 							}
 							
@@ -438,7 +431,7 @@ public class ServerClass extends ServerInterfacePOA{
 					
 					serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID+" CustomerID:"+ customerID,"successfully completed","Booking request has been approved");
 					clientLog(customerID, "Book an event", "Booking request has been approved --> eventType:" + eventType+" eventID:"+eventID);
-				} catch (IOException e) {
+				} catch (final IOException e) {
 					e.printStackTrace();
 				}
 			}
@@ -455,7 +448,7 @@ public class ServerClass extends ServerInterfacePOA{
 						serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID +" CustomerID:"+ customerID,"failed","This event has already been booked");
 						clientLog(customerID, "Book an event", "This event has already been booked --> eventType:" + eventType+" eventID:"+eventID);
 
-					} catch (IOException e) {
+					} catch (final IOException e) {
 						e.printStackTrace();
 					}
 					
@@ -469,7 +462,7 @@ public class ServerClass extends ServerInterfacePOA{
 						{
 							serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID+" CustomerID:"+ customerID,"failed","This customer has already booked 3 times from other cities!");
 							clientLog(customerID, "Book an event", "This customer has already booked 3 times from other cities --> eventType:" + eventType+" eventID:"+eventID);
-						} catch (IOException e) {
+						} catch (final IOException e) {
 							e.printStackTrace();
 						}
 						
@@ -483,7 +476,7 @@ public class ServerClass extends ServerInterfacePOA{
 					{
 						serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID+" CustomerID:"+ customerID,"successfully completed","Booking request has been approved");
 						clientLog(customerID, "Book an event", "Booking request has been approved --> eventType:" + eventType+" eventID:"+eventID);
-					} catch (IOException e) {
+					} catch (final IOException e) {
 						e.printStackTrace();
 					}
 					add_book_customer(customerID, eventID, eventType);
@@ -495,7 +488,7 @@ public class ServerClass extends ServerInterfacePOA{
 						serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID +" CustomerID:"+ customerID,"failed","There is no capacity for this event");
 						clientLog(customerID, "Book an event", "There is no capacity for eventType:" + eventType+" eventID:"+eventID);
 
-					} catch (IOException e) {
+					} catch (final IOException e) {
 						e.printStackTrace();
 					}
 				}
@@ -505,7 +498,7 @@ public class ServerClass extends ServerInterfacePOA{
 					{
 						serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID+" CustomerID:"+ customerID,"failed","There is no such an event");
 						clientLog(customerID, "Book an event", "There is no such an event --> eventType:" + eventType+" eventID:"+eventID);
-					} catch (IOException e) {
+					} catch (final IOException e) {
 						e.printStackTrace();
 					}
 				}
@@ -518,7 +511,7 @@ public class ServerClass extends ServerInterfacePOA{
 					{
 						serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID +" CustomerID:"+ customerID,"failed","This event has already been booked");
 						clientLog(customerID, "Book an event", "This event has already been booked --> eventType:" + eventType+" eventID:"+eventID);
-					} catch (IOException e) {
+					} catch (final IOException e) {
 						e.printStackTrace();
 					}
 					
@@ -532,7 +525,7 @@ public class ServerClass extends ServerInterfacePOA{
 						{
 							serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID+" CustomerID:"+ customerID,"failed","This customer has already booked 3 times from other cities!");
 							clientLog(customerID, "Book an event", "This customer has already booked 3 times from other cities --> eventType:" + eventType+" eventID:"+eventID);
-						} catch (IOException e) {
+						} catch (final IOException e) {
 							e.printStackTrace();
 						}
 						return "This customer has already booked 3 times from other cities!";
@@ -545,7 +538,7 @@ public class ServerClass extends ServerInterfacePOA{
 					{
 						serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID+" CustomerID:"+ customerID,"successfully completed","Booking request has been approved");
 						clientLog(customerID, "Book an event", "Booking request has been approved --> eventType:" + eventType+" eventID:"+eventID);
-					} catch (IOException e) {
+					} catch (final IOException e) {
 						e.printStackTrace();
 					}
 					add_book_customer(customerID, eventID, eventType);
@@ -556,7 +549,7 @@ public class ServerClass extends ServerInterfacePOA{
 					{
 						serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID +" CustomerID:"+ customerID,"failed","There is no capacity for this event");
 						clientLog(customerID, "Book an event", "There is no capacity for eventType:" + eventType+" eventID:"+eventID);
-					} catch (IOException e) {
+					} catch (final IOException e) {
 						e.printStackTrace();
 					}
 				}
@@ -566,7 +559,7 @@ public class ServerClass extends ServerInterfacePOA{
 					{
 						serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID+" CustomerID:"+ customerID,"failed","There is no such an event");
 						clientLog(customerID, "Book an event", "There is no such an event --> eventType:" + eventType+" eventID:"+eventID);
-					} catch (IOException e) {
+					} catch (final IOException e) {
 						e.printStackTrace();
 					}
 				}
@@ -579,7 +572,7 @@ public class ServerClass extends ServerInterfacePOA{
 					{
 						serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID +" CustomerID:"+ customerID,"failed","This event has already been booked");
 						clientLog(customerID, "Book an event", "This event has already been booked --> eventType:" + eventType+" eventID:"+eventID);
-					} catch (IOException e) {
+					} catch (final IOException e) {
 						e.printStackTrace();
 					}
 					
@@ -593,7 +586,7 @@ public class ServerClass extends ServerInterfacePOA{
 						{
 							serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID+" CustomerID:"+ customerID,"failed","This customer has already booked 3 times from other cities!");
 							clientLog(customerID, "Book an event", "This customer has already booked 3 times from other cities --> eventType:" + eventType+" eventID:"+eventID);
-						} catch (IOException e) {
+						} catch (final IOException e) {
 							e.printStackTrace();
 						}
 						return "This customer has already booked 3 times from other cities!";
@@ -606,7 +599,7 @@ public class ServerClass extends ServerInterfacePOA{
 					{
 						serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID+" CustomerID:"+ customerID,"successfully completed","Booking request has been approved");
 						clientLog(customerID, "Book an event", "Booking request has been approved --> eventType:" + eventType+" eventID:"+eventID);
-					} catch (IOException e) {
+					} catch (final IOException e) {
 						e.printStackTrace();
 					}
 					add_book_customer(customerID, eventID, eventType);
@@ -617,7 +610,7 @@ public class ServerClass extends ServerInterfacePOA{
 					{
 						serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID +" CustomerID:"+ customerID,"failed","There is no capacity for this event");
 						clientLog(customerID, "Book an event", "There is no capacity for eventType:" + eventType+" eventID:"+eventID);
-					} catch (IOException e) {
+					} catch (final IOException e) {
 						e.printStackTrace();
 					}
 				}
@@ -627,7 +620,7 @@ public class ServerClass extends ServerInterfacePOA{
 					{
 						serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID+" CustomerID:"+ customerID,"failed","There is no such an event");
 						clientLog(customerID, "Book an event", "There is no such an event --> eventType:" + eventType+" eventID:"+eventID);
-					} catch (IOException e) {
+					} catch (final IOException e) {
 						e.printStackTrace();
 					}
 				}
@@ -637,11 +630,11 @@ public class ServerClass extends ServerInterfacePOA{
 		return response;
 	}
 	
-	public boolean week_limit_check(String customerID,String eventDate)
+	public boolean week_limit_check(final String customerID,final String eventDate)
 	{
         int limit = 0;
 
-		for(Entry<String, ClientDetail> events : ClientMap.get(customerID).entrySet())
+		for(final Entry<String, ClientDetail> events : ClientMap.get(customerID).entrySet())
 		{
 			if(!events.getValue().eventID.substring(0, 3).equals(serverName) && same_week_check(events.getValue().eventID.substring(4), eventDate))
 			{
@@ -654,12 +647,12 @@ public class ServerClass extends ServerInterfacePOA{
 			return false;
 	}
 	
-	private boolean same_week_check(String newEventDate, String eventID) 
+	private boolean same_week_check(final String newEventDate, final String eventID) 
 	{
         if (eventID.substring(2, 4).equals(newEventDate.substring(2, 4)) && eventID.substring(4, 6).equals(newEventDate.substring(4, 6))) 
         {
-            int w1 = Integer.parseInt(eventID.substring(0, 2)) / 7;
-            int w2 = Integer.parseInt(newEventDate.substring(0, 2)) / 7;
+            final int w1 = Integer.parseInt(eventID.substring(0, 2)) / 7;
+            final int w2 = Integer.parseInt(newEventDate.substring(0, 2)) / 7;
             
             if(w1 == w2)
             	return true;
@@ -670,13 +663,13 @@ public class ServerClass extends ServerInterfacePOA{
             return false;
 
 	}
-	public String book_accepted_event(String customerID, String eventID, String eventType)
+	public String book_accepted_event(final String customerID, final String eventID, final String eventType)
 	{
 		String response="";
 
 		if(EventMap.containsKey(eventType.toUpperCase().trim()) && EventMap.get(eventType.toUpperCase().trim()).containsKey(eventID.toUpperCase().trim()))
 		{
-			int capacity = EventMap.get(eventType.toUpperCase().trim()).get(eventID.toUpperCase().trim()).bookingCapacity;
+			final int capacity = EventMap.get(eventType.toUpperCase().trim()).get(eventID.toUpperCase().trim()).bookingCapacity;
 			
 			if( capacity == 0)
 				return "ERR_NO_CAPACITY";
@@ -693,10 +686,10 @@ public class ServerClass extends ServerInterfacePOA{
 		return response;
 	}
 
-	public String add_book_customer(String customerID, String eventID, String eventType)
+	public String add_book_customer(final String customerID, final String eventID, final String eventType)
 	{
 		String response = "";
-		String eventDetail = eventType.toUpperCase().trim()+ ";" + eventID.toUpperCase().trim();
+		final String eventDetail = eventType.toUpperCase().trim()+ ";" + eventID.toUpperCase().trim();
 
 		if(ClientMap.containsKey(customerID.toUpperCase().trim()))			
 		{	
@@ -705,7 +698,7 @@ public class ServerClass extends ServerInterfacePOA{
 		}
 		else
 		{
-			ConcurrentHashMap <String, ClientDetail> subHashMap = new ConcurrentHashMap<>();
+			final ConcurrentHashMap <String, ClientDetail> subHashMap = new ConcurrentHashMap<>();
 			subHashMap.put(eventDetail, new ClientDetail(customerID.toUpperCase().trim(), eventType.toUpperCase().trim(), eventID.toUpperCase().trim()));
 			ClientMap.put(customerID.toUpperCase().trim(), subHashMap);
 			response = "BOOKED";
@@ -713,14 +706,15 @@ public class ServerClass extends ServerInterfacePOA{
 		return response;
 	}
 
-	public String getBookingSchedule(String customerID){
+	@Override
+	public String getBookingSchedule(final String customerID) throws RemoteException{
 		String response = "";
 		
 		if(ClientMap.containsKey(customerID.toUpperCase().trim()))			
 		{
-			for (ConcurrentHashMap.Entry<String, ClientDetail> entry : ClientMap.get(customerID.toUpperCase().trim()).entrySet()) 
+			for (final ConcurrentHashMap.Entry<String, ClientDetail> entry : ClientMap.get(customerID.toUpperCase().trim()).entrySet()) 
 			{
-				String [] data = entry.getKey().split(";");
+				final String [] data = entry.getKey().split(";");
 				response += "EventType:" + data[0] + " EventID:" + data[1]+"\n";
 			}
 			return response;
@@ -729,9 +723,10 @@ public class ServerClass extends ServerInterfacePOA{
 			return "No record for this customer";
 	}
 
-	public String cancelEvent(String customerID, String eventID, String eventType){
-		String eventDetail = eventType.toUpperCase().trim()+ ";" + eventID.toUpperCase().trim();
-		String branch = eventID.substring(0,3).toUpperCase().trim();
+	@Override
+	public String cancelEvent(final String customerID, final String eventID, final String eventType) throws RemoteException{
+		final String eventDetail = eventType.toUpperCase().trim()+ ";" + eventID.toUpperCase().trim();
+		final String branch = eventID.substring(0,3).toUpperCase().trim();
 		
 		if(ClientMap.containsKey(customerID.toUpperCase().trim()) && ClientMap.get(customerID.toUpperCase().trim()).containsKey(eventDetail))		
 		{
@@ -739,13 +734,13 @@ public class ServerClass extends ServerInterfacePOA{
 
 			if(branch.trim().equals(serverName))
 			{
-				int currentCapacity = EventMap.get(eventType.toUpperCase().trim()).get(eventID.toUpperCase().trim()).bookingCapacity;
+				final int currentCapacity = EventMap.get(eventType.toUpperCase().trim()).get(eventID.toUpperCase().trim()).bookingCapacity;
 				EventMap.get(eventType.toUpperCase().trim()).replace(eventID,new EventDetail(eventType.toUpperCase().trim(), eventID.toUpperCase().trim(), currentCapacity + 1));
 				try 
 				{
 					serverLog("Cancel an event", " EventType:"+eventType+ " EventID:"+eventID+" CustomerID:"+ customerID,"successfully completed","Event has been canceled");
 					clientLog(customerID, "Cancel an event", "Event has been canceled --> eventType:" + eventType+" eventID:"+eventID);
-				} catch (IOException e) {
+				} catch (final IOException e) {
 					e.printStackTrace();
 				}
 			}
@@ -756,7 +751,7 @@ public class ServerClass extends ServerInterfacePOA{
 				{
 					serverLog("Cancel an event", " EventType:"+eventType+ " EventID:"+eventID+" CustomerID:"+ customerID,"successfully completed","Event has been canceled");
 					clientLog(customerID, "Cancel an event", "Event has been canceled --> eventType:" + eventType+" eventID:"+eventID);
-				} catch (IOException e) {
+				} catch (final IOException e) {
 					e.printStackTrace();
 				}
 				
@@ -768,7 +763,7 @@ public class ServerClass extends ServerInterfacePOA{
 				{
 					serverLog("Cancel an event", " EventType:"+eventType+ " EventID:"+eventID+" CustomerID:"+ customerID,"successfully completed","Event has been canceled");
 					clientLog(customerID, "Cancel an event", "Event has been canceled --> eventType:" + eventType+" eventID:"+eventID);
-				} catch (IOException e) {
+				} catch (final IOException e) {
 					e.printStackTrace();
 				}
 
@@ -780,7 +775,7 @@ public class ServerClass extends ServerInterfacePOA{
 				{
 					serverLog("Cancel an event", " EventType:"+eventType+ " EventID:"+eventID+" CustomerID:"+ customerID,"successfully completed","Event has been canceled");
 					clientLog(customerID, "Cancel an event", "Event has been canceled --> eventType:" + eventType+" eventID:"+eventID);
-				} catch (IOException e) {
+				} catch (final IOException e) {
 					e.printStackTrace();
 				}
 			}
@@ -790,18 +785,18 @@ public class ServerClass extends ServerInterfacePOA{
 			return "No record event";
 	}
 	
-	public String cancel_client_event(String eventID, String eventType)
+	public String cancel_client_event(final String eventID, final String eventType)
 	{
 		if(EventMap.containsKey(eventType.toUpperCase().trim()) && EventMap.get(eventType.toUpperCase().trim()).containsKey(eventID.toUpperCase().trim()))
 		{
-			int currentCapacity = EventMap.get(eventType.toUpperCase().trim()).get(eventID.toUpperCase().trim()).bookingCapacity;
+			final int currentCapacity = EventMap.get(eventType.toUpperCase().trim()).get(eventID.toUpperCase().trim()).bookingCapacity;
 			EventMap.get(eventType.toUpperCase().trim()).replace(eventID,new EventDetail(eventType.toUpperCase().trim(), eventID.toUpperCase().trim(), currentCapacity + 1));
 		}	
 		return "CANCELED";
 		
 	}
 
-	private static String getDirectory(String ID, String type) {
+	private static String getDirectory(final String ID, final String type) {
         final String dir = System.getProperty("user.dir");
 		String fileName = dir;
 		if(type == "Server")
@@ -821,49 +816,49 @@ public class ServerClass extends ServerInterfacePOA{
         return fileName;
 	}
 	
-	public void serverLog(String acion, String peram, String requestResult, String response) throws IOException {
-		String city = serverName;
-		Date date = new Date();
-		String strDateFormat = "yyyy-MM-dd hh:mm:ss a";
-		DateFormat dateFormat = new SimpleDateFormat(strDateFormat);
-		String formattedDate= dateFormat.format(date);
+	public void serverLog(final String acion, final String peram, final String requestResult, final String response) throws IOException {
+		final String city = serverName;
+		final Date date = new Date();
+		final String strDateFormat = "yyyy-MM-dd hh:mm:ss a";
+		final DateFormat dateFormat = new SimpleDateFormat(strDateFormat);
+		final String formattedDate= dateFormat.format(date);
 
-		FileWriter fileWriter = new FileWriter(getDirectory(city.trim().toUpperCase(), "Server"),true);
-		PrintWriter printWriter = new PrintWriter(fileWriter);
+		final FileWriter fileWriter = new FileWriter(getDirectory(city.trim().toUpperCase(), "Server"),true);
+		final PrintWriter printWriter = new PrintWriter(fileWriter);
 		printWriter.println("DATE: "+formattedDate+"| Request type: "+acion+" | Request parameters: "+ peram +" | Request result: "+requestResult+" | Server resonse: "+ response);
 
 		printWriter.close();
 
 	}
 	
-	public void clientLog(String ID, String acion, String response) throws IOException {
-		FileWriter fileWriter = new FileWriter(getDirectory(ID, "Clients"),true);
-		PrintWriter printWriter = new PrintWriter(fileWriter);
+	public void clientLog(final String ID, final String acion, final String response) throws IOException {
+		final FileWriter fileWriter = new FileWriter(getDirectory(ID, "Clients"),true);
+		final PrintWriter printWriter = new PrintWriter(fileWriter);
 		printWriter.println("Request type: "+acion+" | Resonse: "+ response);
 
 		printWriter.close();
 
 	}
 	
-	private static String send_data_request(int serverPort,String function,String eventID, String eventType, String customerID) {
+	private static String send_data_request(final int serverPort,final String function,final String eventID, final String eventType, final String customerID) {
 		DatagramSocket socket = null;
 		String result ="";
-		String clientRequest = function+";"+eventID.toUpperCase().trim()+";"+eventType.toUpperCase().trim()+";" + customerID.toUpperCase().trim();
+		final String clientRequest = function+";"+eventID.toUpperCase().trim()+";"+eventType.toUpperCase().trim()+";" + customerID.toUpperCase().trim();
 		try {
 			socket = new DatagramSocket();
-			byte[] data = clientRequest.getBytes();
-			InetAddress host = InetAddress.getByName("localhost");
-			DatagramPacket request = new DatagramPacket(data, clientRequest.length(), host, serverPort);
+			final byte[] data = clientRequest.getBytes();
+			final InetAddress host = InetAddress.getByName("localhost");
+			final DatagramPacket request = new DatagramPacket(data, clientRequest.length(), host, serverPort);
 			socket.send(request);
 
-			byte[] buffer = new byte[1000];
-			DatagramPacket reply = new DatagramPacket(buffer, buffer.length);
+			final byte[] buffer = new byte[1000];
+			final DatagramPacket reply = new DatagramPacket(buffer, buffer.length);
 
 			socket.receive(reply);
 			result = new String(reply.getData());
-		} catch (SocketException e) {
+		} catch (final SocketException e) {
 			System.out.println("Socket exception: " + e.getMessage());
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			e.printStackTrace();
 			System.out.println("IO Error: " + e.getMessage());
 		} finally {
@@ -874,8 +869,9 @@ public class ServerClass extends ServerInterfacePOA{
 
 	}
 
-	public synchronized String swapEvent(String customerID, String newEventID, String newEventType, String oldEventID, String oldEventType) {
-		String eventDetail = oldEventType.toUpperCase().trim()+ ";" + oldEventID.toUpperCase().trim();
+	@Override
+	public synchronized String swapEvent(final String customerID, final String newEventID, final String newEventType, final String oldEventID, final String oldEventType) throws RemoteException{
+		final String eventDetail = oldEventType.toUpperCase().trim()+ ";" + oldEventID.toUpperCase().trim();
 		String response = "";
 		if(!week_limit_check(customerID.toUpperCase().trim(), newEventID.substring(4)))
 		{
@@ -894,7 +890,7 @@ public class ServerClass extends ServerInterfacePOA{
 				{
 					serverLog("Swap an event", " oldEventType:"+oldEventType+ " oldEventID:"+oldEventID+"newEventType:"+ newEventType+" newEventID:"+newEventID+"CustomerID:"+ customerID,"failed","This customer has already booked 3 times from other cities!");
 					clientLog(customerID, "Book an event", "This customer has already booked 3 times from other cities");
-				} catch (IOException e) {
+				} catch (final IOException e) {
 					e.printStackTrace();
 				}
 				
