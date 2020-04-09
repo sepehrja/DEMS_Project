@@ -5,11 +5,11 @@ module ServerObjectInterfaceApp
 		/**
         * Only manager
         */
-        string addEvent(in string eventID, in string eventType, in long bookingCapacity);
+        string addEvent(in string managerID, in string eventID, in string eventType, in long bookingCapacity);
 
-        string removeEvent(in string eventID, in string eventType);
+        string removeEvent(in string managerID, in string eventID, in string eventType);
 
-        string listEventAvailability(in string eventType);
+        string listEventAvailability(in string managerID, in string eventType);
 
         /**
         * Both manager and Customer
