@@ -8,12 +8,19 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
 public class ServerInstance {
 
     private String serverID;
     private String serverName;
     private int serverUdpPort;
+    public static final int SERVER_MONTREAL = 2964;
+    public static final int SERVER_SHERBROOKE = 2965;
+    public static final int SERVER_QUEBEC = 2966;
+    public static final String EVENT_MANAGEMENT_REGISTERED_NAME = "EVENT_MANAGEMENT";
+    private int serverRegistryPort;
 
     public ServerInstance(String serverID, String[] args) throws Exception {
         this.serverID = serverID;
@@ -21,60 +28,30 @@ public class ServerInstance {
             case "MTL":
                 serverName = EventManagement.EVENT_SERVER_MONTREAL;
                 serverUdpPort = EventManagement.Montreal_Server_Port;
+                serverRegistryPort = SERVER_MONTREAL;
                 break;
             case "QUE":
                 serverName = EventManagement.EVENT_SERVER_QUEBEC;
                 serverUdpPort = EventManagement.Quebec_Server_Port;
+                serverRegistryPort = SERVER_QUEBEC;
                 break;
             case "SHE":
                 serverName = EventManagement.EVENT_SERVER_SHERBROOK;
                 serverUdpPort = EventManagement.Sherbrooke_Server_Port;
+                serverRegistryPort = SERVER_SHERBROOKE;
                 break;
         }
-        try {
-            // create and initialize the ORB //// get reference to rootpoa &amp; activate
-            // the POAManager
-//            ORB orb = ORB.init(args, null);
-//            // -ORBInitialPort 1050 -ORBInitialHost localhost
-//            POA rootpoa = POAHelper.narrow(orb.resolve_initial_references("RootPOA"));
-//            rootpoa.the_POAManager().activate();
+        EventManagement remoteObject = new EventManagement(serverID, serverName);
+        Registry registry = LocateRegistry.createRegistry(serverRegistryPort);
+        registry.bind(EVENT_MANAGEMENT_REGISTERED_NAME, remoteObject);
 
-            // create servant and register it with the ORB
-            EventManagement servant = new EventManagement(serverID, serverName);
-//            servant.setORB(orb);
-//
-//            // get object reference from the servant
-//            org.omg.CORBA.Object ref = rootpoa.servant_to_reference(servant);
-//            ServerObjectInterface href = ServerObjectInterfaceHelper.narrow(ref);
-//
-//            org.omg.CORBA.Object objRef = orb.resolve_initial_references("NameService");
-//            NamingContextExt ncRef = NamingContextExtHelper.narrow(objRef);
-//
-//            NameComponent[] path = ncRef.to_name(serverID);
-//            ncRef.rebind(path, href);
-
-            System.out.println(serverName + " Server is Up & Running");
-            Logger.serverLog(serverID, " Server is Up & Running");
-
-            addTestData(servant);
-            Runnable task = () -> {
-                listenForRequest(servant, serverUdpPort, serverName, serverID);
-            };
-            Thread thread = new Thread(task);
-            thread.start();
-
-            // wait for invocations from clients
-//            while (true) {
-//                orb.run();
-//            }
-        } catch (Exception e) {
-//            System.err.println("Exception: " + e);
-            e.printStackTrace(System.out);
-            Logger.serverLog(serverID, "Exception: " + e);
-        }
-
-//        System.out.println(serverName + " Server Shutting down");
-//        Logger.serverLog(serverID, " Server Shutting down");
+        System.out.println(serverName + " Server is Up & Running");
+        Logger.serverLog(serverID, " Server is Up & Running");
+        Runnable task = () -> {
+            listenForRequest(remoteObject, serverUdpPort, serverName, serverID);
+        };
+        Thread thread = new Thread(task);
+        thread.start();
 
     }
 

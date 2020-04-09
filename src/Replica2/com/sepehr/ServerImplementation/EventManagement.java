@@ -10,10 +10,12 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class EventManagement implements ServerInterface {
+public class EventManagement extends UnicastRemoteObject implements ServerInterface {
     public static final int Montreal_Server_Port = 8888;
     public static final int Quebec_Server_Port = 7777;
     public static final int Sherbrooke_Server_Port = 6666;
@@ -29,7 +31,7 @@ public class EventManagement implements ServerInterface {
     // HashMap<ClientID, Client>
     private Map<String, ClientModel> serverClients;
 
-    public EventManagement(String serverID, String serverName) {
+    public EventManagement(String serverID, String serverName) throws RemoteException {
         super();
         this.serverID = serverID;
         this.serverName = serverName;
@@ -81,7 +83,7 @@ public class EventManagement implements ServerInterface {
     }
 
     @Override
-    public String addEvent(String eventID, String eventType, int bookingCapacity) {
+    public String addEvent(String eventID, String eventType, int bookingCapacity) throws RemoteException {
         String response;
         if (isEventOfThisServer(eventID)) {
             if (eventExists(eventType, eventID)) {
@@ -128,7 +130,7 @@ public class EventManagement implements ServerInterface {
     }
 
     @Override
-    public String removeEvent(String eventID, String eventType) {
+    public String removeEvent(String eventID, String eventType) throws RemoteException {
         String response;
         if (isEventOfThisServer(eventID)) {
             if (eventExists(eventType, eventID)) {
@@ -163,7 +165,7 @@ public class EventManagement implements ServerInterface {
     }
 
     @Override
-    public String listEventAvailability(String eventType) {
+    public String listEventAvailability(String eventType) throws RemoteException {
         String response;
         Map<String, EventModel> events = allEvents.get(eventType);
         StringBuilder builder = new StringBuilder();
@@ -199,7 +201,7 @@ public class EventManagement implements ServerInterface {
     }
 
     @Override
-    public String bookEvent(String customerID, String eventID, String eventType) {
+    public String bookEvent(String customerID, String eventID, String eventType) throws RemoteException {
         String response;
         checkClientExists(customerID);
         if (isEventOfThisServer(eventID)) {
@@ -298,7 +300,7 @@ public class EventManagement implements ServerInterface {
     }
 
     @Override
-    public String getBookingSchedule(String customerID) {
+    public String getBookingSchedule(String customerID) throws RemoteException {
         String response;
         if (!checkClientExists(customerID)) {
             response = "Booking Schedule Empty For " + customerID;
@@ -339,7 +341,7 @@ public class EventManagement implements ServerInterface {
     }
 
     @Override
-    public String cancelEvent(String customerID, String eventID, String eventType) {
+    public String cancelEvent(String customerID, String eventID, String eventType) throws RemoteException {
         String response;
         if (isEventOfThisServer(eventID)) {
             if (isCustomerOfThisServer(customerID)) {
@@ -415,7 +417,7 @@ public class EventManagement implements ServerInterface {
     }
 
     @Override
-    public String swapEvent(String customerID, String newEventID, String newEventType, String oldEventID, String oldEventType) {
+    public String swapEvent(String customerID, String newEventID, String newEventType, String oldEventID, String oldEventType) throws RemoteException {
         String response;
         if (!checkClientExists(customerID)) {
             response = "Failed: You " + customerID + " Are Not Registered in " + oldEventID;
@@ -480,7 +482,7 @@ public class EventManagement implements ServerInterface {
      * @param customerID
      * @return
      */
-    public String removeEventUDP(String oldEventID, String eventType, String customerID) {
+    public String removeEventUDP(String oldEventID, String eventType, String customerID) throws RemoteException {
         if (!checkClientExists(customerID)) {
             return "Failed: You " + customerID + " Are Not Registered in " + oldEventID;
         } else {
@@ -498,7 +500,7 @@ public class EventManagement implements ServerInterface {
      * @param eventType
      * @return
      */
-    public String listEventAvailabilityUDP(String eventType) {
+    public String listEventAvailabilityUDP(String eventType) throws RemoteException {
         Map<String, EventModel> events = allEvents.get(eventType);
         StringBuilder builder = new StringBuilder();
         builder.append(serverName + " Server " + eventType + ":\n");
@@ -555,7 +557,7 @@ public class EventManagement implements ServerInterface {
 
     }
 
-    private String getNextSameEvent(Set<String> keySet, String eventType, String oldEventID) {
+    private String getNextSameEvent(Set<String> keySet, String eventType, String oldEventID) throws RemoteException {
         List<String> sortedIDs = new ArrayList<String>(keySet);
         sortedIDs.add(oldEventID);
         Collections.sort(sortedIDs, new Comparator<String>() {
@@ -605,7 +607,7 @@ public class EventManagement implements ServerInterface {
         return "Failed";
     }
 
-    private boolean exceedWeeklyLimit(String customerID, String eventDate) {
+    private boolean exceedWeeklyLimit(String customerID, String eventDate) throws RemoteException {
         int limit = 0;
         for (int i = 0; i < 3; i++) {
             List<String> registeredIDs = new ArrayList<>();
@@ -638,7 +640,7 @@ public class EventManagement implements ServerInterface {
         return true;
     }
 
-    private void addCustomersToNextSameEvent(String oldEventID, String eventType, List<String> registeredClients) {
+    private void addCustomersToNextSameEvent(String oldEventID, String eventType, List<String> registeredClients) throws RemoteException {
         String response;
         for (String customerID :
                 registeredClients) {
