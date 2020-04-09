@@ -92,7 +92,7 @@ public class ServerClass extends ServerInterfacePOA{
 			return "Event added to" + serverName.toUpperCase().trim();
 		}
 	}
-
+	@Override
 	public synchronized String removeEvent(String eventID, String eventType){
 		if(EventMap.containsKey(eventType.toUpperCase().trim()) && EventMap.get(eventType.toUpperCase().trim()).containsKey(eventID.toUpperCase().trim()))
 		{			
@@ -110,22 +110,22 @@ public class ServerClass extends ServerInterfacePOA{
 			
 			if(branch.trim().equals("QUE"))
 			{
-				send_data_request(montreal_port, "remove_client_event", eventID.toUpperCase().trim(), eventType.toUpperCase().trim(),"-");
-				send_data_request(sherbrooke_port, "remove_client_event",eventID.toUpperCase().trim(), eventType.toUpperCase().trim(),"-");
+				send_data_request(montreal_port, "remove_client_event", eventID.toUpperCase().trim(), eventType.toUpperCase().trim(),"-").trim();
+				send_data_request(sherbrooke_port, "remove_client_event",eventID.toUpperCase().trim(), eventType.toUpperCase().trim(),"-").trim();
 			}
 			else if(branch.trim().equals("MTL"))
 			{
-				send_data_request(quebec_port, "remove_client_event", eventID.toUpperCase().trim(), eventType.toUpperCase().trim(),"-");
-				send_data_request(sherbrooke_port, "remove_client_event", eventID.toUpperCase().trim(), eventType.toUpperCase().trim(),"-");
+				send_data_request(quebec_port, "remove_client_event", eventID.toUpperCase().trim(), eventType.toUpperCase().trim(),"-").trim();
+				send_data_request(sherbrooke_port, "remove_client_event", eventID.toUpperCase().trim(), eventType.toUpperCase().trim(),"-").trim();
 
 			}
 			else if(branch.trim().equals("SHE"))
 			{
-				send_data_request(montreal_port, "remove_client_event", eventID.toUpperCase().trim(), eventType.toUpperCase().trim(),"-");
-				send_data_request(quebec_port, "remove_client_event", eventID.toUpperCase().trim(), eventType.toUpperCase().trim(),"-");
+				send_data_request(montreal_port, "remove_client_event", eventID.toUpperCase().trim(), eventType.toUpperCase().trim(),"-").trim();
+				send_data_request(quebec_port, "remove_client_event", eventID.toUpperCase().trim(), eventType.toUpperCase().trim(),"-").trim();
 			}
 						
-			return response;
+			return response.trim();
 		}
 		else
 		{
@@ -145,23 +145,23 @@ public class ServerClass extends ServerInterfacePOA{
 			if(eventDetail.containsKey(eventType.toUpperCase().trim() +";"+ eventID.toUpperCase().trim()+""))
 			{	
 				eventDetail.remove(eventType.toUpperCase().trim() +";"+ eventID.toUpperCase().trim());
-				//customer.getValue().remove(eventType.toUpperCase().trim() +";"+ eventID.toUpperCase().trim());
+
 				for (ConcurrentHashMap.Entry<String,ClientDetail> entry : customer.getValue().entrySet()) 
 				{
 					data +=(entry.getValue().eventID.toUpperCase().trim()+":");
 				}
 				if(branch.trim().equals("QUE"))
 				{
-					new_eventID = send_data_request(quebec_port, "boook_next_event", data, eventType.toUpperCase().trim(),"-");
+					new_eventID = send_data_request(quebec_port, "boook_next_event", data,eventID.toUpperCase().trim() ,eventType.toUpperCase().trim()).trim();
 				}
 				else if(branch.trim().equals("MTL"))
 				{
-					new_eventID = send_data_request(montreal_port, "boook_next_event", data, eventType.toUpperCase().trim(),"-");
+					new_eventID = send_data_request(montreal_port, "boook_next_event", data, eventID.toUpperCase().trim() ,eventType.toUpperCase().trim()).trim();
 
 				}
 				else if(branch.trim().equals("SHE"))
 				{
-					new_eventID = send_data_request(sherbrooke_port, "boook_next_event", data, eventType.toUpperCase().trim(),"-");
+					new_eventID = send_data_request(sherbrooke_port, "boook_next_event", data, eventID.toUpperCase().trim() ,eventType.toUpperCase().trim()).trim();
 				}
 
 				try 
@@ -190,25 +190,25 @@ public class ServerClass extends ServerInterfacePOA{
 		return "Event with eventID:"+ eventID.toUpperCase().trim() +" and eventType: "+eventType.toUpperCase().trim() +" for clients has been removed for server\n";
 	}
 	
-	public String boook_next_event(String temp, String eventType) {
+	public String boook_next_event(String temp,String removedEventID, String eventType) {
 		
 		String response="";
 		String [] data = temp.split(":");
 		String eventID="";
 		int capacity =0;
-
+        List<String> sortedEventIDs = new ArrayList<String>();
 		if(EventMap.containsKey(eventType.toUpperCase().trim()) && EventMap.get(eventType.toUpperCase().trim()).values().size() != 0)
 		{
+			sortedEventIDs = getSortedEventID(eventType, removedEventID);
 			if(data.length!= 0)
 			{
-				for (ConcurrentHashMap.Entry<String,EventDetail> entry : EventMap.get(eventType).entrySet()) 
-				{
+				for (int count = 0; count < sortedEventIDs.size(); count++) { 		      
 					boolean check = false;
 					for (int i =0; i< data.length; ++i)
 					{
-						capacity = entry.getValue().bookingCapacity;
+						capacity = EventMap.get(eventType).get(sortedEventIDs.get(count)).bookingCapacity;
 
-						if(!(data[i].indexOf(entry.getKey().toUpperCase().trim())!=-1) && capacity!=0)
+						if(!(data[i].indexOf(EventMap.get(eventType).get(sortedEventIDs.get(count)).eventID)!=-1) && capacity!=0)
 						{
 							check = true;
 						}
@@ -220,7 +220,7 @@ public class ServerClass extends ServerInterfacePOA{
 					}
 					if(check == true)
 					{
-						eventID = entry.getKey().toUpperCase().trim();
+						eventID = EventMap.get(eventType).get(sortedEventIDs.get(count)).eventID.toUpperCase().trim();
 						EventMap.get(eventType.toUpperCase().trim()).replace(eventID,new EventDetail(eventType.toUpperCase().trim(), eventID.toUpperCase().trim(), capacity - 1));
 						try 
 						{
@@ -235,11 +235,10 @@ public class ServerClass extends ServerInterfacePOA{
 			}
 			else
 			{
-				ConcurrentHashMap.Entry<String,EventDetail> entry = EventMap.get(eventType).entrySet().iterator().next();
-				capacity = entry.getValue().bookingCapacity;
+				capacity = EventMap.get(eventType).get(sortedEventIDs.get(0)).bookingCapacity;
 				if(capacity!=0)
 				{
-					eventID = entry.getValue().eventID.toUpperCase().trim();
+					eventID = EventMap.get(eventType).get(sortedEventIDs.get(0)).eventID.toUpperCase().trim();
 					EventMap.get(eventType.toUpperCase().trim()).replace(eventID,new EventDetail(eventType.toUpperCase().trim(), eventID.toUpperCase().trim(), capacity - 1));
 					try 
 					{
@@ -256,30 +255,113 @@ public class ServerClass extends ServerInterfacePOA{
 		return response;	
 	}
 
+	private List<String> getSortedEventID(String eventType, String removedEventID) {
+        List<String> sortedEventIDs = new ArrayList<String>();
+        List<String> morningEventIDs = new ArrayList<String>();
+        List<String> afternoonEventIDs = new ArrayList<String>();
+        List<String> eveningEventIDs = new ArrayList<String>();
+
+		for (ConcurrentHashMap.Entry<String,EventDetail> entry : EventMap.get(eventType).entrySet()) 
+		{
+			if(entry.getValue().eventID.substring(3,4).equals("M") && !removedEventID.substring(3,4).equals("A")&& !removedEventID.substring(3,4).equals("E"))
+			{
+				if(Integer.parseInt(entry.getValue().eventID.substring(8))>Integer.parseInt(removedEventID.substring(8))&& Integer.parseInt(entry.getValue().eventID.substring(6,8))>Integer.parseInt(removedEventID.substring(6,8))&& Integer.parseInt(entry.getValue().eventID.substring(4,6))>Integer.parseInt(removedEventID.substring(4,6)))
+				{
+					morningEventIDs.add(entry.getValue().eventID);
+				}
+			}
+			else if(entry.getValue().eventID.substring(3,4).equals("A") && !removedEventID.substring(3,4).equals("E"))
+			{
+				if(Integer.parseInt(entry.getValue().eventID.substring(8))>Integer.parseInt(removedEventID.substring(8))&& Integer.parseInt(entry.getValue().eventID.substring(6,8))>Integer.parseInt(removedEventID.substring(6,8))&& Integer.parseInt(entry.getValue().eventID.substring(4,6))>Integer.parseInt(removedEventID.substring(4,6)))
+				{
+					afternoonEventIDs.add(entry.getValue().eventID);
+				}
+			}
+			else if(entry.getValue().eventID.substring(3,4).equals("E"))
+			{
+				if(Integer.parseInt(entry.getValue().eventID.substring(8))>Integer.parseInt(removedEventID.substring(8))&& Integer.parseInt(entry.getValue().eventID.substring(6,8))>Integer.parseInt(removedEventID.substring(6,8))&& Integer.parseInt(entry.getValue().eventID.substring(4,6))>Integer.parseInt(removedEventID.substring(4,6)))
+				{
+					eveningEventIDs.add(entry.getValue().eventID);
+				}
+			}
+		}
+		
+		sortByDate(morningEventIDs);
+		sortByDate(afternoonEventIDs);
+		sortByDate(eveningEventIDs);
+
+		sortedEventIDs.addAll(morningEventIDs);
+		sortedEventIDs.addAll(afternoonEventIDs);
+		sortedEventIDs.addAll(eveningEventIDs);
+
+		return sortedEventIDs;
+	}
+	
+	private List<String> sortByDate(List<String> list) {
+		int n = list.size(); 
+		//sort by year
+		for (int i = 0; i < n-1; i++) 
+			for (int j = 0; j < n-i-1; j++) 
+			{
+				int a = Integer.parseInt(list.get(j).substring(8));
+				int b = Integer.parseInt(list.get(j+1).substring(8));
+
+				if (a > b) 
+				{ 
+			        Collections.swap(list, j, j+1);
+				} 
+			}
+		//sort by month
+		for (int i = 0; i < n-1; i++) 
+			for (int j = 0; j < n-i-1; j++) 
+			{
+				int a = Integer.parseInt(list.get(j).substring(6,8));
+				int b = Integer.parseInt(list.get(j+1).substring(6,8));
+
+				if (a > b) 
+				{ 
+			        Collections.swap(list, j, j+1);
+				} 
+			}
+		//sort by day
+		for (int i = 0; i < n-1; i++) 
+			for (int j = 0; j < n-i-1; j++) 
+			{
+				int a = Integer.parseInt(list.get(j).substring(4,6));
+				int b = Integer.parseInt(list.get(j+1).substring(4,6));
+
+				if (a > b) 
+				{ 
+			        Collections.swap(list, j, j+1);
+				} 
+			}
+		return list;
+	}
+	@Override
 	public String listEventAvailability(String eventType){
 		String response = "List of availability for "+ eventType +":\n";
 		if(EventMap.containsKey(eventType.toUpperCase().trim()))
 		{
 			for (Map.Entry<String, EventDetail> entry : EventMap.get(eventType.toUpperCase().trim()).entrySet()) 
 			{
-				response += entry.getKey() + " " + entry.getValue().bookingCapacity +",  ";
+				response += "\n" + entry.getKey() + " " + entry.getValue().bookingCapacity;
 			}
 		}
 		if(serverName.trim().equals("QUE"))
 		{
-			response += send_data_request(montreal_port, "list_events", "-", eventType.toUpperCase().trim(),"-");
-			response += send_data_request(sherbrooke_port, "list_events", "-", eventType.toUpperCase().trim(),"-");
+			response += "\n" + send_data_request(montreal_port, "list_events", "-", eventType.toUpperCase().trim(),"-").trim();
+			response += "\n" + send_data_request(sherbrooke_port, "list_events", "-", eventType.toUpperCase().trim(),"-").trim();
 
 		}
 		else if(serverName.trim().equals("MTL"))
 		{
-			response += send_data_request(quebec_port, "list_events", "-", eventType.toUpperCase().trim(),"-");
-			response += send_data_request(sherbrooke_port, "list_events", "-", eventType.toUpperCase().trim(),"-");
+			response += "\n" + send_data_request(quebec_port, "list_events", "-", eventType.toUpperCase().trim(),"-").trim();
+			response += "\n" + send_data_request(sherbrooke_port, "list_events", "-", eventType.toUpperCase().trim(),"-").trim();
 		}
 		else if(serverName.trim().equals("SHE"))
 		{
-			response += send_data_request(montreal_port, "list_events", "-", eventType.toUpperCase().trim(),"-");
-			response += send_data_request(quebec_port, "list_events", "-", eventType.toUpperCase().trim(),"-");
+			response += "\n" + send_data_request(montreal_port, "list_events", "-", eventType.toUpperCase().trim(),"-").trim();
+			response += "\n" + send_data_request(quebec_port, "list_events", "-", eventType.toUpperCase().trim(),"-").trim();
 		}
 		
 		return response;
@@ -292,7 +374,7 @@ public class ServerClass extends ServerInterfacePOA{
 		{	
 			for (ConcurrentHashMap.Entry<String, EventDetail> entry : EventMap.get(eventType).entrySet()) 
 			{
-				response += entry.getKey() + " " + entry.getValue().bookingCapacity +",  ";
+				response += "\n" + entry.getKey() + " " + entry.getValue().bookingCapacity;
 			}
 		}
 		return response;
@@ -302,7 +384,7 @@ public class ServerClass extends ServerInterfacePOA{
 		String response="";
 		String city = eventID.substring(0,3).toUpperCase().trim();
 		String eventDetail = eventType.toUpperCase().trim()+ ";" + eventID.toUpperCase().trim();
-		int count = 0;
+
 		if(city.trim().equals(serverName))
 		{
 			response = book_accepted_event(customerID, eventID, eventType);
@@ -381,16 +463,7 @@ public class ServerClass extends ServerInterfacePOA{
 				}
 				if(ClientMap.containsKey(customerID.toUpperCase().trim()))
 				{
-					for (ConcurrentHashMap.Entry<String, ClientDetail> entry : ClientMap.get(customerID.toUpperCase().trim()).entrySet()) 
-					{
-						String [] data = entry.getKey().split(";");
-						int limit = entry.getValue().outer_city_limit;
-						if( !data[1].substring(0, 3).trim().equals(serverName) && week_number() == limit)
-						{
-							count ++;
-						}
-					}
-					if(count == 3)
+					if(!week_limit_check(customerID.toUpperCase().trim(), eventID.substring(4)))
 					{
 						try 
 						{
@@ -403,7 +476,7 @@ public class ServerClass extends ServerInterfacePOA{
 						return "This customer has already booked 3 times from other cities!";
 					}
 				}
-				response = send_data_request(quebec_port, "bookEvent", eventID.toUpperCase().trim(), eventType.toUpperCase().trim(),customerID.toUpperCase().trim());
+				response = send_data_request(quebec_port, "bookEvent", eventID.toUpperCase().trim(), eventType.toUpperCase().trim(),customerID.toUpperCase().trim()).trim();
 				if(response.indexOf("BOOKING_APPROVED")!=-1)
 				{
 					try 
@@ -453,16 +526,7 @@ public class ServerClass extends ServerInterfacePOA{
 				}
 				if(ClientMap.containsKey(customerID.toUpperCase().trim()))
 				{
-					for (ConcurrentHashMap.Entry<String, ClientDetail> entry : ClientMap.get(customerID.toUpperCase().trim()).entrySet()) 
-					{
-						String [] data = entry.getKey().split(";");
-						int limit = entry.getValue().outer_city_limit;
-						if( !data[1].substring(0, 3).trim().equals(serverName)&& week_number() == limit)
-						{
-							count ++;
-						}
-					}
-					if(count == 3)
+					if(!week_limit_check(customerID.toUpperCase().trim(), eventID.substring(4)))
 					{
 						try 
 						{
@@ -474,7 +538,7 @@ public class ServerClass extends ServerInterfacePOA{
 						return "This customer has already booked 3 times from other cities!";
 					}
 				}
-				response = send_data_request(montreal_port, "bookEvent", eventID.toUpperCase().trim(), eventType.toUpperCase().trim(),customerID.toUpperCase().trim());
+				response = send_data_request(montreal_port, "bookEvent", eventID.toUpperCase().trim(), eventType.toUpperCase().trim(),customerID.toUpperCase().trim()).trim();
 				if(response.indexOf("BOOKING_APPROVED")!=-1)
 				{
 					try 
@@ -523,16 +587,7 @@ public class ServerClass extends ServerInterfacePOA{
 				}
 				if(ClientMap.containsKey(customerID.toUpperCase().trim()))
 				{
-					for (ConcurrentHashMap.Entry<String, ClientDetail> entry : ClientMap.get(customerID.toUpperCase().trim()).entrySet()) 
-					{
-						String [] data = entry.getKey().split(";");
-						int limit = entry.getValue().outer_city_limit;
-						if( !data[1].substring(0, 3).trim().equals(serverName)&& week_number() == limit)
-						{
-							count ++;
-						}
-					}
-					if(count == 3)
+					if(!week_limit_check(customerID.toUpperCase().trim(), eventID.substring(4)))
 					{
 						try 
 						{
@@ -544,7 +599,7 @@ public class ServerClass extends ServerInterfacePOA{
 						return "This customer has already booked 3 times from other cities!";
 					}
 				}
-				response = send_data_request(sherbrooke_port, "bookEvent", eventID.toUpperCase().trim(), eventType.toUpperCase().trim(),customerID.toUpperCase().trim());
+				response = send_data_request(sherbrooke_port, "bookEvent", eventID.toUpperCase().trim(), eventType.toUpperCase().trim(),customerID.toUpperCase().trim()).trim();
 				if(response.indexOf("BOOKING_APPROVED")!=-1)
 				{
 					try 
@@ -582,16 +637,38 @@ public class ServerClass extends ServerInterfacePOA{
 		return response;
 	}
 	
-	public int week_number()
+	public boolean week_limit_check(String customerID,String eventDate)
 	{
-		Date date = new Date();
-		LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		int day = localDate.getDayOfMonth();
-		int month = localDate.getMonthValue();
-		
-		int week_number = (day + (month-1)*30)/7; 
-			
-		return week_number;
+        int limit = 0;
+
+		for(Entry<String, ClientDetail> events : ClientMap.get(customerID).entrySet())
+		{
+			if(!events.getValue().eventID.substring(0, 3).equals(serverName) && same_week_check(events.getValue().eventID.substring(4), eventDate))
+			{
+				limit++;
+			}
+		}
+		if (limit < 3)
+			return true;
+		else
+			return false;
+	}
+	
+	private boolean same_week_check(String newEventDate, String eventID) 
+	{
+        if (eventID.substring(2, 4).equals(newEventDate.substring(2, 4)) && eventID.substring(4, 6).equals(newEventDate.substring(4, 6))) 
+        {
+            int w1 = Integer.parseInt(eventID.substring(0, 2)) / 7;
+            int w2 = Integer.parseInt(newEventDate.substring(0, 2)) / 7;
+            
+            if(w1 == w2)
+            	return true;
+            else
+            	return false;
+        } 
+        else 
+            return false;
+
 	}
 	public String book_accepted_event(String customerID, String eventID, String eventType)
 	{
@@ -623,13 +700,13 @@ public class ServerClass extends ServerInterfacePOA{
 
 		if(ClientMap.containsKey(customerID.toUpperCase().trim()))			
 		{	
-			ClientMap.get(customerID.toUpperCase().trim()).put(eventDetail, new ClientDetail(customerID.toUpperCase().trim(), eventType.toUpperCase().trim(), eventID.toUpperCase().trim(), week_number()));
+			ClientMap.get(customerID.toUpperCase().trim()).put(eventDetail, new ClientDetail(customerID.toUpperCase().trim(), eventType.toUpperCase().trim(), eventID.toUpperCase().trim()));
 			response = "BOOKED";
 		}
 		else
 		{
 			ConcurrentHashMap <String, ClientDetail> subHashMap = new ConcurrentHashMap<>();
-			subHashMap.put(eventDetail, new ClientDetail(customerID.toUpperCase().trim(), eventType.toUpperCase().trim(), eventID.toUpperCase().trim(), week_number()));
+			subHashMap.put(eventDetail, new ClientDetail(customerID.toUpperCase().trim(), eventType.toUpperCase().trim(), eventID.toUpperCase().trim()));
 			ClientMap.put(customerID.toUpperCase().trim(), subHashMap);
 			response = "BOOKED";
 		}
@@ -674,7 +751,7 @@ public class ServerClass extends ServerInterfacePOA{
 			}
 			else if(branch.trim().equals("QUE"))
 			{
-				send_data_request(quebec_port, "cancel_client_event", eventID.toUpperCase().trim(), eventType.toUpperCase().trim(),"-");
+				send_data_request(quebec_port, "cancel_client_event", eventID.toUpperCase().trim(), eventType.toUpperCase().trim(),"-").trim();
 				try 
 				{
 					serverLog("Cancel an event", " EventType:"+eventType+ " EventID:"+eventID+" CustomerID:"+ customerID,"successfully completed","Event has been canceled");
@@ -686,7 +763,7 @@ public class ServerClass extends ServerInterfacePOA{
 			}
 			else if(branch.trim().equals("MTL"))
 			{
-				send_data_request(montreal_port, "cancel_client_event", eventID.toUpperCase().trim(), eventType.toUpperCase().trim(),"-");
+				send_data_request(montreal_port, "cancel_client_event", eventID.toUpperCase().trim(), eventType.toUpperCase().trim(),"-").trim();
 				try 
 				{
 					serverLog("Cancel an event", " EventType:"+eventType+ " EventID:"+eventID+" CustomerID:"+ customerID,"successfully completed","Event has been canceled");
@@ -698,7 +775,7 @@ public class ServerClass extends ServerInterfacePOA{
 			}
 			else if(branch.trim().equals("SHE"))
 			{
-				send_data_request(sherbrooke_port, "cancel_client_event", eventID.toUpperCase().trim(), eventType.toUpperCase().trim(),"-");
+				send_data_request(sherbrooke_port, "cancel_client_event", eventID.toUpperCase().trim(), eventType.toUpperCase().trim(),"-").trim();
 				try 
 				{
 					serverLog("Cancel an event", " EventType:"+eventType+ " EventID:"+eventID+" CustomerID:"+ customerID,"successfully completed","Event has been canceled");
@@ -800,16 +877,37 @@ public class ServerClass extends ServerInterfacePOA{
 	public synchronized String swapEvent(String customerID, String newEventID, String newEventType, String oldEventID, String oldEventType) {
 		String eventDetail = oldEventType.toUpperCase().trim()+ ";" + oldEventID.toUpperCase().trim();
 		String response = "";
-		if(ClientMap.containsKey(customerID.toUpperCase().trim()) && ClientMap.get(customerID.toUpperCase().trim()).containsKey(eventDetail))		
+		if(!week_limit_check(customerID.toUpperCase().trim(), newEventID.substring(4)))
+		{
+			if(!oldEventID.substring(0, 3).equals(serverName.trim()))
+			{
+				response = cancelEvent(customerID, oldEventID, oldEventType);
+				if(response.trim().equals("Event for customer cancelled"))
+				{
+					response = bookEvent(customerID, newEventID, newEventType);
+					return "Event for customer swapped";
+				}
+			}
+			else
+			{
+				try 
+				{
+					serverLog("Swap an event", " oldEventType:"+oldEventType+ " oldEventID:"+oldEventID+"newEventType:"+ newEventType+" newEventID:"+newEventID+"CustomerID:"+ customerID,"failed","This customer has already booked 3 times from other cities!");
+					clientLog(customerID, "Book an event", "This customer has already booked 3 times from other cities");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				
+				return "This customer has already booked 3 times from other cities!";
+			}	
+		}
+		else if(ClientMap.containsKey(customerID.toUpperCase().trim()) && ClientMap.get(customerID.toUpperCase().trim()).containsKey(eventDetail))		
 		{
 			response = bookEvent(customerID, newEventID, newEventType);
 			if(response.trim().equals("BOOKING_APPROVED"))
 			{
 				response = cancelEvent(customerID, oldEventID, oldEventType);
-				if(response.trim().equals("Event for customer cancelled"))
-					return "Event for customer swapped";
-				else
-					cancelEvent(customerID, newEventID, newEventType);
+				return "Event for customer swapped";
 			}
 		}
 		else

@@ -79,7 +79,7 @@
 					response= result;
 				}
 				else if(function.equals("boook_next_event")) {
-					String result = stub.boook_next_event(eventID, eventType);
+					String result = stub.boook_next_event(eventID, eventType, customerID);
 					response= result;
 				}
 				byte[] sendData = response.getBytes();
