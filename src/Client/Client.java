@@ -1,8 +1,8 @@
 package Client;
 
 import Client.Log.ClientLogger;
-import ServerObjectInterfaceApp.ServerObjectInterface;
-import ServerObjectInterfaceApp.ServerObjectInterfaceHelper;
+import FrontEnd.ServerObjectInterfaceApp.ServerObjectInterface;
+import FrontEnd.ServerObjectInterfaceApp.ServerObjectInterfaceHelper;
 import org.omg.CORBA.ORB;
 import org.omg.CosNaming.NamingContextExt;
 import org.omg.CosNaming.NamingContextExtHelper;
@@ -91,7 +91,7 @@ public class Client {
         String eventID = "MTLE101020";
         ServerObjectInterface servant = ServerObjectInterfaceHelper.narrow(ncRef.resolve_str("MTL"));
         System.out.println("adding " + eventID + " " + eventType + " with capacity 2 to Montreal Server...");
-        String response = servant.addEvent(eventID, eventType, 2);
+        String response = servant.addEvent("MTLM1111", eventID, eventType, 2);
         System.out.println(response);
         Runnable task1 = () -> {
             String customerID = "MTLC2345";
@@ -158,15 +158,15 @@ public class Client {
     }
 
     private static String getServerID(String userID) {
-        String branchAcronym = userID.substring(0, 3);
-        if (branchAcronym.equalsIgnoreCase("MTL")) {
-            return branchAcronym;
-        } else if (branchAcronym.equalsIgnoreCase("SHE")) {
-            return branchAcronym;
-        } else if (branchAcronym.equalsIgnoreCase("QUE")) {
-            return branchAcronym;
-        }
-        return "1";
+//        String branchAcronym = userID.substring(0, 3);
+//        if (branchAcronym.equalsIgnoreCase("MTL")) {
+//            return branchAcronym;
+//        } else if (branchAcronym.equalsIgnoreCase("SHE")) {
+//            return branchAcronym;
+//        } else if (branchAcronym.equalsIgnoreCase("QUE")) {
+//            return branchAcronym;
+//        }
+        return "FrontEnd";
     }
 
     private static int checkUserType(String userID) {
@@ -267,7 +267,7 @@ public class Client {
                 eventID = promptForEventID();
                 capacity = promptForCapacity();
                 ClientLogger.clientLog(eventManagerID, " attempting to addEvent");
-                serverResponse = servant.addEvent(eventID, eventType, capacity);
+                serverResponse = servant.addEvent(eventManagerID, eventID, eventType, capacity);
                 System.out.println(serverResponse);
                 ClientLogger.clientLog(eventManagerID, " addEvent", " eventID: " + eventID + " eventType: " + eventType + " eventCapacity: " + capacity + " ", serverResponse);
                 break;
@@ -275,14 +275,14 @@ public class Client {
                 eventType = promptForEventType();
                 eventID = promptForEventID();
                 ClientLogger.clientLog(eventManagerID, " attempting to removeEvent");
-                serverResponse = servant.removeEvent(eventID, eventType);
+                serverResponse = servant.removeEvent(eventManagerID, eventID, eventType);
                 System.out.println(serverResponse);
                 ClientLogger.clientLog(eventManagerID, " removeEvent", " eventID: " + eventID + " eventType: " + eventType + " ", serverResponse);
                 break;
             case MANAGER_LIST_EVENT_AVAILABILITY:
                 eventType = promptForEventType();
                 ClientLogger.clientLog(eventManagerID, " attempting to listEventAvailability");
-                serverResponse = servant.listEventAvailability(eventType);
+                serverResponse = servant.listEventAvailability(eventManagerID, eventType);
                 System.out.println(serverResponse);
                 ClientLogger.clientLog(eventManagerID, " listEventAvailability", " eventType: " + eventType + " ", serverResponse);
                 break;
