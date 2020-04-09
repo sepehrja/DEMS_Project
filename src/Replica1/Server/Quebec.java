@@ -1,46 +1,33 @@
-	package Server;
+	package Replica1.Server;
 
 	import java.io.IOException;
-	import org.omg.CORBA.ORB;
-	import org.omg.CosNaming.*;
-	import org.omg.PortableServer.POA;
-	import org.omg.PortableServer.POAHelper;
+	import java.rmi.registry.Registry;
+	import java.rmi.registry.LocateRegistry;
 	import java.net.DatagramPacket;
 	import java.net.DatagramSocket;
 	import java.net.SocketException;
-	import ImplementRemoteInterface.ServerClass;
-	import ServerModule.*;
+	import Replica1.ImplementRemoteInterface.ServerClass;
 
 
 	public class Quebec {
 		public static void main(String args[]) throws Exception
 		{
-			ORB orb = ORB.init(args, null);
 			try {
-				POA rootpoa = POAHelper.narrow(orb.resolve_initial_references("RootPOA"));
-				rootpoa.the_POAManager().activate();
-				
-				ServerClass ServerImpl = new ServerClass(5555, 6666, 7777, "QUE");
-				ServerImpl.setORB(orb);
-				org.omg.CORBA.Object ref = rootpoa.servant_to_reference(ServerImpl);
-				ServerInterface href = ServerInterfaceHelper.narrow(ref);
-				org.omg.CORBA.Object objRef = orb.resolve_initial_references("NameService");
-				NamingContextExt ncRef = NamingContextExtHelper.narrow(objRef);
-				
-				String name = "QUE";
-				NameComponent path[] = ncRef.to_name(name);
-				ncRef.rebind(path, href);
-				
-				System.out.println("Quebec Server Ready and Waiting...");
-				
+				ServerClass stub = new ServerClass(5555, 6666, 7777, "QUE");
+				Registry registry = LocateRegistry.createRegistry(9991);
+				registry.bind("addEvent", stub);	
+				// registry.bind("removeEvent", stub);	
+				// registry.bind("listEventAvailability", stub);	
+				// registry.bind("bookEvent", stub);	
+				// registry.bind("getBookingSchedule", stub);	
+				// registry.bind("cancelEvent", stub);	
+				// registry.bind("swapEvent", stub);	
+
 				Runnable task = () -> {
-				run_server(ServerImpl);
+				run_server(stub);
 				};
 				Thread thread = new Thread(task);
-				thread.start();
-				
-				orb.run();
-				
+				thread.start();				
 			} catch(Exception e) {
 				e.printStackTrace();
 			}

@@ -1,4 +1,4 @@
-package DataBase;
+package Replica1.DataBase;
 
 public class EventDetail {
 	public String eventType, eventID;
