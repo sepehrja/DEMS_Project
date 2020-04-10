@@ -15,13 +15,24 @@ public class Sequencer {
 			byte[] buffer = new byte[1000];
 			System.out.println("Sequencer UDP Server Started");
 			while (true) {
-				DatagramPacket request = new DatagramPacket(buffer, buffer.length);
+				//DatagramPacket request = new DatagramPacket(buffer, buffer.length);
+				DatagramPacket request = new DatagramPacket(buffer, buffer.length,aSocket.getInetAddress(),aSocket.getPort());
 				aSocket.receive(request);
+				
 				String sentence = new String( request.getData(), 0,request.getLength() );
 				
-				//String[] parts = sentence.split(";");
+				String[] parts = sentence.split(";");
+				String sequencerId1 = parts[0]; 
+				sequencerId=Integer.parseInt(sequencerId1);
 				System.out.println(sentence);
 				sendMessage(sentence);
+				
+				byte[] SeqId = (Integer.toString(sequencerId)).getBytes();
+				InetAddress aHost1 = aSocket.getInetAddress();
+				int port1=aSocket.getPort();
+
+				DatagramPacket request1 = new DatagramPacket(SeqId, SeqId.length, aHost1, port1);
+				aSocket.send(request1);
 			}
 
 		} catch (SocketException e) {
@@ -36,7 +47,7 @@ public class Sequencer {
 	
 	public static void sendMessage(String message) {
 		int port=1412;
-		message = message+sequencerId;
+		message = sequencerId+message;
 		sequencerId++;
 		
 		DatagramSocket aSocket = null;
