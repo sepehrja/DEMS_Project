@@ -17,7 +17,9 @@ public class FE {
     private static final int sequencerPort = 1313;
     private static final String sequencerIP = "192.168.2.17";
     private static final String RM_Multicast_group_address = "230.1.1.10";
+    private static final int FE_SQ_PORT = 1414;
     private static final int FE_PORT = 1413;
+    private static int RM_Multicast_Port = 1234;
 
     public static void main(String[] args) {
         try {
@@ -37,8 +39,8 @@ public class FE {
                 }
 
                 @Override
-                public void sendRequestToSequencer(MyRequest myRequest) {
-                    sendUnicastToSequencer(myRequest);
+                public int sendRequestToSequencer(MyRequest myRequest) {
+                    return sendUnicastToSequencer(myRequest);
                 }
             };
             FrontEndImplementation servant = new FrontEndImplementation(inter);
@@ -86,16 +88,27 @@ public class FE {
 
     }
 
-    private static void sendUnicastToSequencer(MyRequest requestFromClient) {
+    private static int sendUnicastToSequencer(MyRequest requestFromClient) {
         DatagramSocket aSocket = null;
         String dataFromClient = requestFromClient.toString();
+        int sequenceID = 0;
         try {
-            aSocket = new DatagramSocket();
+            aSocket = new DatagramSocket(FE_SQ_PORT);
             byte[] message = dataFromClient.getBytes();
             InetAddress aHost = InetAddress.getByName(sequencerIP);
             DatagramPacket requestToSequencer = new DatagramPacket(message, dataFromClient.length(), aHost, sequencerPort);
 
             aSocket.send(requestToSequencer);
+
+            aSocket.setSoTimeout(1000);
+            // Set up an UPD packet for recieving
+            byte[] buffer = new byte[1000];
+            DatagramPacket response = new DatagramPacket(buffer, buffer.length);
+            // Try to receive the response from the ping
+            aSocket.receive(response);
+            String sentence = new String(response.getData(), 0,
+                    response.getLength());
+            sequenceID = Integer.parseInt(sentence.trim());
         } catch (SocketException e) {
             System.out.println("Failed: " + requestFromClient.noRequestSendError());
             System.out.println("Socket: " + e.getMessage());
@@ -107,6 +120,7 @@ public class FE {
 //			if (aSocket != null)
 //				aSocket.close();
         }
+        return sequenceID;
     }
 
     public static void sendMulticastFaultMessageToRms(String errorMessage) {
@@ -116,7 +130,7 @@ public class FE {
             byte[] messages = errorMessage.getBytes();
             InetAddress aHost = InetAddress.getByName(RM_Multicast_group_address);
 
-            DatagramPacket request = new DatagramPacket(messages, messages.length, aHost, 1412);
+            DatagramPacket request = new DatagramPacket(messages, messages.length, aHost, RM_Multicast_Port);
             aSocket.send(request);
         } catch (IOException e) {
             e.printStackTrace();

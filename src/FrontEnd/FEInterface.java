@@ -5,5 +5,5 @@ public interface FEInterface {
 
     void informRmIsDown(int RmNumber);
 
-    void sendRequestToSequencer(MyRequest myRequest);
+    int sendRequestToSequencer(MyRequest myRequest);
 }

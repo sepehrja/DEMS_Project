@@ -39,7 +39,7 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
         myRequest.setEventID(eventID);
         myRequest.setEventType(eventType);
         myRequest.setBookingCapacity(bookingCapacity);
-        sendUdpUnicastToSequencer(myRequest);
+        myRequest.setSequenceNumber(sendUdpUnicastToSequencer(myRequest));
         return validateResponses(myRequest);
     }
 
@@ -48,7 +48,7 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
         MyRequest myRequest = new MyRequest("removeEvent", managerID);
         myRequest.setEventID(eventID);
         myRequest.setEventType(eventType);
-        sendUdpUnicastToSequencer(myRequest);
+        myRequest.setSequenceNumber(sendUdpUnicastToSequencer(myRequest));
         return validateResponses(myRequest);
     }
 
@@ -56,7 +56,7 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
     public synchronized String listEventAvailability(String managerID, String eventType) {
         MyRequest myRequest = new MyRequest("listEventAvailability", managerID);
         myRequest.setEventType(eventType);
-        sendUdpUnicastToSequencer(myRequest);
+        myRequest.setSequenceNumber(sendUdpUnicastToSequencer(myRequest));
         return validateResponses(myRequest);
     }
 
@@ -65,14 +65,14 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
         MyRequest myRequest = new MyRequest("bookEvent", customerID);
         myRequest.setEventID(eventID);
         myRequest.setEventType(eventType);
-        sendUdpUnicastToSequencer(myRequest);
+        myRequest.setSequenceNumber(sendUdpUnicastToSequencer(myRequest));
         return validateResponses(myRequest);
     }
 
     @Override
     public synchronized String getBookingSchedule(String customerID) {
         MyRequest myRequest = new MyRequest("getBookingSchedule", customerID);
-        sendUdpUnicastToSequencer(myRequest);
+        myRequest.setSequenceNumber(sendUdpUnicastToSequencer(myRequest));
         return validateResponses(myRequest);
     }
 
@@ -81,18 +81,18 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
         MyRequest myRequest = new MyRequest("cancelEvent", customerID);
         myRequest.setEventID(eventID);
         myRequest.setEventType(eventType);
-        sendUdpUnicastToSequencer(myRequest);
+        myRequest.setSequenceNumber(sendUdpUnicastToSequencer(myRequest));
         return validateResponses(myRequest);
     }
 
     @Override
     public synchronized String swapEvent(String customerID, String newEventID, String newEventType, String oldEventID, String oldEventType) {
         MyRequest myRequest = new MyRequest("swapEvent", customerID);
-        myRequest.setEventID(oldEventID);
-        myRequest.setEventType(oldEventType);
-        myRequest.setNewEventID(newEventID);
-        myRequest.setNewEventType(newEventType);
-        sendUdpUnicastToSequencer(myRequest);
+        myRequest.setEventID(newEventID);
+        myRequest.setEventType(newEventType);
+        myRequest.setOldEventID(oldEventID);
+        myRequest.setOldEventType(oldEventType);
+        myRequest.setSequenceNumber(sendUdpUnicastToSequencer(myRequest));
         return validateResponses(myRequest);
     }
 
@@ -279,10 +279,12 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
         notifyOKCommandReceived();
     }
 
-    private void sendUdpUnicastToSequencer(MyRequest myRequest) {
+    private int sendUdpUnicastToSequencer(MyRequest myRequest) {
         startTime = System.nanoTime();
-        inter.sendRequestToSequencer(myRequest);
+        int sequenceNumber = inter.sendRequestToSequencer(myRequest);
+        myRequest.setSequenceNumber(sequenceNumber);
         latch = new CountDownLatch(3);
         waitForResponse();
+        return sequenceNumber;
     }
 }
