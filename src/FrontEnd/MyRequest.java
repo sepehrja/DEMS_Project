@@ -5,10 +5,13 @@ public class MyRequest {
     private String function = "null";
     private String clientID = "null";
     private String eventType = "null";
-    private String newEventType = "null";
+    private String OldEventType = "null";
     private String eventID = "null";
-    private String newEventID = "null";
+    private String OldEventID = "null";
+    private String FeIpAddress = "192.168.2.11";
     private int bookingCapacity = -1;
+    private int sequenceNumber = 0;
+    private String MessageType = "00";
 
     public MyRequest(String function, String clientID) {
         setFunction(function);
@@ -39,12 +42,12 @@ public class MyRequest {
         this.eventType = eventType;
     }
 
-    public String getNewEventType() {
-        return newEventType;
+    public String getOldEventType() {
+        return OldEventType;
     }
 
-    public void setNewEventType(String newEventType) {
-        this.newEventType = newEventType;
+    public void setOldEventType(String OldEventType) {
+        this.OldEventType = OldEventType;
     }
 
     public String getEventID() {
@@ -55,12 +58,12 @@ public class MyRequest {
         this.eventID = eventID;
     }
 
-    public String getNewEventID() {
-        return newEventID;
+    public String getOldEventID() {
+        return OldEventID;
     }
 
-    public void setNewEventID(String newEventID) {
-        this.newEventID = newEventID;
+    public void setOldEventID(String OldEventID) {
+        this.OldEventID = OldEventID;
     }
 
     public int getBookingCapacity() {
@@ -75,8 +78,42 @@ public class MyRequest {
         return "request: " + getFunction() + " from " + getClientID() + " not sent";
     }
 
+    public int getSequenceNumber() {
+        return sequenceNumber;
+    }
+
+    public void setSequenceNumber(int sequenceNumber) {
+        this.sequenceNumber = sequenceNumber;
+    }
+
+    public String getFeIpAddress() {
+        return FeIpAddress;
+    }
+
+    public void setFeIpAddress(String feIpAddress) {
+        FeIpAddress = feIpAddress;
+    }
+
+    public String getMessageType() {
+        return MessageType;
+    }
+
+    public void setMessageType(String messageType) {
+        MessageType = messageType;
+    }
+
+    //Message Format: Sequence_id;FrontIpAddress;Message_Type;function(addEvent,...);userID; newEventID;newEventType; oldEventID; oldEventType;bookingCapacity
     @Override
     public String toString() {
-        return getFunction() + ";" + getClientID() + ";" + getEventID() + ";" + getEventType() + ";" + getBookingCapacity() + ";" + getNewEventID() + ";" + getNewEventType() + ";";
+        return getSequenceNumber() + ";" +
+                getFeIpAddress().toUpperCase() + ";" +
+                getMessageType().toUpperCase() + ";" +
+                getFunction().toUpperCase() + ";" +
+                getClientID().toUpperCase() + ";" +
+                getEventID().toUpperCase() + ";" +
+                getEventType().toUpperCase() + ";" +
+                getOldEventID().toUpperCase() + ";" +
+                getOldEventType().toUpperCase() + ";" +
+                getBookingCapacity() + ";";
     }
 }
