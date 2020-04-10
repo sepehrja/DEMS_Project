@@ -124,6 +124,11 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
                 break;
             case 3:
                 resp = "Failed: No response from any server";
+                System.out.println(resp);
+                if (myRequest.haveRetries()) {
+                    myRequest.countRetry();
+                    resp = retryRequest(myRequest);
+                }
                 Rm1NoResponseCount++;
                 Rm2NoResponseCount++;
                 Rm3NoResponseCount++;
@@ -286,5 +291,13 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
         latch = new CountDownLatch(3);
         waitForResponse();
         return sequenceNumber;
+    }
+
+    private String retryRequest(MyRequest myRequest) {
+        startTime = System.nanoTime();
+        inter.retryRequest(myRequest);
+        latch = new CountDownLatch(3);
+        waitForResponse();
+        return validateResponses(myRequest);
     }
 }

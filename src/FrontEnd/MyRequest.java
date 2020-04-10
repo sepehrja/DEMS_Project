@@ -12,6 +12,7 @@ public class MyRequest {
     private int bookingCapacity = -1;
     private int sequenceNumber = 0;
     private String MessageType = "00";
+    private int retryCount = 1;
 
     public MyRequest(String function, String clientID) {
         setFunction(function);
@@ -100,6 +101,14 @@ public class MyRequest {
 
     public void setMessageType(String messageType) {
         MessageType = messageType;
+    }
+
+    public boolean haveRetries() {
+        return retryCount > 0;
+    }
+
+    public void countRetry() {
+        retryCount--;
     }
 
     //Message Format: Sequence_id;FrontIpAddress;Message_Type;function(addEvent,...);userID; newEventID;newEventType; oldEventID; oldEventType;bookingCapacity

@@ -42,6 +42,11 @@ public class FE {
                 public int sendRequestToSequencer(MyRequest myRequest) {
                     return sendUnicastToSequencer(myRequest);
                 }
+
+                @Override
+                public void retryRequest(MyRequest myRequest) {
+                    sendUnicastToSequencer(myRequest);
+                }
             };
             FrontEndImplementation servant = new FrontEndImplementation(inter);
             Runnable task = () -> {
