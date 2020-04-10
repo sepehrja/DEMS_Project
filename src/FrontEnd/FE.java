@@ -15,19 +15,25 @@ import java.net.*;
 public class FE {
     //TODO: set sequencer IP and Port
     private static final int sequencerPort = 1313;
-    private static final String sequencerIP = "127.0.0.1";
+    private static final String sequencerIP = "192.168.2.17";
+    private static final String RM_Multicast_group_address = "230.1.1.10";
+    private static final int FE_PORT = 1413;
 
     public static void main(String[] args) {
         try {
             FEInterface inter = new FEInterface() {
                 @Override
                 public void informRmHasBug(int RmNumber) {
-                    //TODO: what to do when an Rm bug found
+                    //TODO: fix the parameters
+                    String errorMessage = RmNumber + ";" + "Bug;";
+                    sendMulticastFaultMessageToRms(errorMessage);
                 }
 
                 @Override
                 public void informRmIsDown(int RmNumber) {
-                    //TODO: what to do when an Rm is down
+                    //TODO: fix the parameters
+                    String errorMessage = RmNumber + ";" + "Down;";
+                    sendMulticastFaultMessageToRms(errorMessage);
                 }
 
                 @Override
@@ -103,16 +109,39 @@ public class FE {
         }
     }
 
+    public static void sendMulticastFaultMessageToRms(String errorMessage) {
+        DatagramSocket aSocket = null;
+        try {
+            aSocket = new DatagramSocket();
+            byte[] messages = errorMessage.getBytes();
+            InetAddress aHost = InetAddress.getByName(RM_Multicast_group_address);
+
+            DatagramPacket request = new DatagramPacket(messages, messages.length, aHost, 1412);
+            aSocket.send(request);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     private static void listenForUDPResponses(FrontEndImplementation servant) {
-        MulticastSocket aSocket = null;
+        DatagramSocket aSocket = null;
         try {
 
-            aSocket = new MulticastSocket(1413);
-
-            aSocket.joinGroup(InetAddress.getByName("230.1.1.5"));
-
+//            aSocket = new MulticastSocket(1413);
+            InetAddress[] allAddresses = Inet4Address.getAllByName("SepJ-ROG");
+            InetAddress desiredAddress = InetAddress.getLocalHost();
+            //In order to find the desired Ip to be routed by other modules (WiFi adapter)
+            for (InetAddress address :
+                    allAddresses) {
+                if (address.getHostAddress().startsWith("192.168.2")) {
+                    desiredAddress = address;
+                }
+            }
+//            aSocket.joinGroup(InetAddress.getByName("230.1.1.5"));
+            aSocket = new DatagramSocket(FE_PORT, desiredAddress);
             byte[] buffer = new byte[1000];
-            System.out.println("Server Started............");
+            System.out.println("FE Server Started on " + desiredAddress + ":" + FE_PORT + "............");
 
             while (true) {
                 DatagramPacket response = new DatagramPacket(buffer, buffer.length);
