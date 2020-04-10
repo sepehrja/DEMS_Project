@@ -154,6 +154,7 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
         if (res1.equals("null")) {
             rmDown(1);
         } else {
+            Rm1NoResponseCount = 0;
             if (res1.equals(res2)) {
                 if (!res3.equals(res1)) {
                     rmBugFound(3);
@@ -174,6 +175,7 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
         if (res2.equals("null")) {
             rmDown(2);
         } else {
+            Rm2NoResponseCount = 0;
             if (res2.equals(res3)) {
                 if (!res1.equals(res2)) {
                     rmBugFound(1);
@@ -194,6 +196,7 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
         if (res3.equals("null")) {
             rmDown(3);
         } else {
+            Rm3NoResponseCount = 0;
             if (res3.equals(res2)) {
                 if (!res1.equals(res3)) {
                     rmBugFound(1);
