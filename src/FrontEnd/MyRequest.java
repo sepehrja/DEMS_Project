@@ -9,7 +9,7 @@ public class MyRequest {
     private String eventID = "null";
     private String OldEventID = "null";
     private String FeIpAddress = FE.FE_IP_Address;
-    private int bookingCapacity = -1;
+    private int bookingCapacity = 0;
     private int sequenceNumber = 0;
     private String MessageType = "00";
     private int retryCount = 1;
@@ -17,6 +17,10 @@ public class MyRequest {
     public MyRequest(String function, String clientID) {
         setFunction(function);
         setClientID(clientID);
+    }
+
+    public MyRequest(int rmNumber, String bugType) {
+        setMessageType(bugType + rmNumber);
     }
 
     public String getFunction() {

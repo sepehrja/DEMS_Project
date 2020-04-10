@@ -30,16 +30,14 @@ public class FE {
             FEInterface inter = new FEInterface() {
                 @Override
                 public void informRmHasBug(int RmNumber) {
-                    //TODO: fix the parameters
-                    String errorMessage = RmNumber + ";" + "Bug;";
+                    String errorMessage = new MyRequest(RmNumber, "1").toString();
                     System.out.println("Rm:" + RmNumber + "has bug");
                     sendMulticastFaultMessageToRms(errorMessage);
                 }
 
                 @Override
                 public void informRmIsDown(int RmNumber) {
-                    //TODO: fix the parameters
-                    String errorMessage = RmNumber + ";" + "Down;";
+                    String errorMessage = new MyRequest(RmNumber, "2").toString();
                     System.out.println("Rm:" + RmNumber + "is down");
                     sendMulticastFaultMessageToRms(errorMessage);
                 }
