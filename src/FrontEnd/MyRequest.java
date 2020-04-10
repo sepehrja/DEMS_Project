@@ -8,7 +8,7 @@ public class MyRequest {
     private String OldEventType = "null";
     private String eventID = "null";
     private String OldEventID = "null";
-    private String FeIpAddress = "192.168.2.11";
+    private String FeIpAddress = FE.FE_IP_Address;
     private int bookingCapacity = -1;
     private int sequenceNumber = 0;
     private String MessageType = "00";

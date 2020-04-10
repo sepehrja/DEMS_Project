@@ -10,13 +10,17 @@ import org.omg.PortableServer.POA;
 import org.omg.PortableServer.POAHelper;
 
 import java.io.IOException;
-import java.net.*;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
 
 public class FE {
     //TODO: set sequencer IP and Port
-    private static final int sequencerPort = 1313;
+    private static final int sequencerPort = 1333;
     private static final String sequencerIP = "192.168.2.17";
     private static final String RM_Multicast_group_address = "230.1.1.10";
+    public static String FE_IP_Address = "192.168.2.11";
     private static final int FE_SQ_PORT = 1414;
     private static final int FE_PORT = 1413;
     private static int RM_Multicast_Port = 1234;
@@ -28,6 +32,7 @@ public class FE {
                 public void informRmHasBug(int RmNumber) {
                     //TODO: fix the parameters
                     String errorMessage = RmNumber + ";" + "Bug;";
+                    System.out.println("Rm:" + RmNumber + "has bug");
                     sendMulticastFaultMessageToRms(errorMessage);
                 }
 
@@ -35,6 +40,7 @@ public class FE {
                 public void informRmIsDown(int RmNumber) {
                     //TODO: fix the parameters
                     String errorMessage = RmNumber + ";" + "Down;";
+                    System.out.println("Rm:" + RmNumber + "is down");
                     sendMulticastFaultMessageToRms(errorMessage);
                 }
 
@@ -45,6 +51,7 @@ public class FE {
 
                 @Override
                 public void retryRequest(MyRequest myRequest) {
+                    System.out.println("No response from all Rms, Retrying request...");
                     sendUnicastToSequencer(myRequest);
                 }
             };
@@ -148,15 +155,15 @@ public class FE {
         try {
 
 //            aSocket = new MulticastSocket(1413);
-            InetAddress[] allAddresses = Inet4Address.getAllByName("SepJ-ROG");
-            InetAddress desiredAddress = InetAddress.getLocalHost();
-            //In order to find the desired Ip to be routed by other modules (WiFi adapter)
-            for (InetAddress address :
-                    allAddresses) {
-                if (address.getHostAddress().startsWith("192.168.2")) {
-                    desiredAddress = address;
-                }
-            }
+//            InetAddress[] allAddresses = Inet4Address.getAllByName("SepJ-ROG");
+            InetAddress desiredAddress = InetAddress.getByName(FE_IP_Address);
+//            //In order to find the desired Ip to be routed by other modules (WiFi adapter)
+//            for (InetAddress address :
+//                    allAddresses) {
+//                if (address.getHostAddress().startsWith("192.168.2")) {
+//                    desiredAddress = address;
+//                }
+//            }
 //            aSocket.joinGroup(InetAddress.getByName("230.1.1.5"));
             aSocket = new DatagramSocket(FE_PORT, desiredAddress);
             byte[] buffer = new byte[1000];
