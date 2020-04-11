@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.*; 
 
-import ServerInterface.EventManagementInterface;
+import Replica1.ServerInterface.EventManagementInterface;
 import Replica1.DataBase.*;
 
 public class ServerClass extends UnicastRemoteObject implements EventManagementInterface{

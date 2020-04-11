@@ -1,4 +1,4 @@
-package ServerInterface;
+package Replica1.ServerInterface;
 
 import java.rmi.*;
 
