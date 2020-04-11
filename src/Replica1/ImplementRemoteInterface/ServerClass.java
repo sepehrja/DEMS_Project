@@ -910,4 +910,9 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 			response = "The new EventId or EventType does not exists!";
 		return response;
 	}
+	@Override
+	public void shutDown() throws RemoteException 
+	{
+		System.exit(0); 
+	}
 }

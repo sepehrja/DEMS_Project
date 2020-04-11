@@ -11,5 +11,6 @@ public interface EventManagementInterface extends Remote{
 	public String bookEvent(String customerID,String eventID,String eventType) throws RemoteException;
 	public String getBookingSchedule(String customerID) throws RemoteException;
 	public String cancelEvent(String customerID,String eventID, String eventType) throws RemoteException;
-    public String swapEvent(String customerID, String newEventID, String newEventType, String oldEventID, String oldEventType) throws RemoteException;
+	public String swapEvent(String customerID, String newEventID, String newEventType, String oldEventID, String oldEventType) throws RemoteException;
+	public void shutDown() throws RemoteException;
 }

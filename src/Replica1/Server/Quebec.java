@@ -16,12 +16,13 @@
 				ServerClass stub = new ServerClass(5555, 6666, 7777, "QUE");
 				Registry registry = LocateRegistry.createRegistry(9991);
 				registry.bind("addEvent", stub);	
-				// registry.bind("removeEvent", stub);	
-				// registry.bind("listEventAvailability", stub);	
-				// registry.bind("bookEvent", stub);	
-				// registry.bind("getBookingSchedule", stub);	
-				// registry.bind("cancelEvent", stub);	
-				// registry.bind("swapEvent", stub);	
+				registry.bind("removeEvent", stub);	
+				registry.bind("listEventAvailability", stub);	
+				registry.bind("bookEvent", stub);	
+				registry.bind("getBookingSchedule", stub);	
+				registry.bind("cancelEvent", stub);	
+				registry.bind("swapEvent", stub);	
+				registry.bind("shutDown", stub);		
 
 				Runnable task = () -> {
 				run_server(stub);
