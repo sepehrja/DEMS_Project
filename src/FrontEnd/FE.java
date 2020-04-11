@@ -10,28 +10,46 @@ import org.omg.PortableServer.POA;
 import org.omg.PortableServer.POAHelper;
 
 import java.io.IOException;
-import java.net.*;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
 
 public class FE {
     //TODO: set sequencer IP and Port
-    private static final int sequencerPort = 1313;
-    private static final String sequencerIP = "127.0.0.1";
+    private static final int sequencerPort = 1333;
+    private static final String sequencerIP = "192.168.2.17";
+    private static final String RM_Multicast_group_address = "230.1.1.10";
+    public static String FE_IP_Address = "192.168.2.11";
+    private static final int FE_SQ_PORT = 1414;
+    private static final int FE_PORT = 1413;
+    private static int RM_Multicast_Port = 1234;
 
     public static void main(String[] args) {
         try {
             FEInterface inter = new FEInterface() {
                 @Override
                 public void informRmHasBug(int RmNumber) {
-                    //TODO: what to do when an Rm bug found
+                    String errorMessage = new MyRequest(RmNumber, "1").toString();
+                    System.out.println("Rm:" + RmNumber + "has bug");
+                    sendMulticastFaultMessageToRms(errorMessage);
                 }
 
                 @Override
                 public void informRmIsDown(int RmNumber) {
-                    //TODO: what to do when an Rm is down
+                    String errorMessage = new MyRequest(RmNumber, "2").toString();
+                    System.out.println("Rm:" + RmNumber + "is down");
+                    sendMulticastFaultMessageToRms(errorMessage);
                 }
 
                 @Override
-                public void sendRequestToSequencer(MyRequest myRequest) {
+                public int sendRequestToSequencer(MyRequest myRequest) {
+                    return sendUnicastToSequencer(myRequest);
+                }
+
+                @Override
+                public void retryRequest(MyRequest myRequest) {
+                    System.out.println("No response from all Rms, Retrying request...");
                     sendUnicastToSequencer(myRequest);
                 }
             };
@@ -80,16 +98,27 @@ public class FE {
 
     }
 
-    private static void sendUnicastToSequencer(MyRequest requestFromClient) {
+    private static int sendUnicastToSequencer(MyRequest requestFromClient) {
         DatagramSocket aSocket = null;
         String dataFromClient = requestFromClient.toString();
+        int sequenceID = 0;
         try {
-            aSocket = new DatagramSocket();
+            aSocket = new DatagramSocket(FE_SQ_PORT);
             byte[] message = dataFromClient.getBytes();
             InetAddress aHost = InetAddress.getByName(sequencerIP);
             DatagramPacket requestToSequencer = new DatagramPacket(message, dataFromClient.length(), aHost, sequencerPort);
 
             aSocket.send(requestToSequencer);
+
+            aSocket.setSoTimeout(1000);
+            // Set up an UPD packet for recieving
+            byte[] buffer = new byte[1000];
+            DatagramPacket response = new DatagramPacket(buffer, buffer.length);
+            // Try to receive the response from the ping
+            aSocket.receive(response);
+            String sentence = new String(response.getData(), 0,
+                    response.getLength());
+            sequenceID = Integer.parseInt(sentence.trim());
         } catch (SocketException e) {
             System.out.println("Failed: " + requestFromClient.noRequestSendError());
             System.out.println("Socket: " + e.getMessage());
@@ -101,26 +130,50 @@ public class FE {
 //			if (aSocket != null)
 //				aSocket.close();
         }
+        return sequenceID;
+    }
+
+    public static void sendMulticastFaultMessageToRms(String errorMessage) {
+        DatagramSocket aSocket = null;
+        try {
+            aSocket = new DatagramSocket();
+            byte[] messages = errorMessage.getBytes();
+            InetAddress aHost = InetAddress.getByName(RM_Multicast_group_address);
+
+            DatagramPacket request = new DatagramPacket(messages, messages.length, aHost, RM_Multicast_Port);
+            aSocket.send(request);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private static void listenForUDPResponses(FrontEndImplementation servant) {
-        MulticastSocket aSocket = null;
+        DatagramSocket aSocket = null;
         try {
 
-            aSocket = new MulticastSocket(1413);
-
-            aSocket.joinGroup(InetAddress.getByName("230.1.1.5"));
-
+//            aSocket = new MulticastSocket(1413);
+//            InetAddress[] allAddresses = Inet4Address.getAllByName("SepJ-ROG");
+            InetAddress desiredAddress = InetAddress.getByName(FE_IP_Address);
+//            //In order to find the desired Ip to be routed by other modules (WiFi adapter)
+//            for (InetAddress address :
+//                    allAddresses) {
+//                if (address.getHostAddress().startsWith("192.168.2")) {
+//                    desiredAddress = address;
+//                }
+//            }
+//            aSocket.joinGroup(InetAddress.getByName("230.1.1.5"));
+            aSocket = new DatagramSocket(FE_PORT, desiredAddress);
             byte[] buffer = new byte[1000];
-            System.out.println("Server Started............");
+            System.out.println("FE Server Started on " + desiredAddress + ":" + FE_PORT + "............");
 
             while (true) {
                 DatagramPacket response = new DatagramPacket(buffer, buffer.length);
                 aSocket.receive(response);
                 String sentence = new String(response.getData(), 0,
-                        response.getLength());
+                        response.getLength()).trim();
                 System.out.println("Response received: " + sentence);
-                String[] parts = sentence.split(":");
+                String[] parts = sentence.split(";");
                 //TODO: parse the response data
                 if (parts.length > 2) {
 //                    MessageInfo messageInfo = new MessageInfo();
