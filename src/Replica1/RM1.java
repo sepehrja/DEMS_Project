@@ -51,14 +51,31 @@ public class RM1 {
                 String data = new String( request.getData(), 0, request.getLength());
                 String[] parts = data.split(";");
 
+                /*
+                Message Types:
+                    00- Simple message
+                    01- Sync request between the RMs
+                    02- Initialing RM
+                    11-Rm1 has bug
+                    12-Rm2 has bug
+                    13-Rm3 has bug
+                    21-Rm1 is down
+                    22-Rm2 is down
+                    23-Rm3 is down
+                */
+
                 if(parts[2].equals("00"))
                 {  
                     Message message=message_obj_create(data);
-                    send_sync_message_list(message);
+                    Message message_RM = message_obj_create(data);
+                    message_RM.MessageType = "01";
+                    send_multicast_toRM(message_RM);
                     if(message.sequenceId - lastSequenceID > 1)
-                        initial_message_q(message.toString());
+                        initial_request(lastSequenceID, message.sequenceId);
                     message_q.put(message.sequenceId,message);
                     executeAllRequests();
+                    DatagramPacket reply = new DatagramPacket(request.getData(), request.getLength(), request.getAddress(), request.getPort());
+                    socket.send(reply);
                 }
                 else if(parts[2].equals("01"))
                 {            
@@ -67,10 +84,8 @@ public class RM1 {
                 }
                 else if(parts[2].equals("02"))
                 {
-                    initial_message_q(data);
+                    initial_send_list(Integer.parseInt(parts[3]), Integer.parseInt(parts[4]));
                 }
-				DatagramPacket reply = new DatagramPacket(request.getData(), request.getLength(), request.getAddress(), request.getPort());
-                socket.send(reply);
 			}
 
 		} catch (SocketException e) {
@@ -98,30 +113,80 @@ public class RM1 {
         Message message = new Message(sequenceId, FrontIpAddress, MessageType, Function, userID, newEventID, newEventType, oldEventID, oldEventType, bookingCapacity);
         return message;
     }
-
-    private static void initial_message_q(String message)
+    
+    // Create a list of messsages, seperating them with @ and send it back to RM
+    private static void initial_send_list(Integer begin, Integer end)
 	{
-        
+        String list="";
+        for (ConcurrentHashMap.Entry<Integer, Message> entry : message_q.entrySet()) 
+        {
+            if(entry.getValue().sequenceId > begin && entry.getValue().sequenceId < end)
+            {
+                list+=entry.getValue().toString()+"@";
+            }
+        }
+        // Remove the last @ character
+        if(list.length()>2)
+            list.substring(list.length()-1, list.length());
+        Message message = new Message(0, FrontIpAddress, MessageType, Function, userID, newEventID, newEventType, oldEventID, oldEventType, bookingCapacity);
+        send_multicast_toRM(message);
     }
-    private static void send_sync_message_list(Message message)
+
+    // Request all RMs to send back list of messages
+    private static void initial_request(Integer begin, Integer end)
 	{
         int port=1234;
-        message.MessageType = "01";
         DatagramSocket socket = null;
+        Message message = new Message(0, "Null", "02",begin.toString(), end.toString(), "RM1", "Null", "Null", "Null", 0);
         try {
             socket = new DatagramSocket();
-            byte[] messages = message.toString().getBytes();
+            byte[] data = message.toString().getBytes();
             InetAddress aHost = InetAddress.getByName("230.1.1.10");
 
-            DatagramPacket request = new DatagramPacket(messages, messages.length, aHost, port);
+            DatagramPacket request = new DatagramPacket(data, data.length, aHost, port);
             socket.send(request);
 
-            //To do: wait for responsed and return it.
+            socket.setSoTimeout(1000);
+            byte[] buffer = new byte[1000];
+            DatagramPacket response = new DatagramPacket(buffer, buffer.length);
+            socket.receive(response);
+            String sentence = new String(response.getData(), 0,
+                    response.getLength());
+            update_message_list(sentence);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    //update the hasmap
+    private static void update_message_list(String data)
+	{
+        String[] parts = data.split("@");
+        for(int i =0 ;i<parts.length;++i)
+        {
+            Message message = message_obj_create(parts[i]);
+            message_q.put(message.sequenceId, message);
+        }
+    }
+
+    private static void send_multicast_toRM(Message message)
+	{
+        int port=1234;
+        DatagramSocket socket = null;
+        try {
+            socket = new DatagramSocket();
+            byte[] data = message.toString().getBytes();
+            InetAddress aHost = InetAddress.getByName("230.1.1.10");
+
+            DatagramPacket request = new DatagramPacket(data, data.length, aHost, port);
+            socket.send(request);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //Execute all request from the lastSequenceID, send the response back to Front and update the counter(lastSequenceID)
     private static void executeAllRequests()throws Exception
 	{
         int count = 0;
@@ -141,6 +206,7 @@ public class RM1 {
         lastSequenceID += count;
     }
 
+    //Send RMI request to server
     private static String requestToServers(Message input) throws Exception
 	{
         int portNumber = serverPort(input.userID.substring(0, 3));
