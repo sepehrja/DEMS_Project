@@ -171,9 +171,9 @@ public class FE {
                 DatagramPacket response = new DatagramPacket(buffer, buffer.length);
                 aSocket.receive(response);
                 String sentence = new String(response.getData(), 0,
-                        response.getLength());
+                        response.getLength()).trim();
                 System.out.println("Response received: " + sentence);
-                String[] parts = sentence.split(":");
+                String[] parts = sentence.split(";");
                 //TODO: parse the response data
                 if (parts.length > 2) {
 //                    MessageInfo messageInfo = new MessageInfo();
