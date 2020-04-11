@@ -1,4 +1,4 @@
-package sequencer;
+package Sequencer;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -12,7 +12,7 @@ public class Sequencer {
 	public static void main(String[] args) {
 		DatagramSocket aSocket = null;
 		try {
-			aSocket = new DatagramSocket(1333, InetAddress.getByName("192.168.2.1"));
+			aSocket = new DatagramSocket(1333, InetAddress.getByName("192.168.2.17"));
 			byte[] buffer = new byte[1000];
 			System.out.println("Sequencer UDP Server Started");
 			while (true) {
@@ -27,21 +27,22 @@ public class Sequencer {
 						request.getLength());
 
 				String[] parts = sentence.split(";");
-				String sequencerId1 = parts[0];
+				int sequencerId1 = Integer.parseInt(parts[0]);
 				String ip = request.getAddress().getHostAddress();
-				
-				String sentence1=sequencerId1+";"+ip+";"+
-						parts[2]+";"+
-						parts[3]+";"+
-						parts[4]+";"+
-						parts[5]+";"+
-						parts[6]+";"+
-						parts[7]+";"+
-						parts[8]+";"+
-						parts[9]+";";
-				sequencerId = Integer.parseInt(sequencerId1);
+
+				String sentence1 = ip + ";" +
+						parts[2] + ";" +
+						parts[3] + ";" +
+						parts[4] + ";" +
+						parts[5] + ";" +
+						parts[6] + ";" +
+						parts[7] + ";" +
+						parts[8] + ";" +
+						parts[9] + ";";
+
+//				sequencerId = sequencerId1;
 				System.out.println(sentence1);
-				sendMessage(sentence1);
+				sendMessage(sentence1, sequencerId1);
 
 				byte[] SeqId = (Integer.toString(sequencerId)).getBytes();
 				InetAddress aHost1 = request.getAddress();
@@ -62,15 +63,18 @@ public class Sequencer {
 		}
 	}
 
-	public static void sendMessage(String message) {
+	public static void sendMessage(String message, int sequencerId1) {
 		int port = 1412;
-		
-		sequencerId++;
+
+		if (sequencerId1 == 0) {
+			sequencerId1 = ++sequencerId;
+		}
+		String finalMessage = sequencerId1 + ";" + message;
 
 		DatagramSocket aSocket = null;
 		try {
 			aSocket = new DatagramSocket();
-			byte[] messages = message.getBytes();
+			byte[] messages = finalMessage.getBytes();
 			InetAddress aHost = InetAddress.getByName("230.1.1.10");
 
 			DatagramPacket request = new DatagramPacket(messages,
