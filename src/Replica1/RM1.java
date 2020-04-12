@@ -134,22 +134,26 @@ public class RM1 {
                             Registry montreal_registry = LocateRegistry.getRegistry(9992);
                             EventManagementInterface montreal_obj = (EventManagementInterface) montreal_registry.lookup("shutDown");
                             montreal_obj.shutDown();
-                            Montreal.main(new String[0]);
                             System.out.println("RM1 shutdown Montreal Server");
 
                             //reboot Quebec Server
                             Registry quebec_registry = LocateRegistry.getRegistry(9991);
                             EventManagementInterface quebec_obj = (EventManagementInterface) quebec_registry.lookup("shutDown");
                             quebec_obj.shutDown();
-                            Quebec.main(new String[0]);
                             System.out.println("RM1 shutdown Quebec Server");
 
                             //reboot Sherbrooke Server
                             Registry sherbrook_registry = LocateRegistry.getRegistry(9993);
                             EventManagementInterface sherbrook_obj = (EventManagementInterface) sherbrook_registry.lookup("shutDown");
                             sherbrook_obj.shutDown();
-                            Sherbrooke.main(new String[0]);
                             System.out.println("RM1 shutdown Sherbrooke Server");
+
+                            //running all servers
+                            Montreal.main(new String[0]);
+                            Thread.sleep(500);
+                            Quebec.main(new String[0]);
+                            Thread.sleep(500);
+                            Sherbrooke.main(new String[0]);
 
                             //wait untill are servers are up
                             Thread.sleep(5000);
@@ -277,25 +281,24 @@ public class RM1 {
 	{
         int portNumber = serverPort(input.userID.substring(0, 3));
         Registry registry = LocateRegistry.getRegistry(portNumber);
+        EventManagementInterface obj = (EventManagementInterface) registry.lookup("ServerClass");
+
         if(input.userID.equals("M"))
         {
             if(input.Function.equals("addEvent"))
             {
-                EventManagementInterface obj = (EventManagementInterface) registry.lookup("addEvent");
                 String response = obj.addEvent(input.newEventID, input.newEventType,input.bookingCapacity);
                 System.out.println(response);
                 return response;
             }
             else if(input.Function.equals("removeEvent"))
             {
-                EventManagementInterface obj = (EventManagementInterface) registry.lookup("removeEvent");
                 String response = obj.removeEvent(input.newEventID, input.newEventType);
                 System.out.println(response);
                 return response;
             }
             else if(input.Function.equals("listEventAvailability"))
             {
-                EventManagementInterface obj = (EventManagementInterface) registry.lookup("listEventAvailability");
                 String response = obj.listEventAvailability(input.newEventType);
                 System.out.println(response);
                 return response;
@@ -305,28 +308,24 @@ public class RM1 {
         {
             if(input.Function.equals("bookEvent"))
             {
-                EventManagementInterface obj = (EventManagementInterface) registry.lookup("bookEvent");
                 String response = obj.bookEvent(input.userID, input.newEventID, input.newEventType);
                 System.out.println(response);
                 return response;
             }
             else if(input.Function.equals("getBookingSchedule"))
             {
-                EventManagementInterface obj = (EventManagementInterface) registry.lookup("getBookingSchedule");
                 String response = obj.getBookingSchedule(input.userID);
                 System.out.println(response);
                 return response;
             }
             else if(input.Function.equals("cancelEvent"))
             {
-                EventManagementInterface obj = (EventManagementInterface) registry.lookup("cancelEvent");
                 String response = obj.cancelEvent(input.userID, input.newEventID, input.newEventType);
                 System.out.println(response);
                 return response;
             }
             else if(input.Function.equals("swapEvent"))
             {
-                EventManagementInterface obj = (EventManagementInterface) registry.lookup("swapEvent");
                 String response = obj.swapEvent(input.userID, input.newEventID, input.newEventType, input.oldEventID, input.oldEventType);
                 System.out.println(response);
                 return response;

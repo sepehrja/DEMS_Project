@@ -15,14 +15,7 @@ public class Montreal {
 		try {
 			ServerClass stub = new ServerClass(5555, 6666, 7777, "MTL");
 			Registry registry = LocateRegistry.createRegistry(9992);
-			registry.bind("addEvent", stub);	
-			registry.bind("removeEvent", stub);	
-			registry.bind("listEventAvailability", stub);	
-			registry.bind("bookEvent", stub);	
-			registry.bind("getBookingSchedule", stub);	
-			registry.bind("cancelEvent", stub);	
-			registry.bind("swapEvent", stub);	
-			registry.bind("shutDown", stub);	
+			registry.bind("ServerClass", stub);	
 
 			Runnable task = () -> {
 			run_server(stub);
