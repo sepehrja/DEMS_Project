@@ -134,19 +134,19 @@ public class RM3 {
                             serversFlag = false;
                             //reboot Monteal Server
                             Registry montreal_registry = LocateRegistry.getRegistry(9992);
-                            Manager montreal_obj = (Manager) montreal_registry.lookup("shutDown");
+                            Manager montreal_obj = (Manager) montreal_registry.lookup("ServerClass");
                             montreal_obj.shutDown();
                             System.out.println("RM3 shutdown Montreal Server");
 
                             //reboot Quebec Server
                             Registry quebec_registry = LocateRegistry.getRegistry(9991);
-                            Manager quebec_obj = (Manager) quebec_registry.lookup("shutDown");
+                            Manager quebec_obj = (Manager) quebec_registry.lookup("ServerClass");
                             quebec_obj.shutDown();
                             System.out.println("RM3 shutdown Quebec Server");
 
                             //reboot Sherbrooke Server
                             Registry sherbrook_registry = LocateRegistry.getRegistry(9993);
-                            Manager sherbrook_obj = (Manager) sherbrook_registry.lookup("shutDown");
+                            Manager sherbrook_obj = (Manager) sherbrook_registry.lookup("ServerClass");
                             sherbrook_obj.shutDown();
                             System.out.println("RM3 shutdown Sherbrooke Server");
                             

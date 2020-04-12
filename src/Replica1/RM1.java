@@ -132,19 +132,19 @@ public class RM1 {
                             serversFlag = false;
                             //reboot Monteal Server
                             Registry montreal_registry = LocateRegistry.getRegistry(9992);
-                            EventManagementInterface montreal_obj = (EventManagementInterface) montreal_registry.lookup("shutDown");
+                            EventManagementInterface montreal_obj = (EventManagementInterface) montreal_registry.lookup("ServerClass");
                             montreal_obj.shutDown();
                             System.out.println("RM1 shutdown Montreal Server");
 
                             //reboot Quebec Server
                             Registry quebec_registry = LocateRegistry.getRegistry(9991);
-                            EventManagementInterface quebec_obj = (EventManagementInterface) quebec_registry.lookup("shutDown");
+                            EventManagementInterface quebec_obj = (EventManagementInterface) quebec_registry.lookup("ServerClass");
                             quebec_obj.shutDown();
                             System.out.println("RM1 shutdown Quebec Server");
 
                             //reboot Sherbrooke Server
                             Registry sherbrook_registry = LocateRegistry.getRegistry(9993);
-                            EventManagementInterface sherbrook_obj = (EventManagementInterface) sherbrook_registry.lookup("shutDown");
+                            EventManagementInterface sherbrook_obj = (EventManagementInterface) sherbrook_registry.lookup("ServerClass");
                             sherbrook_obj.shutDown();
                             System.out.println("RM1 shutdown Sherbrooke Server");
 
@@ -209,7 +209,7 @@ public class RM1 {
             }
         }
         // Remove the last @ character
-        if(list.length()>2)
+        if(list.endsWith("@"))
             list.substring(list.length()-1, list.length());
         Message message = new Message(0, list , "03", begin.toString(), end.toString(), RmNumber, "Null", "Null", "Null", 0);
         System.out.println("RM1 sending its list of messages for initialization. list of messages:" + list);

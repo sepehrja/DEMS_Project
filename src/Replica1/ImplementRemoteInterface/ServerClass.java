@@ -12,12 +12,14 @@ import java.rmi.server.UnicastRemoteObject;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.*; 
+import Replica1.CommonOutput;
 
 import Replica1.ServerInterface.EventManagementInterface;
 import Replica1.DataBase.*;
@@ -54,7 +56,7 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 			} catch (final IOException e) {
 				e.printStackTrace();
 			}
-			return "Event added capacity";
+			return CommonOutput.addEventOutput(true, CommonOutput.addEvent_success_capacity_updated);
 		}
 		else if(EventMap.containsKey(eventType.toUpperCase().trim()))
 		{
@@ -66,7 +68,7 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 			} catch (final IOException e) {
 				e.printStackTrace();
 			}
-			return "Event added to" + serverName.toUpperCase().trim();
+			return CommonOutput.addEventOutput(true, CommonOutput.addEvent_success_added);
 		}	
 		else
 		{
@@ -80,7 +82,7 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 			} catch (final IOException e) {
 				e.printStackTrace();
 			}
-			return "Event added to" + serverName.toUpperCase().trim();
+			return CommonOutput.addEventOutput(true, CommonOutput.addEvent_success_added);
 		}
 	}
 	@Override
@@ -116,11 +118,11 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 				send_data_request(quebec_port, "remove_client_event", eventID.toUpperCase().trim(), eventType.toUpperCase().trim(),"-").trim();
 			}
 						
-			return response.trim();
+			return CommonOutput.removeEventOutput(true, null);
 		}
 		else
 		{
-			return "Error: There is no such a record to remove";
+			return CommonOutput.removeEventOutput(false, CommonOutput.removeEvent_fail_no_such_event);
 		}
 	}
 	
@@ -331,32 +333,40 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 
 	@Override
 	public String listEventAvailability(final String eventType) throws RemoteException{
-		String response = "";
+		List<String> allEventIDsWithCapacity = new ArrayList<>();
+		String response1="" ,response2="";
+		List<String> server1 = new ArrayList<>();
+        List<String> server2 = new ArrayList<>();
 		if(EventMap.containsKey(eventType.toUpperCase().trim()))
 		{
 			for (final Map.Entry<String, EventDetail> entry : EventMap.get(eventType.toUpperCase().trim()).entrySet()) 
 			{
-				response += entry.getKey() + " " + entry.getValue().bookingCapacity+"@";
+				allEventIDsWithCapacity.add(entry.getKey() + " " + entry.getValue().bookingCapacity);
 			}
 		}
 		if(serverName.trim().equals("QUE"))
 		{
-			response += send_data_request(montreal_port, "list_events", "-", eventType.toUpperCase().trim(),"-").trim()+"@";
-			response += send_data_request(sherbrooke_port, "list_events", "-", eventType.toUpperCase().trim(),"-").trim()+"@";
+			response1 = send_data_request(montreal_port, "list_events", "-", eventType.toUpperCase().trim(),"-").trim();
+			response2 = send_data_request(sherbrooke_port, "list_events", "-", eventType.toUpperCase().trim(),"-").trim();
 
 		}
 		else if(serverName.trim().equals("MTL"))
 		{
-			response += send_data_request(quebec_port, "list_events", "-", eventType.toUpperCase().trim(),"-").trim()+"@";
-			response += send_data_request(sherbrooke_port, "list_events", "-", eventType.toUpperCase().trim(),"-").trim()+"@";
+			response1 = send_data_request(quebec_port, "list_events", "-", eventType.toUpperCase().trim(),"-").trim();
+			response2 = send_data_request(sherbrooke_port, "list_events", "-", eventType.toUpperCase().trim(),"-").trim();
 		}
 		else if(serverName.trim().equals("SHE"))
 		{
-			response += send_data_request(montreal_port, "list_events", "-", eventType.toUpperCase().trim(),"-").trim()+"@";
-			response += send_data_request(quebec_port, "list_events", "-", eventType.toUpperCase().trim(),"-").trim()+"@";
+			response1 = send_data_request(montreal_port, "list_events", "-", eventType.toUpperCase().trim(),"-").trim();
+			response2 = send_data_request(quebec_port, "list_events", "-", eventType.toUpperCase().trim(),"-").trim();
 		}
-		
-		return response;
+		if(response1.contains("@"))
+			server1 = Arrays.asList(response1.split("@"));
+		if(response1.contains("@"))
+        	server2 = Arrays.asList(response2.split("@"));
+		allEventIDsWithCapacity.addAll(server1);
+        allEventIDsWithCapacity.addAll(server2);
+		return CommonOutput.listEventAvailabilityOutput(true, allEventIDsWithCapacity, null);
 	}
 	public String list_events(final String eventType) 
 	{
@@ -369,6 +379,8 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 				response += entry.getKey() + " " + entry.getValue().bookingCapacity+"@";
 			}
 		}
+		if (response.endsWith("@"))
+			response = response.substring(0, response.length() - 1);
 		return response;
 	}
 	
