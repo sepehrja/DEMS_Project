@@ -132,21 +132,21 @@ public class RM2 {
                             serversFlag = false;
                             //reboot Monteal Server
                             Registry montreal_registry = LocateRegistry.getRegistry(SERVER_MONTREAL);
-                            EventManagementInterface montreal_obj = (EventManagementInterface) montreal_registry.lookup("shutDown");
+                            EventManagementInterface montreal_obj = (EventManagementInterface) montreal_registry.lookup(EVENT_MANAGEMENT_REGISTERED_NAME);
                             montreal_obj.shutDown();
 //                            Montreal.main(new String[0]);
                             System.out.println("RM2 shutdown Montreal Server");
 
                             //reboot Quebec Server
                             Registry quebec_registry = LocateRegistry.getRegistry(SERVER_QUEBEC);
-                            EventManagementInterface quebec_obj = (EventManagementInterface) quebec_registry.lookup("shutDown");
+                            EventManagementInterface quebec_obj = (EventManagementInterface) quebec_registry.lookup(EVENT_MANAGEMENT_REGISTERED_NAME);
                             quebec_obj.shutDown();
 //                            Quebec.main(new String[0]);
                             System.out.println("RM2 shutdown Quebec Server");
 
                             //reboot Sherbrooke Server
                             Registry sherbrook_registry = LocateRegistry.getRegistry(SERVER_SHERBROOKE);
-                            EventManagementInterface sherbrook_obj = (EventManagementInterface) sherbrook_registry.lookup("shutDown");
+                            EventManagementInterface sherbrook_obj = (EventManagementInterface) sherbrook_registry.lookup(EVENT_MANAGEMENT_REGISTERED_NAME);
                             sherbrook_obj.shutDown();
 //                            Sherbrooke.main(new String[0]);
                             System.out.println("RM2 shutdown Sherbrooke Server");

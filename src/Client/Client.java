@@ -28,7 +28,7 @@ public class Client {
     public static final int SHUTDOWN = 0;
     public static final String CONFERENCES = "Conferences";
     public static final String SEMINARS = "Seminars";
-    public static final String TRADE_SHOWS = "Trade Shows";
+    public static final String TRADE_SHOWS = "TradeShows";
 
     static Scanner input;
 

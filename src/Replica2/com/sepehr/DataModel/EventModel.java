@@ -12,7 +12,7 @@ public class EventModel {
     public static final String EVENT_TIME_EVENING = "Evening";
     public static final String CONFERENCES = "Conferences";
     public static final String SEMINARS = "Seminars";
-    public static final String TRADE_SHOWS = "Trade Shows";
+    public static final String TRADE_SHOWS = "TradeShows";
     public static final int EVENT_FULL = -1;
     public static final int ALREADY_REGISTERED = 0;
     public static final int ADD_SUCCESS = 1;
