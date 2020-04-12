@@ -1,4 +1,4 @@
-package Replica1.DataBase;
+package Replica2.com.sepehr.DataModel;
 
 public class Message {
 	public String FrontIpAddress,Function , MessageType, userID, newEventID, newEventType, oldEventID, oldEventType; 
