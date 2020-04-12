@@ -1,27 +1,27 @@
 package Replica2;
 
+import Replica2.com.sepehr.DataModel.Message;
+import Replica2.com.sepehr.EventManagementInterface;
+import Replica2.com.sepehr.Server.Server;
+
 import java.io.IOException;
-import java.rmi.registry.Registry;
-import java.util.concurrent.ConcurrentHashMap;
+import java.net.*;
 import java.rmi.registry.LocateRegistry;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.MulticastSocket;
-import java.net.SocketException;
+import java.rmi.registry.Registry;
 import java.util.Iterator;
 import java.util.PriorityQueue;
+import java.util.concurrent.ConcurrentHashMap;
 
-import Replica2.com.sepehr.DataModel.Message;
-import Replica2.Server.*;
-import Replica2.ServerInterface.EventManagementInterface;
+import static Replica2.com.sepehr.Server.ServerInstance.*;
+
 
 public class RM2 {
     public static int lastSequenceID = 1;
     private static boolean serversFlag = true;
-    public static ConcurrentHashMap<Integer, Message> message_list = new ConcurrentHashMap<>();;
+    public static ConcurrentHashMap<Integer, Message> message_list = new ConcurrentHashMap<>();
     public static PriorityQueue<Message> message_q = new PriorityQueue<Message>();
-    public static void main(String args[]) throws Exception {
+
+    public static void main(String[] args) throws Exception {
         Run();
     }
 
@@ -88,7 +88,7 @@ public class RM2 {
                     if(message.sequenceId - lastSequenceID > 1)
                     {
                         Message initial_message = new Message(0, "Null", "02",Integer.toString(lastSequenceID), Integer.toString(message.sequenceId), "RM2", "Null", "Null", "Null", 0);
-                        System.out.println("RM2 send request to update its message list. from:" + Integer.toString(lastSequenceID) + "To:"+ Integer.toString(message.sequenceId));
+                        System.out.println("RM2 send request to update its message list. from:" + lastSequenceID + "To:" + message.sequenceId);
                         // Request all RMs to send back list of messages
                         send_multicast_toRM(initial_message);
                     }
@@ -131,25 +131,28 @@ public class RM2 {
                             //suspend the execution of messages untill all servers are up. (serversFlag=false)
                             serversFlag = false;
                             //reboot Monteal Server
-                            Registry montreal_registry = LocateRegistry.getRegistry(9992);
+                            Registry montreal_registry = LocateRegistry.getRegistry(SERVER_MONTREAL);
                             EventManagementInterface montreal_obj = (EventManagementInterface) montreal_registry.lookup("shutDown");
                             montreal_obj.shutDown();
-                            Montreal.main(new String[0]);
+//                            Montreal.main(new String[0]);
                             System.out.println("RM2 shutdown Montreal Server");
 
                             //reboot Quebec Server
-                            Registry quebec_registry = LocateRegistry.getRegistry(9991);
+                            Registry quebec_registry = LocateRegistry.getRegistry(SERVER_QUEBEC);
                             EventManagementInterface quebec_obj = (EventManagementInterface) quebec_registry.lookup("shutDown");
                             quebec_obj.shutDown();
-                            Quebec.main(new String[0]);
+//                            Quebec.main(new String[0]);
                             System.out.println("RM2 shutdown Quebec Server");
 
                             //reboot Sherbrooke Server
-                            Registry sherbrook_registry = LocateRegistry.getRegistry(9993);
+                            Registry sherbrook_registry = LocateRegistry.getRegistry(SERVER_SHERBROOKE);
                             EventManagementInterface sherbrook_obj = (EventManagementInterface) sherbrook_registry.lookup("shutDown");
                             sherbrook_obj.shutDown();
-                            Sherbrooke.main(new String[0]);
+//                            Sherbrooke.main(new String[0]);
                             System.out.println("RM2 shutdown Sherbrooke Server");
+
+                            //This is going to start all the servers for this implementation
+                            Server.main(new String[0]);
 
                             //wait untill are servers are up
                             Thread.sleep(5000);
@@ -206,7 +209,7 @@ public class RM2 {
         }
         // Remove the last @ character
         if(list.length()>2)
-            list.substring(list.length()-1, list.length());
+            list.substring(list.length() - 1);
         Message message = new Message(0, list , "03", begin.toString(), end.toString(), RmNumber, "Null", "Null", "Null", 0);
         System.out.println("RM2 sending its list of messages for initialization. list of messages:" + list);
         send_multicast_toRM(message);
@@ -338,13 +341,13 @@ public class RM2 {
 	{
 		String branch = input.substring(0,3);
 		int portNumber = -1;
-		
-		if(branch.equals("que"))
-			portNumber=9991;
-		else if(branch.equals("mtl"))
-			portNumber=9992;
-		else if(branch.equals("she"))
-			portNumber=9993;
+
+        if (branch.equals("que"))
+            portNumber = SERVER_QUEBEC;
+        else if (branch.equals("mtl"))
+            portNumber = SERVER_MONTREAL;
+        else if (branch.equals("she"))
+            portNumber = SERVER_SHERBROOKE;
 			
 		return portNumber;
     }
