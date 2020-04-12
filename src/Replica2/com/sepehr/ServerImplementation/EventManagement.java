@@ -91,7 +91,7 @@ public class EventManagement extends UnicastRemoteObject implements ServerInterf
                     allEvents.get(eventType).get(eventID).setEventCapacity(bookingCapacity);
                     response = "Success: Event " + eventID + " Capacity increased to " + bookingCapacity;
                     try {
-                        Logger.serverLog(serverID, "null", " CORBA addEvent ", " eventID: " + eventID + " eventType: " + eventType + " bookingCapacity " + bookingCapacity + " ", response);
+                        Logger.serverLog(serverID, "null", " addEvent ", " eventID: " + eventID + " eventType: " + eventType + " bookingCapacity " + bookingCapacity + " ", response);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -99,7 +99,7 @@ public class EventManagement extends UnicastRemoteObject implements ServerInterf
                 } else {
                     response = "Failed: Event Already Exists, Cannot Decrease Booking Capacity";
                     try {
-                        Logger.serverLog(serverID, "null", " CORBA addEvent ", " eventID: " + eventID + " eventType: " + eventType + " bookingCapacity " + bookingCapacity + " ", response);
+                        Logger.serverLog(serverID, "null", " addEvent ", " eventID: " + eventID + " eventType: " + eventType + " bookingCapacity " + bookingCapacity + " ", response);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -112,7 +112,7 @@ public class EventManagement extends UnicastRemoteObject implements ServerInterf
                 allEvents.put(eventType, eventHashMap);
                 response = "Success: Event " + eventID + " added successfully";
                 try {
-                    Logger.serverLog(serverID, "null", " CORBA addEvent ", " eventID: " + eventID + " eventType: " + eventType + " bookingCapacity " + bookingCapacity + " ", response);
+                    Logger.serverLog(serverID, "null", " addEvent ", " eventID: " + eventID + " eventType: " + eventType + " bookingCapacity " + bookingCapacity + " ", response);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -121,7 +121,7 @@ public class EventManagement extends UnicastRemoteObject implements ServerInterf
         } else {
             response = "Failed: Cannot Add Event to servers other than " + serverName;
             try {
-                Logger.serverLog(serverID, "null", " CORBA addEvent ", " eventID: " + eventID + " eventType: " + eventType + " bookingCapacity " + bookingCapacity + " ", response);
+                Logger.serverLog(serverID, "null", " addEvent ", " eventID: " + eventID + " eventType: " + eventType + " bookingCapacity " + bookingCapacity + " ", response);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -139,7 +139,7 @@ public class EventManagement extends UnicastRemoteObject implements ServerInterf
                 addCustomersToNextSameEvent(eventID, eventType, registeredClients);
                 response = "Success: Event " + eventID + " Removed Successfully";
                 try {
-                    Logger.serverLog(serverID, "null", " CORBA removeEvent ", " eventID: " + eventID + " eventType: " + eventType + " ", response);
+                    Logger.serverLog(serverID, "null", " removeEvent ", " eventID: " + eventID + " eventType: " + eventType + " ", response);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -147,7 +147,7 @@ public class EventManagement extends UnicastRemoteObject implements ServerInterf
             } else {
                 response = "Failed: Event " + eventID + " Does Not Exist";
                 try {
-                    Logger.serverLog(serverID, "null", " CORBA removeEvent ", " eventID: " + eventID + " eventType: " + eventType + " ", response);
+                    Logger.serverLog(serverID, "null", " removeEvent ", " eventID: " + eventID + " eventType: " + eventType + " ", response);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -156,7 +156,7 @@ public class EventManagement extends UnicastRemoteObject implements ServerInterf
         } else {
             response = "Failed: Cannot Remove Event from servers other than " + serverName;
             try {
-                Logger.serverLog(serverID, "null", " CORBA removeEvent ", " eventID: " + eventID + " eventType: " + eventType + " ", response);
+                Logger.serverLog(serverID, "null", " removeEvent ", " eventID: " + eventID + " eventType: " + eventType + " ", response);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -193,7 +193,7 @@ public class EventManagement extends UnicastRemoteObject implements ServerInterf
         builder.append(otherServer1).append(otherServer2);
         response = builder.toString();
         try {
-            Logger.serverLog(serverID, "null", " CORBA listEventAvailability ", " eventType: " + eventType + " ", response);
+            Logger.serverLog(serverID, "null", " listEventAvailability ", " eventType: " + eventType + " ", response);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -209,7 +209,7 @@ public class EventManagement extends UnicastRemoteObject implements ServerInterf
             if (bookedEvent == null) {
                 response = "Failed: Event " + eventID + " Does not exists";
                 try {
-                    Logger.serverLog(serverID, customerID, " CORBA bookEvent ", " eventID: " + eventID + " eventType: " + eventType + " ", response);
+                    Logger.serverLog(serverID, customerID, " bookEvent ", " eventID: " + eventID + " eventType: " + eventType + " ", response);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -224,7 +224,7 @@ public class EventManagement extends UnicastRemoteObject implements ServerInterf
                         } else {
                             response = "Failed: Event " + eventID + " Already Booked";
                             try {
-                                Logger.serverLog(serverID, customerID, " CORBA bookEvent ", " eventID: " + eventID + " eventType: " + eventType + " ", response);
+                                Logger.serverLog(serverID, customerID, " bookEvent ", " eventID: " + eventID + " eventType: " + eventType + " ", response);
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -246,7 +246,7 @@ public class EventManagement extends UnicastRemoteObject implements ServerInterf
                     response = "Failed: Cannot Add You To Event " + eventID;
                 }
                 try {
-                    Logger.serverLog(serverID, customerID, " CORBA bookEvent ", " eventID: " + eventID + " eventType: " + eventType + " ", response);
+                    Logger.serverLog(serverID, customerID, " bookEvent ", " eventID: " + eventID + " eventType: " + eventType + " ", response);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -254,7 +254,7 @@ public class EventManagement extends UnicastRemoteObject implements ServerInterf
             } else {
                 response = "Failed: Event " + eventID + " is Full";
                 try {
-                    Logger.serverLog(serverID, customerID, " CORBA bookEvent ", " eventID: " + eventID + " eventType: " + eventType + " ", response);
+                    Logger.serverLog(serverID, customerID, " bookEvent ", " eventID: " + eventID + " eventType: " + eventType + " ", response);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -264,7 +264,7 @@ public class EventManagement extends UnicastRemoteObject implements ServerInterf
             if (clientHasEvent(customerID, eventType, eventID)) {
                 String serverResponse = "Failed: Event " + eventID + " Already Booked";
                 try {
-                    Logger.serverLog(serverID, customerID, " CORBA bookEvent ", " eventID: " + eventID + " eventType: " + eventType + " ", serverResponse);
+                    Logger.serverLog(serverID, customerID, " bookEvent ", " eventID: " + eventID + " eventType: " + eventType + " ", serverResponse);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -282,7 +282,7 @@ public class EventManagement extends UnicastRemoteObject implements ServerInterf
                     }
                 }
                 try {
-                    Logger.serverLog(serverID, customerID, " CORBA bookEvent ", " eventID: " + eventID + " eventType: " + eventType + " ", serverResponse);
+                    Logger.serverLog(serverID, customerID, " bookEvent ", " eventID: " + eventID + " eventType: " + eventType + " ", serverResponse);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -290,7 +290,7 @@ public class EventManagement extends UnicastRemoteObject implements ServerInterf
             } else {
                 response = "Failed: You Cannot Book Event in Other Servers For This Week(Max Weekly Limit = 3)";
                 try {
-                    Logger.serverLog(serverID, customerID, " CORBA bookEvent ", " eventID: " + eventID + " eventType: " + eventType + " ", response);
+                    Logger.serverLog(serverID, customerID, " bookEvent ", " eventID: " + eventID + " eventType: " + eventType + " ", response);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -305,7 +305,7 @@ public class EventManagement extends UnicastRemoteObject implements ServerInterf
         if (!checkClientExists(customerID)) {
             response = "Booking Schedule Empty For " + customerID;
             try {
-                Logger.serverLog(serverID, customerID, " CORBA getBookingSchedule ", "null", response);
+                Logger.serverLog(serverID, customerID, " getBookingSchedule ", "null", response);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -315,7 +315,7 @@ public class EventManagement extends UnicastRemoteObject implements ServerInterf
         if (events.size() == 0) {
             response = "Booking Schedule Empty For " + customerID;
             try {
-                Logger.serverLog(serverID, customerID, " CORBA getBookingSchedule ", "null", response);
+                Logger.serverLog(serverID, customerID, " getBookingSchedule ", "null", response);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -333,7 +333,7 @@ public class EventManagement extends UnicastRemoteObject implements ServerInterf
         }
         response = builder.toString();
         try {
-            Logger.serverLog(serverID, customerID, " CORBA getBookingSchedule ", "null", response);
+            Logger.serverLog(serverID, customerID, " getBookingSchedule ", "null", response);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -348,7 +348,7 @@ public class EventManagement extends UnicastRemoteObject implements ServerInterf
                 if (!checkClientExists(customerID)) {
                     response = "Failed: You " + customerID + " Are Not Registered in " + eventID;
                     try {
-                        Logger.serverLog(serverID, customerID, " CORBA cancelEvent ", " eventID: " + eventID + " eventType: " + eventType + " ", response);
+                        Logger.serverLog(serverID, customerID, " cancelEvent ", " eventID: " + eventID + " eventType: " + eventType + " ", response);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -358,7 +358,7 @@ public class EventManagement extends UnicastRemoteObject implements ServerInterf
                         allEvents.get(eventType).get(eventID).removeRegisteredClientID(customerID);
                         response = "Success: Event " + eventID + " Canceled for " + customerID;
                         try {
-                            Logger.serverLog(serverID, customerID, " CORBA cancelEvent ", " eventID: " + eventID + " eventType: " + eventType + " ", response);
+                            Logger.serverLog(serverID, customerID, " cancelEvent ", " eventID: " + eventID + " eventType: " + eventType + " ", response);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -366,7 +366,7 @@ public class EventManagement extends UnicastRemoteObject implements ServerInterf
                     } else {
                         response = "Failed: You " + customerID + " Are Not Registered in " + eventID;
                         try {
-                            Logger.serverLog(serverID, customerID, " CORBA cancelEvent ", " eventID: " + eventID + " eventType: " + eventType + " ", response);
+                            Logger.serverLog(serverID, customerID, " cancelEvent ", " eventID: " + eventID + " eventType: " + eventType + " ", response);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -377,7 +377,7 @@ public class EventManagement extends UnicastRemoteObject implements ServerInterf
                 if (allEvents.get(eventType).get(eventID).removeRegisteredClientID(customerID)) {
                     response = "Success: Event " + eventID + " Canceled for " + customerID;
                     try {
-                        Logger.serverLog(serverID, customerID, " CORBA cancelEvent ", " eventID: " + eventID + " eventType: " + eventType + " ", response);
+                        Logger.serverLog(serverID, customerID, " cancelEvent ", " eventID: " + eventID + " eventType: " + eventType + " ", response);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -385,7 +385,7 @@ public class EventManagement extends UnicastRemoteObject implements ServerInterf
                 } else {
                     response = "Failed: You " + customerID + " Are Not Registered in " + eventID;
                     try {
-                        Logger.serverLog(serverID, customerID, " CORBA cancelEvent ", " eventID: " + eventID + " eventType: " + eventType + " ", response);
+                        Logger.serverLog(serverID, customerID, " cancelEvent ", " eventID: " + eventID + " eventType: " + eventType + " ", response);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -398,7 +398,7 @@ public class EventManagement extends UnicastRemoteObject implements ServerInterf
                     if (removeEventIfExists(customerID, eventType, eventID)) {
                         response = sendUDPMessage(getServerPort(eventID.substring(0, 3)), "cancelEvent", customerID, eventType, eventID);
                         try {
-                            Logger.serverLog(serverID, customerID, " CORBA cancelEvent ", " eventID: " + eventID + " eventType: " + eventType + " ", response);
+                            Logger.serverLog(serverID, customerID, " cancelEvent ", " eventID: " + eventID + " eventType: " + eventType + " ", response);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -408,7 +408,7 @@ public class EventManagement extends UnicastRemoteObject implements ServerInterf
             }
             response = "Failed: You " + customerID + " Are Not Registered in " + eventID;
             try {
-                Logger.serverLog(serverID, customerID, " CORBA cancelEvent ", " eventID: " + eventID + " eventType: " + eventType + " ", response);
+                Logger.serverLog(serverID, customerID, " cancelEvent ", " eventID: " + eventID + " eventType: " + eventType + " ", response);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -422,7 +422,7 @@ public class EventManagement extends UnicastRemoteObject implements ServerInterf
         if (!checkClientExists(customerID)) {
             response = "Failed: You " + customerID + " Are Not Registered in " + oldEventID;
             try {
-                Logger.serverLog(serverID, customerID, " CORBA swapEvent ", " oldEventID: " + oldEventID + " oldEventType: " + oldEventType + " newEventID: " + newEventID + " newEventType: " + newEventType + " ", response);
+                Logger.serverLog(serverID, customerID, " swapEvent ", " oldEventID: " + oldEventID + " oldEventType: " + oldEventType + " newEventID: " + newEventID + " newEventType: " + newEventType + " ", response);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -457,7 +457,7 @@ public class EventManagement extends UnicastRemoteObject implements ServerInterf
                     response = "Failed: on Both newEvent " + newEventID + " Booking reason: " + bookResp + " and oldEvent " + oldEventID + " Canceling reason: " + cancelResp;
                 }
                 try {
-                    Logger.serverLog(serverID, customerID, " CORBA swapEvent ", " oldEventID: " + oldEventID + " oldEventType: " + oldEventType + " newEventID: " + newEventID + " newEventType: " + newEventType + " ", response);
+                    Logger.serverLog(serverID, customerID, " swapEvent ", " oldEventID: " + oldEventID + " oldEventType: " + oldEventType + " newEventID: " + newEventID + " newEventType: " + newEventType + " ", response);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -465,7 +465,7 @@ public class EventManagement extends UnicastRemoteObject implements ServerInterf
             } else {
                 response = "Failed: You " + customerID + " Are Not Registered in " + oldEventID;
                 try {
-                    Logger.serverLog(serverID, customerID, " CORBA swapEvent ", " oldEventID: " + oldEventID + " oldEventType: " + oldEventType + " newEventID: " + newEventID + " newEventType: " + newEventType + " ", response);
+                    Logger.serverLog(serverID, customerID, " swapEvent ", " oldEventID: " + oldEventID + " oldEventType: " + oldEventType + " newEventID: " + newEventID + " newEventType: " + newEventType + " ", response);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
