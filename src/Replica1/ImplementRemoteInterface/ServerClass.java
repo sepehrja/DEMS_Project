@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -360,10 +361,8 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 			response1 = send_data_request(montreal_port, "list_events", "-", eventType.toUpperCase().trim(),"-").trim();
 			response2 = send_data_request(quebec_port, "list_events", "-", eventType.toUpperCase().trim(),"-").trim();
 		}
-		if(response1.contains("@"))
-			server1 = Arrays.asList(response1.split("@"));
-		if(response1.contains("@"))
-        	server2 = Arrays.asList(response2.split("@"));
+		server1 = Arrays.asList(response1.split("@"));
+        server2 = Arrays.asList(response2.split("@"));
 		allEventIDsWithCapacity.addAll(server1);
         allEventIDsWithCapacity.addAll(server2);
 		return CommonOutput.listEventAvailabilityOutput(true, allEventIDsWithCapacity, null);
@@ -400,7 +399,7 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 				{
 					serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID +" CustomerID:"+ customerID,"failed","There is no capacity for this event");
 					clientLog(customerID, "Book an event", "There is no capacity for eventType:" + eventType+" eventID:"+eventID);
-
+					response = CommonOutput.bookEventOutput(false, CommonOutput.bookEvent_fail_no_capacity);
 				} catch (final IOException e) {
 					e.printStackTrace();
 				}
@@ -411,6 +410,7 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 				{
 					serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID+" CustomerID:"+ customerID,"failed","There is no such an event");
 					clientLog(customerID, "Book an event", "There is no such an event --> eventType:" + eventType+" eventID:"+eventID);
+					response = CommonOutput.bookEventOutput(false, CommonOutput.bookEvent_fail_no_such_event);
 				} catch (final IOException e) {
 					e.printStackTrace();
 				}
@@ -432,8 +432,7 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 							} catch (final IOException e) {
 								e.printStackTrace();
 							}
-							
-							return "ERR_RECORD_EXISTS";
+							return CommonOutput.bookEventOutput(false, null);
 						}
 						EventMap.get(eventType.toUpperCase().trim()).replace(eventID,new EventDetail(eventType.toUpperCase().trim(), eventID.toUpperCase().trim(), capacity - 1));
 						add_book_customer(customerID, eventID, eventType);
@@ -443,6 +442,7 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 					
 					serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID+" CustomerID:"+ customerID,"successfully completed","Booking request has been approved");
 					clientLog(customerID, "Book an event", "Booking request has been approved --> eventType:" + eventType+" eventID:"+eventID);
+					response = CommonOutput.bookEventOutput(true, null);
 				} catch (final IOException e) {
 					e.printStackTrace();
 				}
@@ -464,7 +464,7 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 						e.printStackTrace();
 					}
 					
-					return "ERR_RECORD_EXISTS";
+					return CommonOutput.bookEventOutput(false, null);
 				}
 				if(ClientMap.containsKey(customerID.toUpperCase().trim()))
 				{
@@ -478,11 +478,11 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 							e.printStackTrace();
 						}
 						
-						return "This customer has already booked 3 times from other cities!";
+						return CommonOutput.bookEventOutput(false, CommonOutput.bookEvent_fail_weekly_limit);
 					}
 				}
 				response = send_data_request(quebec_port, "bookEvent", eventID.toUpperCase().trim(), eventType.toUpperCase().trim(),customerID.toUpperCase().trim()).trim();
-				if(response.indexOf("BOOKING_APPROVED")!=-1)
+				if(response.contains("successful"))
 				{
 					try 
 					{
@@ -493,7 +493,7 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 					}
 					add_book_customer(customerID, eventID, eventType);
 				}
-				else if(response.indexOf("ERR_NO_CAPACITY")!=-1)
+				else if(response.contains("full"))
 				{
 					try 
 					{
@@ -504,7 +504,7 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 						e.printStackTrace();
 					}
 				}
-				else if(response.indexOf("ERR_NO_RECORD")!=-1)
+				else if(response.contains("No"))
 				{
 					try 
 					{
@@ -527,7 +527,7 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 						e.printStackTrace();
 					}
 					
-					return "ERR_RECORD_EXISTS";
+					return CommonOutput.bookEventOutput(false, null);
 				}
 				if(ClientMap.containsKey(customerID.toUpperCase().trim()))
 				{
@@ -540,11 +540,11 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 						} catch (final IOException e) {
 							e.printStackTrace();
 						}
-						return "This customer has already booked 3 times from other cities!";
+						return CommonOutput.bookEventOutput(false, CommonOutput.bookEvent_fail_weekly_limit);
 					}
 				}
 				response = send_data_request(montreal_port, "bookEvent", eventID.toUpperCase().trim(), eventType.toUpperCase().trim(),customerID.toUpperCase().trim()).trim();
-				if(response.indexOf("BOOKING_APPROVED")!=-1)
+				if(response.contains("successful"))
 				{
 					try 
 					{
@@ -555,7 +555,7 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 					}
 					add_book_customer(customerID, eventID, eventType);
 				}
-				else if(response.indexOf("ERR_NO_CAPACITY")!=-1)
+				else if(response.contains("full"))
 				{
 					try 
 					{
@@ -565,7 +565,7 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 						e.printStackTrace();
 					}
 				}
-				else if(response.indexOf("ERR_NO_RECORD")!=-1)
+				else if(response.contains("No"))
 				{
 					try 
 					{
@@ -588,7 +588,7 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 						e.printStackTrace();
 					}
 					
-					return "ERR_RECORD_EXISTS";
+					return CommonOutput.bookEventOutput(false, null);
 				}
 				if(ClientMap.containsKey(customerID.toUpperCase().trim()))
 				{
@@ -601,11 +601,11 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 						} catch (final IOException e) {
 							e.printStackTrace();
 						}
-						return "This customer has already booked 3 times from other cities!";
+						return CommonOutput.bookEventOutput(false, CommonOutput.bookEvent_fail_weekly_limit);
 					}
 				}
 				response = send_data_request(sherbrooke_port, "bookEvent", eventID.toUpperCase().trim(), eventType.toUpperCase().trim(),customerID.toUpperCase().trim()).trim();
-				if(response.indexOf("BOOKING_APPROVED")!=-1)
+				if(response.contains("successful"))
 				{
 					try 
 					{
@@ -616,7 +616,7 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 					}
 					add_book_customer(customerID, eventID, eventType);
 				}
-				else if(response.indexOf("ERR_NO_CAPACITY")!=-1)
+				else if(response.contains("full"))
 				{
 					try 
 					{
@@ -626,7 +626,7 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 						e.printStackTrace();
 					}
 				}
-				else if(response.indexOf("ERR_NO_RECORD")!=-1)
+				else if(response.contains("No"))
 				{
 					try 
 					{
@@ -720,19 +720,24 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 
 	@Override
 	public String getBookingSchedule(final String customerID) throws RemoteException{
-		String response = "";
-		
+		Map<String, List<String>> events = new HashMap<>();
 		if(ClientMap.containsKey(customerID.toUpperCase().trim()))			
 		{
 			for (final ConcurrentHashMap.Entry<String, ClientDetail> entry : ClientMap.get(customerID.toUpperCase().trim()).entrySet()) 
 			{
 				final String [] data = entry.getKey().split(";");
-				response += data[0] + " " + data[1]+"@";
+				List<String> list;
+				if(!events.containsKey(data[0]))
+					list=new ArrayList<>();
+				else
+					list= events.get(data[0]);
+				list.add(data[1]);
+				events.put(data[0], list);
 			}
-			return response;
+			return CommonOutput.getBookingScheduleOutput(true, events, null);
 		}
 		else
-			return "No record for this customer";
+			return CommonOutput.getBookingScheduleOutput(true, new HashMap<>(), null);
 	}
 
 	@Override
@@ -791,10 +796,10 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 					e.printStackTrace();
 				}
 			}
-			return "Event for customer cancelled";
+			return CommonOutput.cancelEventOutput(true, null);
 		}
 		else
-			return "No record event";
+			return CommonOutput.cancelEventOutput(false, CommonOutput.cancelEvent_fail_no_such_event);
 	}
 	
 	public String cancel_client_event(final String eventID, final String eventType)
@@ -890,10 +895,10 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 			if(!oldEventID.substring(0, 3).equals(serverName.trim()))
 			{
 				response = cancelEvent(customerID, oldEventID, oldEventType);
-				if(response.trim().equals("Event for customer cancelled"))
+				if(response.trim().contains("successful"))
 				{
 					response = bookEvent(customerID, newEventID, newEventType);
-					return "Event for customer swapped";
+					return CommonOutput.swapEventOutput(true, null);
 				}
 			}
 			else
@@ -906,20 +911,20 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 					e.printStackTrace();
 				}
 				
-				return "This customer has already booked 3 times from other cities!";
+				return CommonOutput.swapEventOutput(false, CommonOutput.bookEvent_fail_no_capacity);
 			}	
 		}
 		else if(ClientMap.containsKey(customerID.toUpperCase().trim()) && ClientMap.get(customerID.toUpperCase().trim()).containsKey(eventDetail))		
 		{
 			response = bookEvent(customerID, newEventID, newEventType);
-			if(response.trim().equals("BOOKING_APPROVED"))
+			if(response.trim().contains("successful"))
 			{
 				response = cancelEvent(customerID, oldEventID, oldEventType);
-				return "Event for customer swapped";
+				return CommonOutput.swapEventOutput(true, null);
 			}
 		}
 		else
-			response = "The new EventId or EventType does not exists!";
+			response = CommonOutput.swapEventOutput(false, CommonOutput.swapEvent_fail_no_such_event);
 		return response;
 	}
 
