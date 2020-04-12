@@ -52,9 +52,9 @@ public class Montreal {
 		registry.bind("Function", stub);
 			
 
-			eventList.put("Conference", "a");
-			eventList.put("TradeShow", "b");
-			eventList.put("Seminar", "c");
+			eventList.put("Conferences", "a");
+			eventList.put("TradeShows", "b");
+			eventList.put("Seminars", "c");
 
 			System.out.println("Montreal Server ready and waiting ...");
 			
@@ -99,11 +99,11 @@ public class Montreal {
                     String oldEventID=(fullid.substring(13, 23));
                     String oldEventType=(fullid.substring(0, 1));
                     if(oldEventType.equalsIgnoreCase("c")){
-                        oldEventType="Conference";
+                        oldEventType="Conferences";
                     }else if(oldEventType.equalsIgnoreCase("t")){
-                        oldEventType="TradeShow";
+                        oldEventType="TradeShows";
                     }else if(oldEventType.equalsIgnoreCase("s")){
-                        oldEventType="Seminar";
+                        oldEventType="Seminars";
                     }
                     String var = m.getHashMap(oldEventType);
                     String ans=m.checkAvailabilityOfEvent(var, oldEventID);
