@@ -3,8 +3,8 @@ package Replica2.com.sepehr.ServerImplementation;
 import Replica2.CommonOutput;
 import Replica2.com.sepehr.DataModel.ClientModel;
 import Replica2.com.sepehr.DataModel.EventModel;
+import Replica2.com.sepehr.EventManagementInterface;
 import Replica2.com.sepehr.Logger.Logger;
-import Replica2.com.sepehr.ServerInterface;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -16,7 +16,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class EventManagement extends UnicastRemoteObject implements ServerInterface {
+public class EventManagement extends UnicastRemoteObject implements EventManagementInterface {
     public static final int Montreal_Server_Port = 8888;
     public static final int Quebec_Server_Port = 7777;
     public static final int Sherbrooke_Server_Port = 6666;
@@ -488,6 +488,21 @@ public class EventManagement extends UnicastRemoteObject implements ServerInterf
                 return CommonOutput.swapEventOutput(false, CommonOutput.swapEvent_fail_not_registered_in_event);
             }
         }
+    }
+
+    @Override
+    public String shutDown() throws RemoteException {
+        new Thread(new Runnable() {
+            public void run() {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    // ignored
+                }
+                System.exit(1);
+            }
+        });
+        return "Shutting down";
     }
 
     /**
