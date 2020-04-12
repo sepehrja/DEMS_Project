@@ -1,5 +1,6 @@
 package Replica2.com.sepehr.ServerImplementation;
 
+import Replica2.CommonOutput;
 import Replica2.com.sepehr.DataModel.ClientModel;
 import Replica2.com.sepehr.DataModel.EventModel;
 import Replica2.com.sepehr.Logger.Logger;
@@ -95,15 +96,15 @@ public class EventManagement extends UnicastRemoteObject implements ServerInterf
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    return response;
+                    return CommonOutput.addEventOutput(true, CommonOutput.addEvent_success_capacity_updated);
                 } else {
-                    response = "Failed: Event Already Exists, Cannot Decrease Booking Capacity";
+                    response = "Fail: Event Already Exists, Cannot Decrease Booking Capacity";
                     try {
                         Logger.serverLog(serverID, "null", " addEvent ", " eventID: " + eventID + " eventType: " + eventType + " bookingCapacity " + bookingCapacity + " ", response);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    return response;
+                    return CommonOutput.addEventOutput(false, CommonOutput.addEvent_fail_cannot_decrease_capacity);
                 }
             } else {
                 EventModel event = new EventModel(eventType, eventID, bookingCapacity);
@@ -116,16 +117,16 @@ public class EventManagement extends UnicastRemoteObject implements ServerInterf
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                return response;
+                return CommonOutput.addEventOutput(true, CommonOutput.addEvent_success_added);
             }
         } else {
-            response = "Failed: Cannot Add Event to servers other than " + serverName;
+            response = "Fail: Cannot Add Event to servers other than " + serverName;
             try {
                 Logger.serverLog(serverID, "null", " addEvent ", " eventID: " + eventID + " eventType: " + eventType + " bookingCapacity " + bookingCapacity + " ", response);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return response;
+            return CommonOutput.addEventOutput(false, null);
         }
     }
 
@@ -143,39 +144,41 @@ public class EventManagement extends UnicastRemoteObject implements ServerInterf
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                return response;
+                return CommonOutput.removeEventOutput(true, null);
             } else {
-                response = "Failed: Event " + eventID + " Does Not Exist";
+                response = "Fail: Event " + eventID + " Does Not Exist";
                 try {
                     Logger.serverLog(serverID, "null", " removeEvent ", " eventID: " + eventID + " eventType: " + eventType + " ", response);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                return response;
+                return CommonOutput.removeEventOutput(false, CommonOutput.removeEvent_fail_no_such_event);
             }
         } else {
-            response = "Failed: Cannot Remove Event from servers other than " + serverName;
+            response = "Fail: Cannot Remove Event from servers other than " + serverName;
             try {
                 Logger.serverLog(serverID, "null", " removeEvent ", " eventID: " + eventID + " eventType: " + eventType + " ", response);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return response;
+            return CommonOutput.removeEventOutput(false, null);
         }
     }
 
     @Override
     public String listEventAvailability(String eventType) throws RemoteException {
+        List<String> allEventIDsWithCapacity = new ArrayList<>();
         String response;
         Map<String, EventModel> events = allEvents.get(eventType);
         StringBuilder builder = new StringBuilder();
-        builder.append(serverName + " Server " + eventType + ":\n");
+        builder.append(serverName).append(" Server ").append(eventType).append(":\n");
         if (events.size() == 0) {
-            builder.append("No Events of Type " + eventType + "\n");
+            builder.append("No Events of Type ").append(eventType).append("\n");
         } else {
             for (EventModel event :
                     events.values()) {
-                builder.append(event.toString() + " || ");
+                allEventIDsWithCapacity.add(event.getEventID() + " " + event.getEventRemainCapacity());
+                builder.append(event.toString()).append(" || ");
             }
         }
         builder.append("\n=====================================\n");
@@ -190,6 +193,12 @@ public class EventManagement extends UnicastRemoteObject implements ServerInterf
             otherServer1 = sendUDPMessage(Montreal_Server_Port, "listEventAvailability", "null", eventType, "null");
             otherServer2 = sendUDPMessage(Sherbrooke_Server_Port, "listEventAvailability", "null", eventType, "null");
         }
+        List<String> otherServ1 = new ArrayList<>();
+        List<String> otherServ2 = new ArrayList<>();
+        otherServ1 = Arrays.asList(otherServer1.split("@"));
+        otherServ2 = Arrays.asList(otherServer2.split("@"));
+        allEventIDsWithCapacity.addAll(otherServ1);
+        allEventIDsWithCapacity.addAll(otherServ2);
         builder.append(otherServer1).append(otherServer2);
         response = builder.toString();
         try {
@@ -197,7 +206,7 @@ public class EventManagement extends UnicastRemoteObject implements ServerInterf
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return response;
+        return CommonOutput.listEventAvailabilityOutput(true, allEventIDsWithCapacity, null);
     }
 
     @Override
@@ -207,13 +216,13 @@ public class EventManagement extends UnicastRemoteObject implements ServerInterf
         if (isEventOfThisServer(eventID)) {
             EventModel bookedEvent = allEvents.get(eventType).get(eventID);
             if (bookedEvent == null) {
-                response = "Failed: Event " + eventID + " Does not exists";
+                response = "Fail: Event " + eventID + " Does not exists";
                 try {
                     Logger.serverLog(serverID, customerID, " bookEvent ", " eventID: " + eventID + " eventType: " + eventType + " ", response);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                return response;
+                return CommonOutput.bookEventOutput(false, CommonOutput.bookEvent_fail_no_such_event);
             }
             if (!bookedEvent.isFull()) {
                 if (clientEvents.containsKey(customerID)) {
@@ -222,13 +231,13 @@ public class EventManagement extends UnicastRemoteObject implements ServerInterf
                             if (isCustomerOfThisServer(customerID))
                                 clientEvents.get(customerID).get(eventType).add(eventID);
                         } else {
-                            response = "Failed: Event " + eventID + " Already Booked";
+                            response = "Fail: Event " + eventID + " Already Booked";
                             try {
                                 Logger.serverLog(serverID, customerID, " bookEvent ", " eventID: " + eventID + " eventType: " + eventType + " ", response);
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
-                            return response;
+                            return CommonOutput.bookEventOutput(false, null);
                         }
                     } else {
                         if (isCustomerOfThisServer(customerID))
@@ -240,10 +249,13 @@ public class EventManagement extends UnicastRemoteObject implements ServerInterf
                 }
                 if (allEvents.get(eventType).get(eventID).addRegisteredClientID(customerID) == EventModel.ADD_SUCCESS) {
                     response = "Success: Event " + eventID + " Booked Successfully";
+                    response = CommonOutput.bookEventOutput(true, null);
                 } else if (allEvents.get(eventType).get(eventID).addRegisteredClientID(customerID) == EventModel.EVENT_FULL) {
-                    response = "Failed: Event " + eventID + " is Full";
+                    response = "Fail: Event " + eventID + " is Full";
+                    response = CommonOutput.bookEventOutput(false, CommonOutput.bookEvent_fail_no_capacity);
                 } else {
-                    response = "Failed: Cannot Add You To Event " + eventID;
+                    response = "Fail: Cannot Add You To Event " + eventID;
+                    response = CommonOutput.bookEventOutput(false, null);
                 }
                 try {
                     Logger.serverLog(serverID, customerID, " bookEvent ", " eventID: " + eventID + " eventType: " + eventType + " ", response);
@@ -252,23 +264,23 @@ public class EventManagement extends UnicastRemoteObject implements ServerInterf
                 }
                 return response;
             } else {
-                response = "Failed: Event " + eventID + " is Full";
+                response = "Fail: Event " + eventID + " is Full";
                 try {
                     Logger.serverLog(serverID, customerID, " bookEvent ", " eventID: " + eventID + " eventType: " + eventType + " ", response);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                return response;
+                return CommonOutput.bookEventOutput(false, CommonOutput.bookEvent_fail_no_capacity);
             }
         } else {
             if (clientHasEvent(customerID, eventType, eventID)) {
-                String serverResponse = "Failed: Event " + eventID + " Already Booked";
+                String serverResponse = "Fail: Event " + eventID + " Already Booked";
                 try {
                     Logger.serverLog(serverID, customerID, " bookEvent ", " eventID: " + eventID + " eventType: " + eventType + " ", serverResponse);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                return serverResponse;
+                return CommonOutput.bookEventOutput(false, null);
             }
             if (exceedWeeklyLimit(customerID, eventID.substring(4))) {
                 String serverResponse = sendUDPMessage(getServerPort(eventID.substring(0, 3)), "bookEvent", customerID, eventType, eventID);
@@ -288,13 +300,13 @@ public class EventManagement extends UnicastRemoteObject implements ServerInterf
                 }
                 return serverResponse;
             } else {
-                response = "Failed: You Cannot Book Event in Other Servers For This Week(Max Weekly Limit = 3)";
+                response = "Fail: You Cannot Book Event in Other Servers For This Week(Max Weekly Limit = 3)";
                 try {
                     Logger.serverLog(serverID, customerID, " bookEvent ", " eventID: " + eventID + " eventType: " + eventType + " ", response);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                return response;
+                return CommonOutput.bookEventOutput(false, CommonOutput.bookEvent_fail_weekly_limit);
             }
         }
     }
@@ -309,7 +321,7 @@ public class EventManagement extends UnicastRemoteObject implements ServerInterf
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return response;
+            return CommonOutput.getBookingScheduleOutput(true, new HashMap<>(), null);
         }
         Map<String, List<String>> events = clientEvents.get(customerID);
         if (events.size() == 0) {
@@ -319,15 +331,15 @@ public class EventManagement extends UnicastRemoteObject implements ServerInterf
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return response;
+            return CommonOutput.getBookingScheduleOutput(true, events, null);
         }
         StringBuilder builder = new StringBuilder();
         for (String eventType :
                 events.keySet()) {
-            builder.append(eventType + ":\n");
+            builder.append(eventType).append(":\n");
             for (String eventID :
                     events.get(eventType)) {
-                builder.append(eventID + " ||");
+                builder.append(eventID).append(" ||");
             }
             builder.append("\n=====================================\n");
         }
@@ -337,7 +349,7 @@ public class EventManagement extends UnicastRemoteObject implements ServerInterf
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return response;
+        return CommonOutput.getBookingScheduleOutput(true, events, null);
     }
 
     @Override
@@ -346,13 +358,13 @@ public class EventManagement extends UnicastRemoteObject implements ServerInterf
         if (isEventOfThisServer(eventID)) {
             if (isCustomerOfThisServer(customerID)) {
                 if (!checkClientExists(customerID)) {
-                    response = "Failed: You " + customerID + " Are Not Registered in " + eventID;
+                    response = "Fail: You " + customerID + " Are Not Registered in " + eventID;
                     try {
                         Logger.serverLog(serverID, customerID, " cancelEvent ", " eventID: " + eventID + " eventType: " + eventType + " ", response);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    return response;
+                    return CommonOutput.cancelEventOutput(false, CommonOutput.cancelEvent_fail_not_registered_in_event);
                 } else {
                     if (removeEventIfExists(customerID, eventType, eventID)) {
                         allEvents.get(eventType).get(eventID).removeRegisteredClientID(customerID);
@@ -362,15 +374,15 @@ public class EventManagement extends UnicastRemoteObject implements ServerInterf
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                        return response;
+                        return CommonOutput.cancelEventOutput(true, null);
                     } else {
-                        response = "Failed: You " + customerID + " Are Not Registered in " + eventID;
+                        response = "Fail: You " + customerID + " Are Not Registered in " + eventID;
                         try {
                             Logger.serverLog(serverID, customerID, " cancelEvent ", " eventID: " + eventID + " eventType: " + eventType + " ", response);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                        return response;
+                        return CommonOutput.cancelEventOutput(false, CommonOutput.cancelEvent_fail_not_registered_in_event);
                     }
                 }
             } else {
@@ -381,15 +393,15 @@ public class EventManagement extends UnicastRemoteObject implements ServerInterf
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    return response;
+                    return CommonOutput.cancelEventOutput(true, null);
                 } else {
-                    response = "Failed: You " + customerID + " Are Not Registered in " + eventID;
+                    response = "Fail: You " + customerID + " Are Not Registered in " + eventID;
                     try {
                         Logger.serverLog(serverID, customerID, " cancelEvent ", " eventID: " + eventID + " eventType: " + eventType + " ", response);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    return response;
+                    return CommonOutput.cancelEventOutput(false, CommonOutput.cancelEvent_fail_not_registered_in_event);
                 }
             }
         } else {
@@ -406,13 +418,13 @@ public class EventManagement extends UnicastRemoteObject implements ServerInterf
                     }
                 }
             }
-            response = "Failed: You " + customerID + " Are Not Registered in " + eventID;
+            response = "Fail: You " + customerID + " Are Not Registered in " + eventID;
             try {
                 Logger.serverLog(serverID, customerID, " cancelEvent ", " eventID: " + eventID + " eventType: " + eventType + " ", response);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return response;
+            return CommonOutput.cancelEventOutput(false, CommonOutput.cancelEvent_fail_not_registered_in_event);
         }
     }
 
@@ -420,17 +432,17 @@ public class EventManagement extends UnicastRemoteObject implements ServerInterf
     public String swapEvent(String customerID, String newEventID, String newEventType, String oldEventID, String oldEventType) throws RemoteException {
         String response;
         if (!checkClientExists(customerID)) {
-            response = "Failed: You " + customerID + " Are Not Registered in " + oldEventID;
+            response = "Fail: You " + customerID + " Are Not Registered in " + oldEventID;
             try {
                 Logger.serverLog(serverID, customerID, " swapEvent ", " oldEventID: " + oldEventID + " oldEventType: " + oldEventType + " newEventID: " + newEventID + " newEventType: " + newEventType + " ", response);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return response;
+            return CommonOutput.swapEventOutput(false, CommonOutput.swapEvent_fail_not_registered_in_event);
         } else {
             if (clientHasEvent(customerID, oldEventType, oldEventID)) {
-                String bookResp = "Failed: did not send book request for your newEvent " + newEventID;
-                String cancelResp = "Failed: did not send cancel request for your oldEvent " + oldEventID;
+                String bookResp = "Fail: did not send book request for your newEvent " + newEventID;
+                String cancelResp = "Fail: did not send cancel request for your oldEvent " + oldEventID;
                 synchronized (this) {
                     if (onTheSameWeek(newEventID.substring(4), oldEventID) && !exceedWeeklyLimit(customerID, newEventID.substring(4))) {
                         cancelResp = cancelEvent(customerID, oldEventID, oldEventType);
@@ -446,15 +458,19 @@ public class EventManagement extends UnicastRemoteObject implements ServerInterf
                 }
                 if (bookResp.startsWith("Success:") && cancelResp.startsWith("Success:")) {
                     response = "Success: Event " + oldEventID + " swapped with " + newEventID;
-                } else if (bookResp.startsWith("Success:") && cancelResp.startsWith("Failed:")) {
+                    response = CommonOutput.swapEventOutput(true, null);
+                } else if (bookResp.startsWith("Success:") && cancelResp.startsWith("Fail:")) {
                     cancelEvent(customerID, newEventID, newEventType);
-                    response = "Failed: Your oldEvent " + oldEventID + " Could not be Canceled reason: " + cancelResp;
-                } else if (bookResp.startsWith("Failed:") && cancelResp.startsWith("Success:")) {
+                    response = "Fail: Your oldEvent " + oldEventID + " Could not be Canceled reason: " + cancelResp;
+                    response = CommonOutput.swapEventOutput(false, null);
+                } else if (bookResp.startsWith("Fail:") && cancelResp.startsWith("Success:")) {
                     //hope this won't happen, but just in case.
                     String resp1 = bookEvent(customerID, oldEventID, oldEventType);
-                    response = "Failed: Your newEvent " + newEventID + " Could not be Booked reason: " + bookResp + " And your old event Rolling back: " + resp1;
+                    response = "Fail: Your newEvent " + newEventID + " Could not be Booked reason: " + bookResp + " And your old event Rolling back: " + resp1;
+                    response = CommonOutput.swapEventOutput(false, null);
                 } else {
-                    response = "Failed: on Both newEvent " + newEventID + " Booking reason: " + bookResp + " and oldEvent " + oldEventID + " Canceling reason: " + cancelResp;
+                    response = "Fail: on Both newEvent " + newEventID + " Booking reason: " + bookResp + " and oldEvent " + oldEventID + " Canceling reason: " + cancelResp;
+                    response = CommonOutput.swapEventOutput(false, null);
                 }
                 try {
                     Logger.serverLog(serverID, customerID, " swapEvent ", " oldEventID: " + oldEventID + " oldEventType: " + oldEventType + " newEventID: " + newEventID + " newEventType: " + newEventType + " ", response);
@@ -463,13 +479,13 @@ public class EventManagement extends UnicastRemoteObject implements ServerInterf
                 }
                 return response;
             } else {
-                response = "Failed: You " + customerID + " Are Not Registered in " + oldEventID;
+                response = "Fail: You " + customerID + " Are Not Registered in " + oldEventID;
                 try {
                     Logger.serverLog(serverID, customerID, " swapEvent ", " oldEventID: " + oldEventID + " oldEventType: " + oldEventType + " newEventID: " + newEventID + " newEventType: " + newEventType + " ", response);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                return response;
+                return CommonOutput.swapEventOutput(false, CommonOutput.swapEvent_fail_not_registered_in_event);
             }
         }
     }
@@ -483,13 +499,17 @@ public class EventManagement extends UnicastRemoteObject implements ServerInterf
      * @return
      */
     public String removeEventUDP(String oldEventID, String eventType, String customerID) throws RemoteException {
+        String response;
         if (!checkClientExists(customerID)) {
-            return "Failed: You " + customerID + " Are Not Registered in " + oldEventID;
+            response = "Fail: You " + customerID + " Are Not Registered in " + oldEventID;
+            return CommonOutput.removeEventOutput(false, null);
         } else {
             if (removeEventIfExists(customerID, eventType, oldEventID)) {
-                return "Success: Event " + oldEventID + " Was Removed from " + customerID + " Schedule";
+                response = "Success: Event " + oldEventID + " Was Removed from " + customerID + " Schedule";
+                return CommonOutput.removeEventOutput(true, null);
             } else {
-                return "Failed: You " + customerID + " Are Not Registered in " + oldEventID;
+                response = "Fail: You " + customerID + " Are Not Registered in " + oldEventID;
+                return CommonOutput.removeEventOutput(false, null);
             }
         }
     }
@@ -503,17 +523,22 @@ public class EventManagement extends UnicastRemoteObject implements ServerInterf
     public String listEventAvailabilityUDP(String eventType) throws RemoteException {
         Map<String, EventModel> events = allEvents.get(eventType);
         StringBuilder builder = new StringBuilder();
-        builder.append(serverName + " Server " + eventType + ":\n");
+        StringBuilder builder2 = new StringBuilder();
+        builder.append(serverName).append(" Server ").append(eventType).append(":\n");
         if (events.size() == 0) {
-            builder.append("No Events of Type " + eventType);
+            builder.append("No Events of Type ").append(eventType);
         } else {
             for (EventModel event :
                     events.values()) {
-                builder.append(event.toString() + " || ");
+                builder.append(event.toString()).append(" || ");
+                builder2.append(event.getEventID()).append(" ").append(event.getEventRemainCapacity()).append("@");
             }
         }
         builder.append("\n=====================================\n");
-        return builder.toString();
+        String newResponse = builder2.toString();
+        if (newResponse.endsWith("@"))
+            newResponse = newResponse.substring(0, newResponse.length() - 1);
+        return newResponse;
     }
 
     private String sendUDPMessage(int serverPort, String method, String customerID, String eventType, String eventId) {
@@ -560,7 +585,7 @@ public class EventManagement extends UnicastRemoteObject implements ServerInterf
     private String getNextSameEvent(Set<String> keySet, String eventType, String oldEventID) throws RemoteException {
         List<String> sortedIDs = new ArrayList<String>(keySet);
         sortedIDs.add(oldEventID);
-        Collections.sort(sortedIDs, new Comparator<String>() {
+        sortedIDs.sort(new Comparator<String>() {
             @Override
             public int compare(String ID1, String ID2) {
                 Integer timeSlot1 = 0;
@@ -575,7 +600,7 @@ public class EventManagement extends UnicastRemoteObject implements ServerInterf
                         timeSlot1 = 3;
                         break;
                 }
-                Integer timeSlot2 = 0;
+                int timeSlot2 = 0;
                 switch (ID2.substring(3, 4).toUpperCase()) {
                     case "M":
                         timeSlot2 = 1;
@@ -604,7 +629,7 @@ public class EventManagement extends UnicastRemoteObject implements ServerInterf
                 return sortedIDs.get(i);
             }
         }
-        return "Failed";
+        return "Fail";
     }
 
     private boolean exceedWeeklyLimit(String customerID, String eventDate) throws RemoteException {
@@ -665,14 +690,13 @@ public class EventManagement extends UnicastRemoteObject implements ServerInterf
     private void tryToBookNextSameEvent(String customerID, String eventType, String oldEventID) throws RemoteException {
         String response;
         String nextSameEventResult = getNextSameEvent(allEvents.get(eventType).keySet(), eventType, oldEventID);
-        if (nextSameEventResult.equals("Failed")) {
+        if (nextSameEventResult.equals("Fail")) {
             response = "Acquiring nextSameEvent for Client (" + customerID + "):" + nextSameEventResult;
             try {
                 Logger.serverLog(serverID, customerID, " addCustomersToNextSameEvent ", " oldEventID: " + oldEventID + " eventType: " + eventType + " ", response);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return;
         } else {
             bookEvent(customerID, nextSameEventResult, eventType);
         }
