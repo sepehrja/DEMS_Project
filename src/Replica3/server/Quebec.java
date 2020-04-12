@@ -1,4 +1,7 @@
-package server;
+package Replica3.server;
+
+import Replica3.implementation.DemsImplementation;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -16,10 +19,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
-
-
-
-import implementation.DemsImplementation;
 
 
 public class Quebec {
