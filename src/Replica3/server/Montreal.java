@@ -1,6 +1,6 @@
-package server;
+package Replica3.server;
 
-import implementation.DemsImplementation;
+import Replica3.implementation.DemsImplementation;
 
 import java.io.File;
 import java.io.FileNotFoundException;
