@@ -280,7 +280,7 @@ public class RM2 {
 	{
         int portNumber = serverPort(input.userID.substring(0, 3));
         Registry registry = LocateRegistry.getRegistry(portNumber);
-        EventManagementInterface obj = (EventManagementInterface) registry.lookup("EventManagement");
+        EventManagementInterface obj = (EventManagementInterface) registry.lookup(EVENT_MANAGEMENT_REGISTERED_NAME);
 
         if(input.userID.equals("M"))
         {
