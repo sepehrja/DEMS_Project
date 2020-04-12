@@ -16,4 +16,5 @@ public interface Manager extends Remote{
 	public String swapEvent(String customerID, String newEventID,
 			String newEventType, String oldEventID, String oldEventType,
 			String serv) throws RemoteException;
+	public String shutDown() throws RemoteException ;
 }
