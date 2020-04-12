@@ -78,7 +78,7 @@ public class RM1 {
                     22-Rm2 is down
                     23-Rm3 is down
                 */
-
+                System.out.println("RM1 recieved message. Detail:" + data);
                 if(parts[2].equals("00"))
                 {  
                     Message message=message_obj_create(data);
@@ -88,6 +88,7 @@ public class RM1 {
                     if(message.sequenceId - lastSequenceID > 1)
                     {
                         Message initial_message = new Message(0, "Null", "02",Integer.toString(lastSequenceID), Integer.toString(message.sequenceId), "RM1", "Null", "Null", "Null", 0);
+                        System.out.println("RM1 send request to update its message list. from:" + Integer.toString(lastSequenceID) + "To:"+ Integer.toString(message.sequenceId));
                         // Request all RMs to send back list of messages
                         send_multicast_toRM(initial_message);
                     }
@@ -134,22 +135,26 @@ public class RM1 {
                             EventManagementInterface montreal_obj = (EventManagementInterface) montreal_registry.lookup("shutDown");
                             montreal_obj.shutDown();
                             Montreal.main(new String[0]);
-                            
+                            System.out.println("RM1 shutdown Montreal Server");
+
                             //reboot Quebec Server
                             Registry quebec_registry = LocateRegistry.getRegistry(9991);
                             EventManagementInterface quebec_obj = (EventManagementInterface) quebec_registry.lookup("shutDown");
                             quebec_obj.shutDown();
                             Quebec.main(new String[0]);
+                            System.out.println("RM1 shutdown Quebec Server");
 
                             //reboot Sherbrooke Server
                             Registry sherbrook_registry = LocateRegistry.getRegistry(9993);
                             EventManagementInterface sherbrook_obj = (EventManagementInterface) sherbrook_registry.lookup("shutDown");
                             sherbrook_obj.shutDown();
                             Sherbrooke.main(new String[0]);
+                            System.out.println("RM1 shutdown Sherbrooke Server");
 
                             //wait untill are servers are up
                             Thread.sleep(5000);
 
+                            System.out.println("RM1 is reloading servers hashmap");
                             reloadServers();
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -203,6 +208,7 @@ public class RM1 {
         if(list.length()>2)
             list.substring(list.length()-1, list.length());
         Message message = new Message(0, list , "03", begin.toString(), end.toString(), RmNumber, "Null", "Null", "Null", 0);
+        System.out.println("RM1 sending its list of messages for initialization. list of messages:" + list);
         send_multicast_toRM(message);
     }
 
@@ -216,6 +222,7 @@ public class RM1 {
             //we get the list from 2 other RMs and will ensure that there will be no duplication
             if(!message_list.containsKey(message.sequenceId))
             {
+                System.out.println("RM1 update its message list"+ message);
                 message_q.add(message);
                 message_list.put(message.sequenceId, message);
             }
@@ -233,6 +240,7 @@ public class RM1 {
 
             DatagramPacket request = new DatagramPacket(data, data.length, aHost, port);
             socket.send(request);
+            System.out.println("Message multicasted from RM1 to other RMs. Detail:" + message);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -247,6 +255,7 @@ public class RM1 {
             while(itr.hasNext())
             {
                 Message data = itr.next();
+                System.out.println("RM1 is executing message request. Detail:"+ data);
                 //when the servers are down serversFlag is False therefore, no execution untill all servers are up.
                 if(data.sequenceId == lastSequenceID && serversFlag)
                 {
