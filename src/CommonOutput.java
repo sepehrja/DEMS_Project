@@ -7,7 +7,7 @@ public class CommonOutput {
 	public static final String addEvent_fail_cannot_decrease_capacity = "Cannot decrease capacity";
 	public static final String addEvent_success_added = "Event added successfully";
 	public static final String addEvent_success_capacity_updated = "Event updated successfully";
-	public static final String removeEvent_failed_no_such_event = "No such event";
+	public static final String removeEvent_fail_no_such_event = "No such event";
 	public static final String bookEvent_fail_no_such_event = "No such event";
 	public static final String bookEvent_fail_no_capacity = "Event is full";
 	public static final String bookEvent_fail_weekly_limit = "Weekly limit reached";
