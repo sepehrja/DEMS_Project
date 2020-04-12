@@ -16,14 +16,13 @@ import java.net.InetAddress;
 import java.net.SocketException;
 
 public class FE {
-    //TODO: set sequencer IP and Port
     private static final int sequencerPort = 1333;
     private static final String sequencerIP = "192.168.2.17";
     private static final String RM_Multicast_group_address = "230.1.1.10";
-    public static String FE_IP_Address = "192.168.2.11";
     private static final int FE_SQ_PORT = 1414;
     private static final int FE_PORT = 1413;
-    private static int RM_Multicast_Port = 1234;
+    private static final int RM_Multicast_Port = 1234;
+    public static String FE_IP_Address = "192.168.2.11";
 
     public static void main(String[] args) {
         try {
@@ -173,34 +172,11 @@ public class FE {
                 String sentence = new String(response.getData(), 0,
                         response.getLength()).trim();
                 System.out.println("Response received: " + sentence);
-                String[] parts = sentence.split(";");
-                //TODO: parse the response data
-                if (parts.length > 2) {
-//                    MessageInfo messageInfo = new MessageInfo();
-//                    messageInfo.setResponse(parts[0]);
-//                    messageInfo.setRMNo(Integer.parseInt(parts[1]));
-//                    String[] partsTwo = parts[2].split(";");
-//                    messageInfo.setMessage(parts[2]);
-//                    messageInfo.setFunction(partsTwo[0]);
-//                    messageInfo.setUserID(partsTwo[1]);
-//                    if(partsTwo[2].equals("null")) {
-//                        partsTwo[2] = null;
-//                    }
-//                    messageInfo.setItemName(partsTwo[2]);
-//                    if(partsTwo[3].equals("null")) {
-//                        partsTwo[3] = null;
-//                    }
-//                    messageInfo.setItemId(partsTwo[3]);
-//                    if(partsTwo[4].equals("null")) {
-//                        partsTwo[4] = null;
-//                    }
-//                    messageInfo.setNewItem(partsTwo[4]);
-//
-//                    messageInfo.setNumber(Integer.parseInt(partsTwo[5]));
-//                    messageInfo.setSequenceId(Integer.parseInt(partsTwo[6]));
-                    System.out.println("Adding response to FrontEndImplementation:");
-                    servant.addReceivedResponse(sentence);
-                }
+                RmResponse rmResponse = new RmResponse(sentence);
+//                String[] parts = sentence.split(";");
+
+                System.out.println("Adding response to FrontEndImplementation:");
+                servant.addReceivedResponse(rmResponse);
 //                DatagramPacket reply = new DatagramPacket(response.getData(), response.getLength(), response.getAddress(),
 //                        response.getPort());
 //                aSocket.send(reply);
