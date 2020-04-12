@@ -18,6 +18,7 @@ import Replica1.ServerInterface.EventManagementInterface;
 
 public class RM1 {
     public static int lastSequenceID = 1;
+    private static boolean serversFlag = true;
     public static ConcurrentHashMap<Integer, Message> message_list = new ConcurrentHashMap<>();;
     public static PriorityQueue<Message> message_q = new PriorityQueue<Message>();
     public static void main(String args[]) throws Exception {
@@ -124,6 +125,40 @@ public class RM1 {
                 }
                 else if(parts[2].equals("21"))
                 {
+                    Runnable crash_task = () -> {
+                        try {
+                            //suspend the execution of messages untill all servers are up. (serversFlag=false)
+                            serversFlag = false;
+                            //reboot Monteal Server
+                            Registry montreal_registry = LocateRegistry.getRegistry(9992);
+                            EventManagementInterface montreal_obj = (EventManagementInterface) montreal_registry.lookup("shutDown");
+                            montreal_obj.shutDown();
+                            Montreal.main(new String[0]);
+                            
+                            //reboot Quebec Server
+                            Registry quebec_registry = LocateRegistry.getRegistry(9991);
+                            EventManagementInterface quebec_obj = (EventManagementInterface) quebec_registry.lookup("shutDown");
+                            quebec_obj.shutDown();
+                            Quebec.main(new String[0]);
+
+                            //reboot Sherbrooke Server
+                            Registry sherbrook_registry = LocateRegistry.getRegistry(9993);
+                            EventManagementInterface sherbrook_obj = (EventManagementInterface) sherbrook_registry.lookup("shutDown");
+                            sherbrook_obj.shutDown();
+                            Sherbrooke.main(new String[0]);
+
+                            //wait untill are servers are up
+                            Thread.sleep(5000);
+
+                            reloadServers();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    };
+                    Thread handleThread = new Thread(crash_task);
+                    handleThread.start();
+                    System.out.println("RM1 handled the crash!");
+                    serversFlag = true;
                 }
 			}
 
@@ -212,7 +247,8 @@ public class RM1 {
             while(itr.hasNext())
             {
                 Message data = itr.next();
-                if(data.sequenceId == lastSequenceID)
+                //when the servers are down serversFlag is False therefore, no execution untill all servers are up.
+                if(data.sequenceId == lastSequenceID && serversFlag)
                 {
                     String response = requestToServers(data);
                     Message message = new Message(data.sequenceId,response , "RM1", 
@@ -319,5 +355,12 @@ public class RM1 {
 			e.printStackTrace();
 		}
 		
-	}
+    }
+    public static void reloadServers() throws Exception {
+        for (ConcurrentHashMap.Entry<Integer, Message> entry : message_list.entrySet()) 
+        {
+            if(entry.getValue().sequenceId<lastSequenceID)
+                requestToServers(entry.getValue());
+        }
+    }
 }
