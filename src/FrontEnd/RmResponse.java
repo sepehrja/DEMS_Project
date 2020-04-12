@@ -118,4 +118,18 @@ public class RmResponse {
     public void setUdpMessage(String udpMessage) {
         this.udpMessage = udpMessage;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj != null) {
+            if (obj instanceof RmResponse) {
+                RmResponse obj1 = (RmResponse) obj;
+                return obj1.getFunction().equalsIgnoreCase(this.getFunction())
+                        && obj1.getSequenceID() == this.getSequenceID()
+                        && obj1.getUserID().equalsIgnoreCase(this.getUserID())
+                        && obj1.getResponse().equalsIgnoreCase(this.getResponse());
+            }
+        }
+        return false;
+    }
 }

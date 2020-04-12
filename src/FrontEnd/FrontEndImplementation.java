@@ -19,8 +19,8 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
     private long responseTime = DYNAMIC_TIMEOUT;
     private long startTime;
     private CountDownLatch latch;
-    private FEInterface inter;
-    private List<String> responses = new ArrayList<>();
+    private final FEInterface inter;
+    private final List<RmResponse> responses = new ArrayList<>();
     private ORB orb;
 
     public FrontEndImplementation(FEInterface inter) {
@@ -123,7 +123,7 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
                 resp = findMajorityResponse(myRequest);
                 break;
             case 3:
-                resp = "Failed: No response from any server";
+                resp = "Fail: No response from any server";
                 System.out.println(resp);
                 if (myRequest.haveRetries()) {
                     myRequest.countRetry();
@@ -134,87 +134,96 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
                 Rm3NoResponseCount++;
                 break;
             default:
-                resp = "Failed: " + myRequest.noRequestSendError();
+                resp = "Fail: " + myRequest.noRequestSendError();
                 break;
         }
         return resp;
     }
 
     private String findMajorityResponse(MyRequest myRequest) {
-        String res1 = "null";
-        String res2 = "null";
-        String res3 = "null";
-        for (String response :
+        RmResponse res1 = null;
+        RmResponse res2 = null;
+        RmResponse res3 = null;
+        for (RmResponse response :
                 responses) {
-            //TODO: check only responses that match myRequest
-            if (true) {
-                //TODO: add each rm response to its corresponding response
+            if (response.getSequenceID() == myRequest.getSequenceNumber()) {
+                switch (response.getRmNumber()) {
+                    case 1:
+                        res1 = response;
+                        break;
+                    case 2:
+                        res2 = response;
+                        break;
+                    case 3:
+                        res3 = response;
+                        break;
+                }
             }
         }
-        if (res1.equals("null")) {
+        if (res1 == null) {
             rmDown(1);
         } else {
             Rm1NoResponseCount = 0;
             if (res1.equals(res2)) {
-                if (!res3.equals(res1)) {
+                if (!res1.equals(res3)) {
                     rmBugFound(3);
                 }
-                return res1;
+                return res1.getResponse();
             } else if (res1.equals(res3)) {
-                if (!res2.equals(res1)) {
+                if (!res1.equals(res2)) {
                     rmBugFound(2);
                 }
-                return res1;
+                return res1.getResponse();
             } else {
-                if (!res2.equals("null") && res2.equals(res3)) {
-                    rmBugFound(1);
-                }
-                return res2;
+//                if (res2 != null && res2.equals(res3)) {
+                rmBugFound(1);
+//                    return res2.getResponse();
+//                }
             }
         }
-        if (res2.equals("null")) {
+        if (res2 == null) {
             rmDown(2);
         } else {
             Rm2NoResponseCount = 0;
             if (res2.equals(res3)) {
-                if (!res1.equals(res2)) {
+                if (!res2.equals(res1)) {
                     rmBugFound(1);
                 }
-                return res2;
+                return res2.getResponse();
             } else if (res2.equals(res1)) {
-                if (!res3.equals(res2)) {
+                if (!res2.equals(res3)) {
                     rmBugFound(3);
                 }
-                return res2;
+                return res2.getResponse();
             } else {
-                if (!res1.equals("null") && res1.equals(res3)) {
-                    rmBugFound(2);
-                }
-                return res1;
+//                if (!res1.equals("null") && res1.equals(res3)) {
+                rmBugFound(2);
+//                }
+//                return res1;
             }
         }
-        if (res3.equals("null")) {
+        if (res3 == null) {
             rmDown(3);
         } else {
             Rm3NoResponseCount = 0;
             if (res3.equals(res2)) {
-                if (!res1.equals(res3)) {
+                if (!res3.equals(res1)) {
                     rmBugFound(1);
                 }
-                return res3;
+                return res3.getResponse();
             } else if (res3.equals(res1)) {
-                if (!res2.equals(res3)) {
+                if (!res3.equals(res2)) {
                     rmBugFound(2);
                 }
-                return res3;
+                return res3.getResponse();
             } else {
-                if (!res2.equals("null") && res2.equals(res1)) {
-                    rmBugFound(3);
-                }
-                return res1;
+//                if (!res2.equals("null") && res2.equals(res1)) {
+                rmBugFound(3);
+//                }
+//                return res1;
             }
         }
-        return "Failed: majority response not found";
+        return "Fail: majority response not found";
     }
 
     private void rmBugFound(int rmNumber) {
@@ -279,7 +288,7 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
         latch.countDown();
     }
 
-    public void addReceivedResponse(String res) {
+    public void addReceivedResponse(RmResponse res) {
         long endTime = System.nanoTime();
         responseTime = (endTime - startTime) / 1000000;
         System.out.println("Current Response time is: " + responseTime);
