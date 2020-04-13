@@ -79,53 +79,37 @@ public class RM2 {
                     23-Rm3 is down
                 */
                 System.out.println("RM2 recieved message. Detail:" + data);
-                if(parts[2].equals("00"))
-                {  
-                    Message message=message_obj_create(data);
+                if (parts[2].equalsIgnoreCase("00")) {
+                    Message message = message_obj_create(data);
                     Message message_To_RMs = message_obj_create(data);
                     message_To_RMs.MessageType = "01";
                     send_multicast_toRM(message_To_RMs);
-                    if(message.sequenceId - lastSequenceID > 1)
-                    {
-                        Message initial_message = new Message(0, "Null", "02",Integer.toString(lastSequenceID), Integer.toString(message.sequenceId), "RM2", "Null", "Null", "Null", 0);
+                    if (message.sequenceId - lastSequenceID > 1) {
+                        Message initial_message = new Message(0, "Null", "02", Integer.toString(lastSequenceID), Integer.toString(message.sequenceId), "RM2", "Null", "Null", "Null", 0);
                         System.out.println("RM2 send request to update its message list. from:" + lastSequenceID + "To:" + message.sequenceId);
                         // Request all RMs to send back list of messages
                         send_multicast_toRM(initial_message);
                     }
                     message_q.add(message);
-                    message_list.put(message.sequenceId,message);
-                }
-                else if(parts[2].equals("01"))
-                {            
-                    Message message=message_obj_create(data);   
-                    if(!message_list.contains(message.sequenceId))
-                        message_list.put(message.sequenceId,message);
-                }
-                else if(parts[2].equals("02"))
-                {
+                    message_list.put(message.sequenceId, message);
+                } else if (parts[2].equalsIgnoreCase("01")) {
+                    Message message = message_obj_create(data);
+                    if (!message_list.contains(message.sequenceId))
+                        message_list.put(message.sequenceId, message);
+                } else if (parts[2].equalsIgnoreCase("02")) {
                     initial_send_list(Integer.parseInt(parts[3]), Integer.parseInt(parts[4]), parts[5]);
-                }
-                else if(parts[2].equals("03") && parts[5].equals("RM2"))
-                {
+                } else if (parts[2].equalsIgnoreCase("03") && parts[5].equalsIgnoreCase("RM2")) {
                     update_message_list(parts[1]);
-                }
-                else if(parts[2].equals("11"))
-                {
-                    Message message=message_obj_create(data);
+                } else if (parts[2].equalsIgnoreCase("11")) {
+                    Message message = message_obj_create(data);
                     System.out.println("RM2 has bug:" + message.toString());
-                }
-                else if(parts[2].equals("12"))
-                {
-                    Message message=message_obj_create(data);
+                } else if (parts[2].equalsIgnoreCase("12")) {
+                    Message message = message_obj_create(data);
                     System.out.println("RM2 has bug:" + message.toString());
-                }
-                else if(parts[2].equals("13"))
-                {
-                    Message message=message_obj_create(data);
+                } else if (parts[2].equalsIgnoreCase("13")) {
+                    Message message = message_obj_create(data);
                     System.out.println("RM2 has bug:" + message.toString());
-                }
-                else if(parts[2].equals("22"))
-                {
+                } else if (parts[2].equalsIgnoreCase("22")) {
                     Runnable crash_task = () -> {
                         try {
                             //suspend the execution of messages untill all servers are up. (serversFlag=false)
@@ -282,49 +266,34 @@ public class RM2 {
         Registry registry = LocateRegistry.getRegistry(portNumber);
         EventManagementInterface obj = (EventManagementInterface) registry.lookup(EVENT_MANAGEMENT_REGISTERED_NAME);
 
-        if(input.userID.equals("M"))
-        {
-            if(input.Function.equals("addEvent"))
-            {
-                String response = obj.addEvent(input.newEventID, input.newEventType,input.bookingCapacity);
+        if (input.userID.equalsIgnoreCase("M")) {
+            if (input.Function.equalsIgnoreCase("addEvent")) {
+                String response = obj.addEvent(input.newEventID, input.newEventType, input.bookingCapacity);
                 System.out.println(response);
                 return response;
-            }
-            else if(input.Function.equals("removeEvent"))
-            {
+            } else if (input.Function.equalsIgnoreCase("removeEvent")) {
                 String response = obj.removeEvent(input.newEventID, input.newEventType);
                 System.out.println(response);
                 return response;
-            }
-            else if(input.Function.equals("listEventAvailability"))
-            {
+            } else if (input.Function.equalsIgnoreCase("listEventAvailability")) {
                 String response = obj.listEventAvailability(input.newEventType);
                 System.out.println(response);
                 return response;
             }
-        }
-        else if(input.userID.equals("C"))
-        {
-            if(input.Function.equals("bookEvent"))
-            {
+        } else if (input.userID.equalsIgnoreCase("C")) {
+            if (input.Function.equalsIgnoreCase("bookEvent")) {
                 String response = obj.bookEvent(input.userID, input.newEventID, input.newEventType);
                 System.out.println(response);
                 return response;
-            }
-            else if(input.Function.equals("getBookingSchedule"))
-            {
+            } else if (input.Function.equalsIgnoreCase("getBookingSchedule")) {
                 String response = obj.getBookingSchedule(input.userID);
                 System.out.println(response);
                 return response;
-            }
-            else if(input.Function.equals("cancelEvent"))
-            {
+            } else if (input.Function.equalsIgnoreCase("cancelEvent")) {
                 String response = obj.cancelEvent(input.userID, input.newEventID, input.newEventType);
                 System.out.println(response);
                 return response;
-            }
-            else if(input.Function.equals("swapEvent"))
-            {
+            } else if (input.Function.equalsIgnoreCase("swapEvent")) {
                 String response = obj.swapEvent(input.userID, input.newEventID, input.newEventType, input.oldEventID, input.oldEventType);
                 System.out.println(response);
                 return response;
@@ -337,11 +306,11 @@ public class RM2 {
 		String branch = input.substring(0,3);
 		int portNumber = -1;
 
-        if (branch.equals("que"))
+        if (branch.equalsIgnoreCase("que"))
             portNumber = SERVER_QUEBEC;
-        else if (branch.equals("mtl"))
+        else if (branch.equalsIgnoreCase("mtl"))
             portNumber = SERVER_MONTREAL;
-        else if (branch.equals("she"))
+        else if (branch.equalsIgnoreCase("she"))
             portNumber = SERVER_SHERBROOKE;
 			
 		return portNumber;
