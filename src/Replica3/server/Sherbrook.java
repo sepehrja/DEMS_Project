@@ -1,5 +1,6 @@
 package Replica3.server;
 
+import Replica3.CommonOutput;
 import Replica3.implementation.DemsImplementation;
 
 import java.io.File;
@@ -122,14 +123,23 @@ public class Sherbrook {
 	                        String eventID = fullid.substring(16, 26);
 	                        if (m.checkAvailabilityOfEvent(var, eventID).equalsIgnoreCase(
 	                                "Available ")) {
-	                            String r = m.bookedEvent(var,eventID, customerID);
-	                            byte[] msg = r.getBytes();
+	                        	String s = m.bookedEvent(var,eventID, customerID);
+								String r=CommonOutput.bookEventOutput(true, null); byte[] msg = r.getBytes();
 	                            DatagramPacket reply = new DatagramPacket(msg, msg.length,
 	                                    request.getAddress(), request.getPort());
 	                            MSocket.send(reply);
-	                        } else {
-	                            String r = "No such event is available";
-	                            byte[] msg = r.getBytes();
+	                        } else if (m.checkAvailabilityOfEvent(var.substring(0, 1), eventID).equalsIgnoreCase(
+									"No Capacity ")) {//it checks both condition capacity and existence
+								String r = CommonOutput.bookEventOutput(false, CommonOutput.bookEvent_fail_no_capacity);
+								byte[] msg = r.getBytes();
+								DatagramPacket reply = new DatagramPacket(msg, msg.length,
+										request.getAddress(), request.getPort());
+								MSocket.send(reply); 
+								
+							}else {
+								String r = CommonOutput.bookEventOutput(false, CommonOutput.bookEvent_fail_no_such_event);
+								//"No such event is available";
+						 byte[] msg = r.getBytes();
 	                            DatagramPacket reply = new DatagramPacket(msg, msg.length,
 	                                    request.getAddress(), request.getPort());
 	                            MSocket.send(reply);
@@ -141,13 +151,14 @@ public class Sherbrook {
 							if (m.checkAvailabilityOfEvent(var, eventID).equalsIgnoreCase(
 									"available ")) {
 								if (m.checkUserBooking(eventID, customerID)) {
-									String c = m.canceledEvent(var,eventID, customerID);
-									byte[] msg = c.getBytes();
+									String s = m.canceledEvent(var,eventID, customerID);
+									String c=CommonOutput.cancelEventOutput(true, null);
+										byte[] msg = c.getBytes();
 									DatagramPacket reply = new DatagramPacket(msg, msg.length,
 											request.getAddress(), request.getPort());
 									MSocket.send(reply);
 								} else{
-									String c = "EventId not registered for customerId";
+									String c =  CommonOutput.cancelEventOutput(false, CommonOutput.cancelEvent_fail_not_registered_in_event);
 									byte[] msg = c.getBytes();
 									DatagramPacket reply = new DatagramPacket(msg, msg.length,
 											request.getAddress(), request.getPort());
@@ -156,8 +167,8 @@ public class Sherbrook {
 									
 							} else {
 								
-								String c = "No such eventid is available in this eventType";
-								byte[] msg = c.getBytes();
+								String c = CommonOutput.cancelEventOutput(false, CommonOutput.cancelEvent_fail_no_such_event);
+									byte[] msg = c.getBytes();
 								DatagramPacket reply = new DatagramPacket(msg, msg.length,
 										request.getAddress(), request.getPort());
 								MSocket.send(reply);
@@ -177,12 +188,21 @@ public class Sherbrook {
 	                        String eventID = fullid.substring(16, 26);
 	                        if (m.checkAvailabilityOfEvent(var, eventID).equalsIgnoreCase(
 	                                "Available ")) {
-	                            String r = m.bookedEvent(var,eventID, customerID);
-	                            byte[] msg = r.getBytes();
-	                            DatagramPacket reply = new DatagramPacket(msg, msg.length,
-	                                    request.getAddress(), request.getPort());
-	                            MSocket.send(reply);
-	                        } else {
+	                        	String s = m.bookedEvent(var,eventID, customerID);
+								String r=CommonOutput.bookEventOutput(true, null);
+								byte[] msg = r.getBytes();
+								DatagramPacket reply = new DatagramPacket(msg, msg.length,
+										request.getAddress(), request.getPort());
+								MSocket.send(reply);
+							} else if (m.checkAvailabilityOfEvent(var.substring(0, 1), eventID).equalsIgnoreCase(
+									"No Capacity ")) {//it checks both condition capacity and existence
+								String r = CommonOutput.bookEventOutput(false, CommonOutput.bookEvent_fail_no_capacity);
+								byte[] msg = r.getBytes();
+								DatagramPacket reply = new DatagramPacket(msg, msg.length,
+										request.getAddress(), request.getPort());
+								MSocket.send(reply); 
+								
+							} else {
 	                            String r = "No such event is available";
 	                            byte[] msg = r.getBytes();
 	                            DatagramPacket reply = new DatagramPacket(msg, msg.length,
@@ -196,13 +216,14 @@ public class Sherbrook {
 							if (m.checkAvailabilityOfEvent(var, eventID).equalsIgnoreCase(
 									"available ")) {
 								if (m.checkUserBooking(eventID, customerID)) {
-									String c = m.canceledEvent(var,eventID, customerID);
+									String s = m.canceledEvent(var,eventID, customerID);
+									String c=CommonOutput.cancelEventOutput(true, null);
 									byte[] msg = c.getBytes();
 									DatagramPacket reply = new DatagramPacket(msg, msg.length,
 											request.getAddress(), request.getPort());
 									MSocket.send(reply);
 								} else{
-									String c = "EventId not registered for customerId";
+									String c =  CommonOutput.cancelEventOutput(false, CommonOutput.cancelEvent_fail_not_registered_in_event);
 									byte[] msg = c.getBytes();
 									DatagramPacket reply = new DatagramPacket(msg, msg.length,
 											request.getAddress(), request.getPort());
@@ -211,7 +232,7 @@ public class Sherbrook {
 									
 							} else {
 								
-								String c = "No such eventid is available in this eventType";
+								String c = CommonOutput.cancelEventOutput(false, CommonOutput.cancelEvent_fail_no_such_event);
 								byte[] msg = c.getBytes();
 								DatagramPacket reply = new DatagramPacket(msg, msg.length,
 										request.getAddress(), request.getPort());
@@ -231,12 +252,21 @@ public class Sherbrook {
 	                        String eventID = fullid.substring(16, 26);
 	                        if (m.checkAvailabilityOfEvent(var, eventID).equalsIgnoreCase(
 	                                "Available ")) {
-	                            String r = m.bookedEvent(var,eventID, customerID);
-	                            byte[] msg = r.getBytes();
-	                            DatagramPacket reply = new DatagramPacket(msg, msg.length,
-	                                    request.getAddress(), request.getPort());
-	                            MSocket.send(reply);
-	                        } else {
+	                        	String s = m.bookedEvent(var,eventID, customerID);
+								String r=CommonOutput.bookEventOutput(true, null);
+								byte[] msg = r.getBytes();
+								DatagramPacket reply = new DatagramPacket(msg, msg.length,
+										request.getAddress(), request.getPort());
+								MSocket.send(reply);
+							} else if (m.checkAvailabilityOfEvent(var.substring(0, 1), eventID).equalsIgnoreCase(
+									"No Capacity ")) {//it checks both condition capacity and existence
+								String r = CommonOutput.bookEventOutput(false, CommonOutput.bookEvent_fail_no_capacity);
+								byte[] msg = r.getBytes();
+								DatagramPacket reply = new DatagramPacket(msg, msg.length,
+										request.getAddress(), request.getPort());
+								MSocket.send(reply); 
+								
+							}else {
 	                            String r = "No such event is available";
 	                            byte[] msg = r.getBytes();
 	                            DatagramPacket reply = new DatagramPacket(msg, msg.length,
@@ -250,13 +280,14 @@ public class Sherbrook {
 							if (m.checkAvailabilityOfEvent(var, eventID).equalsIgnoreCase(
 									"available ")) {
 								if (m.checkUserBooking(eventID, customerID)) {
-									String c = m.canceledEvent(var,eventID, customerID);
+									String s = m.canceledEvent(var,eventID, customerID);
+									String c=CommonOutput.cancelEventOutput(true, null);
 									byte[] msg = c.getBytes();
 									DatagramPacket reply = new DatagramPacket(msg, msg.length,
 											request.getAddress(), request.getPort());
 									MSocket.send(reply);
 								} else{
-									String c = "EventId not registered for customerId";
+									String c =  CommonOutput.cancelEventOutput(false, CommonOutput.cancelEvent_fail_not_registered_in_event);
 									byte[] msg = c.getBytes();
 									DatagramPacket reply = new DatagramPacket(msg, msg.length,
 											request.getAddress(), request.getPort());
@@ -264,8 +295,8 @@ public class Sherbrook {
 								}
 									
 							} else {
-								
-								String c = "No such eventid is available in this eventType";
+
+								String c = CommonOutput.cancelEventOutput(false, CommonOutput.cancelEvent_fail_no_such_event);
 								byte[] msg = c.getBytes();
 								DatagramPacket reply = new DatagramPacket(msg, msg.length,
 										request.getAddress(), request.getPort());
@@ -304,34 +335,39 @@ public class Sherbrook {
 
 				int val = a.get(key);
 				a.replace(key, val + Value);
-				return ("Value updated for " + key + "to " + val);
+				System.out.println ("Value updated for " + key + "to " + val);
+				 return CommonOutput.addEventOutput(true, CommonOutput.addEvent_success_capacity_updated);
 			} else {
 				a.put(key, Value);
-				return ("Added Successfully " + key + "to " + a.get(key));
-
+				System.out.println ("Added Successfully " + key + "to " + a.get(key));
+				 return CommonOutput.addEventOutput(true, CommonOutput.addEvent_success_added);
 			}
 		} else if (var == "b") {
 			if (b.get(key) != null) {
 
 				int val = b.get(key);
 				b.replace(key, val + Value);
-				return ("Value updated for " + key + "to " + val);
+				System.out.println ("Value updated for " + key + "to " + val);
+				 return CommonOutput.addEventOutput(true, CommonOutput.addEvent_success_capacity_updated);
 			} else {
 				b.put(key, Value);
-				return ("Added Successfully " + key + "to " + b.get(key));
+				System.out.println ("Added Successfully " + key + "to " + a.get(key));
+				 return CommonOutput.addEventOutput(true, CommonOutput.addEvent_success_added);
 			}
 		} else if (var == "c") {
 			if (c.get(key) != null) {
 
 				int val = c.get(key);
 				c.replace(key, val + Value);
-				return ("Value updated for " + key + "to " + val);
+				System.out.println ("Value updated for " + key + "to " + val);
+				 return CommonOutput.addEventOutput(true, CommonOutput.addEvent_success_capacity_updated);
 			} else {
 				c.put(key, Value);
-				return ("Added Successfully " + key + "to " + c.get(key));
+				System.out.println ("Added Successfully " + key + "to " + a.get(key));
+				 return CommonOutput.addEventOutput(true, CommonOutput.addEvent_success_added);
 			}
 		} else
-			return ("Not Successfull ");
+			return CommonOutput.addEventOutput(false, CommonOutput.addEvent_fail_cannot_decrease_capacity);
 
 	}
 
@@ -399,10 +435,11 @@ public class Sherbrook {
 					}
 				}
 				a.remove(key);
-				return(key + " ." +remover.toString());
+				System.out.println(key + " ." +remover.toString());
+				return CommonOutput.removeEventOutput(true, null);
 			} else {
-
-				return("No record");
+				 return CommonOutput.removeEventOutput(false, CommonOutput.removeEvent_fail_no_such_event);
+				//return("No record");
 			}
 		} else if (var == "b") {
 			if (b.get(key) != null) {
@@ -466,10 +503,11 @@ public class Sherbrook {
 					}
 				}
 				b.remove(key);
-				return(key + " ." +remover.toString());
+				System.out.println(key + " ." +remover.toString());
+				return CommonOutput.removeEventOutput(true, null);
 			} else {
-
-				return("No record");
+				 return CommonOutput.removeEventOutput(false, CommonOutput.removeEvent_fail_no_such_event);
+				//return("No record");
 			}
 		} else if (var == "c") {
 			if (c.get(key) != null) {
@@ -533,10 +571,11 @@ public class Sherbrook {
 					}
 				}
 				c.remove(key);
-				return(key + " ." +remover.toString());
+				System.out.println(key + " ." +remover.toString());
+				return CommonOutput.removeEventOutput(true, null);
 			} else {
-
-				return("No record");
+				 return CommonOutput.removeEventOutput(false, CommonOutput.removeEvent_fail_no_such_event);
+				//return("No record");
 			}
 		}
 		return null;
@@ -573,7 +612,7 @@ public class Sherbrook {
 		StringBuffer str=new StringBuffer("");
 		temp.entrySet().forEach(entry -> {
 			
-			str.append(entry.getKey()+" "+ entry.getValue() +"\n");
+			str.append(entry.getKey()+" "+ entry.getValue() +",");
 		});
 		return str.toString();
 
@@ -582,22 +621,31 @@ public class Sherbrook {
 		// key is event id
 
 		if (var.equalsIgnoreCase("a")) {
-			if (a.containsKey(key) && a.get(key) != 0) {
-				return ("Available ");
+			if (a.containsKey(key) ) {
+				if(a.get(key) != 0)
+					return ("Available ");
+				else
+					return ("No Capacity ");
 			} else {
 
 				return ("Not");
 			}
 		} else if (var.equalsIgnoreCase("b")) {
-			if (b.containsKey(key) && b.get(key) != 0) {
-				return ("Available ");
+			if (b.containsKey(key) ) {
+				if(b.get(key) != 0)
+					return ("Available ");
+				else
+					return ("No Capacity ");
 			} else {
 
 				return ("Not");
 			}
 		} else if (var.equalsIgnoreCase("c")) {
-			if (c.containsKey(key) && c.get(key) != 0) {
-				return ("Available ");
+			if (c.containsKey(key)) {
+				if(c.get(key) != 0)
+					return ("Available ");
+				else
+					return ("No Capacity ");
 			} else {
 
 				return ("Not");
@@ -799,7 +847,14 @@ public class Sherbrook {
 	
 		Muser2.entrySet().forEach(entry -> {
 			if (entry.getValue().contains(customerID)){
-				temp11.put(entry.getKey(), customerID);
+				if (a.containsKey(entry.getKey()) ) {
+					temp11.put(entry.getKey(), "Conferences");
+				}else if(b.containsKey(entry.getKey()) ) {
+					temp11.put(entry.getKey(), "TradeShows");
+				}else if(c.containsKey(entry.getKey()) ) {
+					temp11.put(entry.getKey(), "Seminars");
+				}
+				
 			}
 		});
 		StringBuffer str = new StringBuffer(" ");
