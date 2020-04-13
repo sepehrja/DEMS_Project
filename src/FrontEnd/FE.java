@@ -92,7 +92,7 @@ public class FE {
 //            Logger.serverLog(serverID, "Exception: " + e);
         }
 
-        System.out.println("FrontEnd Server Shutting down");
+//        System.out.println("FrontEnd Server Shutting down");
 //        Logger.serverLog(serverID, " Server Shutting down");
 
     }
@@ -100,6 +100,7 @@ public class FE {
     private static int sendUnicastToSequencer(MyRequest requestFromClient) {
         DatagramSocket aSocket = null;
         String dataFromClient = requestFromClient.toString();
+        System.out.println("FE:sendUnicastToSequencer>>>" + dataFromClient);
         int sequenceID = 0;
         try {
             aSocket = new DatagramSocket(FE_SQ_PORT);
@@ -117,7 +118,9 @@ public class FE {
             aSocket.receive(response);
             String sentence = new String(response.getData(), 0,
                     response.getLength());
+            System.out.println("FE:sendUnicastToSequencer/ResponseFromSequencer>>>" + sentence);
             sequenceID = Integer.parseInt(sentence.trim());
+            System.out.println("FE:sendUnicastToSequencer/ResponseFromSequencer>>>SequenceID:" + sequenceID);
         } catch (SocketException e) {
             System.out.println("Failed: " + requestFromClient.noRequestSendError());
             System.out.println("Socket: " + e.getMessage());
@@ -140,6 +143,7 @@ public class FE {
             InetAddress aHost = InetAddress.getByName(RM_Multicast_group_address);
 
             DatagramPacket request = new DatagramPacket(messages, messages.length, aHost, RM_Multicast_Port);
+            System.out.println("FE:sendMulticastFaultMessageToRms>>>" + errorMessage);
             aSocket.send(request);
         } catch (IOException e) {
             e.printStackTrace();
@@ -171,7 +175,7 @@ public class FE {
                 aSocket.receive(response);
                 String sentence = new String(response.getData(), 0,
                         response.getLength()).trim();
-                System.out.println("Response received: " + sentence);
+                System.out.println("FE:Response received from Rm>>>" + sentence);
                 RmResponse rmResponse = new RmResponse(sentence);
 //                String[] parts = sentence.split(";");
 

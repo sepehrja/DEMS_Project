@@ -40,6 +40,7 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
         myRequest.setEventType(eventType);
         myRequest.setBookingCapacity(bookingCapacity);
         myRequest.setSequenceNumber(sendUdpUnicastToSequencer(myRequest));
+        System.out.println("FE Implementation:addEvent>>>" + myRequest.toString());
         return validateResponses(myRequest);
     }
 
@@ -49,6 +50,7 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
         myRequest.setEventID(eventID);
         myRequest.setEventType(eventType);
         myRequest.setSequenceNumber(sendUdpUnicastToSequencer(myRequest));
+        System.out.println("FE Implementation:removeEvent>>>" + myRequest.toString());
         return validateResponses(myRequest);
     }
 
@@ -57,6 +59,7 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
         MyRequest myRequest = new MyRequest("listEventAvailability", managerID);
         myRequest.setEventType(eventType);
         myRequest.setSequenceNumber(sendUdpUnicastToSequencer(myRequest));
+        System.out.println("FE Implementation:listEventAvailability>>>" + myRequest.toString());
         return validateResponses(myRequest);
     }
 
@@ -66,6 +69,7 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
         myRequest.setEventID(eventID);
         myRequest.setEventType(eventType);
         myRequest.setSequenceNumber(sendUdpUnicastToSequencer(myRequest));
+        System.out.println("FE Implementation:bookEvent>>>" + myRequest.toString());
         return validateResponses(myRequest);
     }
 
@@ -73,6 +77,7 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
     public synchronized String getBookingSchedule(String customerID) {
         MyRequest myRequest = new MyRequest("getBookingSchedule", customerID);
         myRequest.setSequenceNumber(sendUdpUnicastToSequencer(myRequest));
+        System.out.println("FE Implementation:getBookingSchedule>>>" + myRequest.toString());
         return validateResponses(myRequest);
     }
 
@@ -82,6 +87,7 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
         myRequest.setEventID(eventID);
         myRequest.setEventType(eventType);
         myRequest.setSequenceNumber(sendUdpUnicastToSequencer(myRequest));
+        System.out.println("FE Implementation:cancelEvent>>>" + myRequest.toString());
         return validateResponses(myRequest);
     }
 
@@ -93,6 +99,7 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
         myRequest.setOldEventID(oldEventID);
         myRequest.setOldEventType(oldEventType);
         myRequest.setSequenceNumber(sendUdpUnicastToSequencer(myRequest));
+        System.out.println("FE Implementation:swapEvent>>>" + myRequest.toString());
         return validateResponses(myRequest);
     }
 
@@ -103,6 +110,7 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
 
     public void waitForResponse() {
         try {
+            System.out.println("FE Implementation:waitForResponse>>>ResponsesRemain" + latch.getCount());
             boolean timeoutReached = latch.await(DYNAMIC_TIMEOUT, TimeUnit.MILLISECONDS);
             if (!timeoutReached) {
                 setDynamicTimout();
@@ -137,6 +145,7 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
                 resp = "Fail: " + myRequest.noRequestSendError();
                 break;
         }
+        System.out.println("FE Implementation:validateResponses>>>Responses received:" + latch.getCount() + " >>>Response to be sent to client " + resp);
         return resp;
     }
 
@@ -160,6 +169,9 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
                 }
             }
         }
+        System.out.println("FE Implementation:findMajorityResponse>>>RM1" + ((res1 != null) ? res1.getResponse() : "null"));
+        System.out.println("FE Implementation:findMajorityResponse>>>RM2" + ((res2 != null) ? res2.getResponse() : "null"));
+        System.out.println("FE Implementation:findMajorityResponse>>>RM3" + ((res3 != null) ? res3.getResponse() : "null"));
         if (res1 == null) {
             rmDown(1);
         } else {
@@ -227,6 +239,9 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
     }
 
     private void rmBugFound(int rmNumber) {
+        System.out.println("FE Implementation:rmDown>>>RM1" + Rm1BugCount);
+        System.out.println("FE Implementation:rmDown>>>RM2" + Rm2BugCount);
+        System.out.println("FE Implementation:rmDown>>>RM3" + Rm3BugCount);
         switch (rmNumber) {
             case 1:
                 Rm1BugCount++;
@@ -254,6 +269,9 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
     }
 
     private void rmDown(int rmNumber) {
+        System.out.println("FE Implementation:rmDown>>>RM1" + Rm1NoResponseCount);
+        System.out.println("FE Implementation:rmDown>>>RM2" + Rm2NoResponseCount);
+        System.out.println("FE Implementation:rmDown>>>RM3" + Rm3NoResponseCount);
         switch (rmNumber) {
             case 1:
                 Rm1NoResponseCount++;
@@ -282,10 +300,12 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
 
     private void setDynamicTimout() {
         DYNAMIC_TIMEOUT = responseTime * 2;
+        System.out.println("FE Implementation:setDynamicTimout>>>" + DYNAMIC_TIMEOUT);
     }
 
     private void notifyOKCommandReceived() {
         latch.countDown();
+        System.out.println("FE Implementation:notifyOKCommandReceived>>>Response Received: Remaining responses" + latch.getCount());
     }
 
     public void addReceivedResponse(RmResponse res) {
@@ -306,6 +326,7 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
     }
 
     private String retryRequest(MyRequest myRequest) {
+        System.out.println("FE Implementation:retryRequest>>>" + myRequest.toString());
         startTime = System.nanoTime();
         inter.retryRequest(myRequest);
         latch = new CountDownLatch(3);
