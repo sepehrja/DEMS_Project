@@ -133,20 +133,20 @@ public class RM3 {
                             //suspend the execution of messages untill all servers are up. (serversFlag=false)
                             serversFlag = false;
                             //reboot Monteal Server
-                            Registry montreal_registry = LocateRegistry.getRegistry(9992);
-                            Manager montreal_obj = (Manager) montreal_registry.lookup("ServerClass");
+                            Registry montreal_registry = LocateRegistry.getRegistry(5555);
+                            Manager montreal_obj = (Manager) montreal_registry.lookup("Function");
                             montreal_obj.shutDown();
                             System.out.println("RM3 shutdown Montreal Server");
 
                             //reboot Quebec Server
-                            Registry quebec_registry = LocateRegistry.getRegistry(9991);
-                            Manager quebec_obj = (Manager) quebec_registry.lookup("ServerClass");
+                            Registry quebec_registry = LocateRegistry.getRegistry(5556);
+                            Manager quebec_obj = (Manager) quebec_registry.lookup("Function");
                             quebec_obj.shutDown();
                             System.out.println("RM3 shutdown Quebec Server");
 
                             //reboot Sherbrooke Server
-                            Registry sherbrook_registry = LocateRegistry.getRegistry(9993);
-                            Manager sherbrook_obj = (Manager) sherbrook_registry.lookup("ServerClass");
+                            Registry sherbrook_registry = LocateRegistry.getRegistry(5557);
+                            Manager sherbrook_obj = (Manager) sherbrook_registry.lookup("Function");
                             sherbrook_obj.shutDown();
                             System.out.println("RM3 shutdown Sherbrooke Server");
                             
@@ -341,11 +341,11 @@ public class RM3 {
 		int portNumber = -1;
 		
 		if(branch.equalsIgnoreCase("que"))
-			portNumber=9991;
+			portNumber=5556;
 		else if(branch.equalsIgnoreCase("mtl"))
-			portNumber=9992;
+			portNumber=5555;
 		else if(branch.equalsIgnoreCase("she"))
-			portNumber=9993;
+			portNumber=5557;
 			
 		return portNumber;
     }
@@ -374,4 +374,3 @@ public class RM3 {
         }
     }
 }
-
