@@ -760,7 +760,7 @@ public class Quebec {
 		
 		StringBuffer str = new StringBuffer(" ");
 		temp11.entrySet().forEach(entry -> {
-			str.append(entry.getKey() + " " + entry.getValue() + ",");
+			str.append(entry.getValue() + " " + entry.getKey() + ",");
 		});
 		return str.toString();
 
