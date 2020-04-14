@@ -936,11 +936,11 @@ public class DemsImplementation  extends UnicastRemoteObject  implements Manager
 						oldEventType, serv);
 				str.append(str2.trim());
 
-				if (str2.contains("SUCCESS")) {
+				if (str2.contains("Success")) {
 					String str1 = d1.bookEvent(customerID, newEventID,
 							newEventType, serv);
 					str.append(str1);
-					if (!(str1.contains("SUCCESS"))) {
+					if (!(str1.contains("Success"))) {
 						String str3 = d1.bookEvent(customerID, oldEventID,
 								oldEventType, serv);
 						str.append(". Failed to swap event because booking was not availablle");
@@ -951,11 +951,11 @@ public class DemsImplementation  extends UnicastRemoteObject  implements Manager
 						newEventType, serv);
 				str.append(str2.trim());
 
-				if (str2.contains("SUCCESS")) {
+				if (str2.contains("Success")) {
 					String str1 = d1.cancelEvent(customerID, oldEventID,
 							oldEventType, serv);
 					str.append(str1);
-					if (!(str1.contains("SUCCESS"))) {
+					if (!(str1.contains("Success"))) {
 						String str3 = d1.cancelEvent(customerID, newEventID,
 								newEventType, serv);
 						str.append(". Failed to swap event because booking was not availablle");
@@ -967,11 +967,11 @@ public class DemsImplementation  extends UnicastRemoteObject  implements Manager
 					serv);
 			str.append(str2.trim());
 
-			if (str2.contains("SUCCESS")) {
+			if (str2.contains("Success")) {
 				String str1 = d1.cancelEvent(customerID, oldEventID,
 						oldEventType, serv);
 				str.append(str1);
-				if (!(str1.contains("SUCCESS"))) {
+				if (!(str1.contains("Success"))) {
 					String str3 = d1.cancelEvent(customerID, newEventID,
 							newEventType, serv);
 					str.append(". Failed to swap event because booking was not availablle");
