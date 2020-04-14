@@ -552,7 +552,7 @@ public class DemsImplementation  extends UnicastRemoteObject  implements Manager
 
 				// String variable="isBooked"+customerID;
 				String bookingexistence = mn.isbooked(customerID);
-				if (bookingexistence.equalsIgnoreCase("False ")) {
+				if (bookingexistence.contains("false")) {
 					return CommonOutput.swapEventOutput(false, CommonOutput.swapEvent_fail_not_registered_in_event);
 				}
 
@@ -578,7 +578,7 @@ public class DemsImplementation  extends UnicastRemoteObject  implements Manager
 				String variable = "isBooked" + customerID;
 				String bookingexistence = (mn.UDPConnect(7001, variable))
 						;
-				if (bookingexistence.contains("False")) {
+				if (bookingexistence.contains("false")) {
 					return CommonOutput.swapEventOutput(false, CommonOutput.swapEvent_fail_not_registered_in_event);
 				}
 				if (ans.contains("Available")) {
@@ -601,7 +601,7 @@ public class DemsImplementation  extends UnicastRemoteObject  implements Manager
 				String variable = "isBooked" + customerID;
 				String bookingexistence = (mn.UDPConnect(7002, variable))
 						;
-				if (bookingexistence.contains("False")) {
+				if (bookingexistence.contains("false")) {
 					return CommonOutput.swapEventOutput(false, CommonOutput.swapEvent_fail_not_registered_in_event);
 				}
 				if (ans.contains("Available")) {
@@ -640,7 +640,7 @@ public class DemsImplementation  extends UnicastRemoteObject  implements Manager
 				String var = newEventType.substring(0, 1) + "getExistence"
 						+ newEventID;
 				String ans = (mn.UDPConnect(7001, var));
-				if (ans.equalsIgnoreCase("Available")) {
+				if (ans.contains("Available")) {
 					count++;
 					if (Lowest_EventId.equals(newEventID)) {
 						String count1 = mn.UDPConnect(7001, ("checkCount"
@@ -656,7 +656,7 @@ public class DemsImplementation  extends UnicastRemoteObject  implements Manager
 				String var = newEventType.substring(0, 1) + "getExistence"
 						+ newEventID;
 				String ans = (mn.UDPConnect(7002, var));
-				if (ans.equalsIgnoreCase("Available")) {
+				if (ans.contains("Available")) {
 					count++;
 					if (Lowest_EventId.equals(newEventID)) {
 						String count1 = mn.UDPConnect(7001, ("checkCount"
@@ -677,7 +677,7 @@ public class DemsImplementation  extends UnicastRemoteObject  implements Manager
 
 				// String variable="isBooked"+customerID;
 				String bookingexistence = mn.isbooked(customerID);
-				if (bookingexistence.equalsIgnoreCase("False ")) {
+				if (bookingexistence.contains("false")) {
 					return CommonOutput.swapEventOutput(false, CommonOutput.swapEvent_fail_not_registered_in_event);
 				}
 
@@ -703,10 +703,10 @@ public class DemsImplementation  extends UnicastRemoteObject  implements Manager
 				String variable = "isBooked" + customerID;
 				String bookingexistence = (mn.UDPConnect(7000, variable))
 						;
-				if (bookingexistence.equalsIgnoreCase("False")) {
+				if (bookingexistence.contains("false")) {
 					return CommonOutput.swapEventOutput(false, CommonOutput.swapEvent_fail_not_registered_in_event);
 				}
-				if (ans.equalsIgnoreCase("Available")) {
+				if (ans.contains("Available")) {
 					count++;
 					if (Lowest_EventId.equals(oldEventID)) {
 						String count1 = mn.UDPConnect(7000, ("checkCount"
@@ -726,10 +726,10 @@ public class DemsImplementation  extends UnicastRemoteObject  implements Manager
 				String variable = "isBooked" + customerID;
 				String bookingexistence = (mn.UDPConnect(7002, variable))
 						;
-				if (bookingexistence.equalsIgnoreCase("False")) {
+				if (bookingexistence.contains("false")) {
 					return CommonOutput.swapEventOutput(false, CommonOutput.swapEvent_fail_not_registered_in_event);
 				}
-				if (ans.equalsIgnoreCase("Available")) {
+				if (ans.contains("Available")) {
 					count++;
 					if (Lowest_EventId.equals(oldEventID)) {
 						String count1 = mn.UDPConnect(7000, ("checkCount"
@@ -765,7 +765,7 @@ public class DemsImplementation  extends UnicastRemoteObject  implements Manager
 				String var = newEventType.substring(0, 1) + "getExistence"
 						+ newEventID;
 				String ans = (mn.UDPConnect(7000, var));
-				if (ans.equalsIgnoreCase("Available")) {
+				if (ans.contains("Available")) {
 					count++;
 					if (Lowest_EventId.equals(newEventID)) {
 						String count1 = mn.UDPConnect(7000, ("checkCount"
@@ -781,7 +781,7 @@ public class DemsImplementation  extends UnicastRemoteObject  implements Manager
 				String var = newEventType.substring(0, 1) + "getExistence"
 						+ newEventID;
 				String ans = (mn.UDPConnect(7002, var));
-				if (ans.equalsIgnoreCase("Available")) {
+				if (ans.contains("Available")) {
 					count++;
 					if (Lowest_EventId.equals(newEventID)) {
 						String count1 = mn.UDPConnect(7000, ("checkCount"
@@ -802,7 +802,7 @@ public class DemsImplementation  extends UnicastRemoteObject  implements Manager
 
 				// String variable="isBooked"+customerID;
 				String bookingexistence = mn.isbooked(customerID);
-				if (bookingexistence.equalsIgnoreCase("False ")) {
+				if (bookingexistence.contains("false")) {
 					return CommonOutput.swapEventOutput(false, CommonOutput.swapEvent_fail_not_registered_in_event);
 				}
 
@@ -828,10 +828,10 @@ public class DemsImplementation  extends UnicastRemoteObject  implements Manager
 				String variable = "isBooked" + customerID;
 				String bookingexistence = (mn.UDPConnect(7000, variable))
 						;
-				if (bookingexistence.equalsIgnoreCase("False")) {
+				if (bookingexistence.contains("false")) {
 					return CommonOutput.swapEventOutput(false, CommonOutput.swapEvent_fail_not_registered_in_event);
 				}
-				if (ans.equalsIgnoreCase("Available")) {
+				if (ans.contains("Available")) {
 					count++;
 					if (Lowest_EventId.equals(oldEventID)) {
 						String count1 = mn.UDPConnect(7000, ("checkCount"
@@ -851,10 +851,10 @@ public class DemsImplementation  extends UnicastRemoteObject  implements Manager
 				String variable = "isBooked" + customerID;
 				String bookingexistence = (mn.UDPConnect(7001, variable))
 						;
-				if (bookingexistence.equalsIgnoreCase("False")) {
+				if (bookingexistence.contains("false")) {
 					return CommonOutput.swapEventOutput(false, CommonOutput.swapEvent_fail_not_registered_in_event);
 				}
-				if (ans.equalsIgnoreCase("Available")) {
+				if (ans.contains("Available")) {
 					count++;
 					if (Lowest_EventId.equals(oldEventID)) {
 						String count1 = mn.UDPConnect(7000, ("checkCount"
@@ -890,7 +890,7 @@ public class DemsImplementation  extends UnicastRemoteObject  implements Manager
 				String var = newEventType.substring(0, 1) + "getExistence"
 						+ newEventID;
 				String ans = (mn.UDPConnect(7000, var));
-				if (ans.equalsIgnoreCase("Available")) {
+				if (ans.contains("Available")) {
 					count++;
 					if (Lowest_EventId.equals(newEventID)) {
 						String count1 = mn.UDPConnect(7000, ("checkCount"
@@ -906,7 +906,7 @@ public class DemsImplementation  extends UnicastRemoteObject  implements Manager
 				String var = newEventType.substring(0, 1) + "getExistence"
 						+ newEventID;
 				String ans = (mn.UDPConnect(7001, var));
-				if (ans.equalsIgnoreCase("Available")) {
+				if (ans.contains("Available")) {
 					count++;
 					if (Lowest_EventId.equals(newEventID)) {
 						String count1 = mn.UDPConnect(7000, ("checkCount"
