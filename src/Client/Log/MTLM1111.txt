@@ -1,0 +1,70 @@
+DATE: 2020-04-13 08:32:54 PM  login attempt
+DATE: 2020-04-13 08:32:54 PM  Manager Login successful
+DATE: 2020-04-13 08:33:38 PM  attempting to addEvent
+DATE: 2020-04-13 08:34:08 PM Client Action:  addEvent | RequestParameters:  eventID: MTLM020220 eventType: Conferences eventCapacity: 2  | Server Response: Fail: No response from any server
+DATE: 2020-04-13 08:39:45 PM  attempting to addEvent
+DATE: 2020-04-13 08:40:25 PM Client Action:  addEvent | RequestParameters:  eventID: MTLM020220 eventType: Conferences eventCapacity: 2  | Server Response: Fail: No response from any server
+DATE: 2020-04-13 08:41:03 PM  attempting to addEvent
+DATE: 2020-04-13 08:41:43 PM Client Action:  addEvent | RequestParameters:  eventID: MTLM020220 eventType: Conferences eventCapacity: 2  | Server Response: Fail: No response from any server
+DATE: 2020-04-13 08:48:55 PM  login attempt
+DATE: 2020-04-13 08:48:55 PM  Manager Login successful
+DATE: 2020-04-13 08:49:05 PM  attempting to addEvent
+DATE: 2020-04-13 08:49:35 PM Client Action:  addEvent | RequestParameters:  eventID: MTLM020220 eventType: Conferences eventCapacity: 2  | Server Response: Fail: No response from any server
+DATE: 2020-04-13 09:02:22 PM  attempting to addEvent
+DATE: 2020-04-13 09:03:02 PM Client Action:  addEvent | RequestParameters:  eventID: MTLM020220 eventType: Conferences eventCapacity: 2  | Server Response: Fail: No response from any server
+DATE: 2020-04-13 09:22:04 PM  attempting to addEvent
+DATE: 2020-04-13 09:23:12 PM  login attempt
+DATE: 2020-04-13 09:23:12 PM  Manager Login successful
+DATE: 2020-04-13 09:23:29 PM  attempting to addEvent
+DATE: 2020-04-13 09:23:59 PM Client Action:  addEvent | RequestParameters:  eventID: MTLM020220 eventType: Conferences eventCapacity: 2  | Server Response: Fail: No response from any server
+DATE: 2020-04-13 09:26:00 PM  attempting to addEvent
+DATE: 2020-04-13 09:26:26 PM  login attempt
+DATE: 2020-04-13 09:26:26 PM  Manager Login successful
+DATE: 2020-04-13 09:26:36 PM  attempting to addEvent
+DATE: 2020-04-13 09:27:06 PM Client Action:  addEvent | RequestParameters:  eventID: MTLM020220 eventType: Conferences eventCapacity: 2  | Server Response: Fail: No response from any server
+DATE: 2020-04-13 09:48:28 PM  login attempt
+DATE: 2020-04-13 09:48:28 PM  Manager Login successful
+DATE: 2020-04-13 09:48:46 PM  attempting to addEvent
+DATE: 2020-04-13 09:49:16 PM Client Action:  addEvent | RequestParameters:  eventID: MTLM020220 eventType: Conferences eventCapacity: 2  | Server Response: Fail: No response from any server
+DATE: 2020-04-13 09:59:16 PM  login attempt
+DATE: 2020-04-13 09:59:16 PM  Manager Login successful
+DATE: 2020-04-13 09:59:27 PM  attempting to addEvent
+DATE: 2020-04-13 09:59:57 PM Client Action:  addEvent | RequestParameters:  eventID: MTLM020220 eventType: Conferences eventCapacity: 2  | Server Response: Fail: No response from any server
+DATE: 2020-04-13 10:09:34 PM  login attempt
+DATE: 2020-04-13 10:09:34 PM  Manager Login successful
+DATE: 2020-04-13 10:09:42 PM  attempting to addEvent
+DATE: 2020-04-13 10:10:02 PM Client Action:  addEvent | RequestParameters:  eventID: MTLM020220 eventType: Conferences eventCapacity: 2  | Server Response: Fail: No response from any server
+DATE: 2020-04-13 10:20:16 PM  login attempt
+DATE: 2020-04-13 10:20:16 PM  Manager Login successful
+DATE: 2020-04-13 10:20:26 PM  attempting to addEvent
+DATE: 2020-04-13 10:20:46 PM Client Action:  addEvent | RequestParameters:  eventID: MTLM020220 eventType: Conferences eventCapacity: 2  | Server Response: Fail: No response from any server
+DATE: 2020-04-13 10:33:37 PM  login attempt
+DATE: 2020-04-13 10:33:37 PM  Manager Login successful
+DATE: 2020-04-13 10:33:53 PM  attempting to addEvent
+DATE: 2020-04-13 10:34:13 PM Client Action:  addEvent | RequestParameters:  eventID: MTLM020220 eventType: Conferences eventCapacity: 2  | Server Response: Fail: No response from any server
+DATE: 2020-04-13 11:39:46 PM  login attempt
+DATE: 2020-04-13 11:39:46 PM  Manager Login successful
+DATE: 2020-04-13 11:39:54 PM  attempting to addEvent
+DATE: 2020-04-13 11:40:14 PM Client Action:  addEvent | RequestParameters:  eventID: MTLM020220 eventType: Conferences eventCapacity: 2  | Server Response: Fail: No response from any server
+DATE: 2020-04-13 11:43:51 PM  login attempt
+DATE: 2020-04-13 11:43:51 PM  Manager Login successful
+DATE: 2020-04-13 11:44:00 PM  attempting to addEvent
+DATE: 2020-04-13 11:44:20 PM Client Action:  addEvent | RequestParameters:  eventID: MTLM020220 eventType: Conferences eventCapacity: 2  | Server Response: Fail: No response from any server
+DATE: 2020-04-13 11:55:44 PM  login attempt
+DATE: 2020-04-13 11:55:44 PM  Manager Login successful
+DATE: 2020-04-13 11:55:54 PM  attempting to addEvent
+DATE: 2020-04-13 11:56:14 PM Client Action:  addEvent | RequestParameters:  eventID: MTLM020220 eventType: Conferences eventCapacity: 2  | Server Response: Fail: No response from any server
+DATE: 2020-04-13 11:57:44 PM  attempting to removeEvent
+DATE: 2020-04-13 11:58:04 PM Client Action:  removeEvent | RequestParameters:  eventID: MTLM020220 eventType: Conferences  | Server Response: Fail: No response from any server
+DATE: 2020-04-14 12:05:32 AM  attempting to addEvent
+DATE: 2020-04-14 12:05:53 AM Client Action:  addEvent | RequestParameters:  eventID: MTLM020220 eventType: Conferences eventCapacity: 2  | Server Response: Fail: No response from any server
+DATE: 2020-04-14 12:13:11 AM  attempting to addEvent
+DATE: 2020-04-14 12:13:32 AM Client Action:  addEvent | RequestParameters:  eventID: MTLM020220 eventType: Conferences eventCapacity: 2  | Server Response: Fail: No response from any server
+DATE: 2020-04-14 12:14:56 AM  login attempt
+DATE: 2020-04-14 12:14:56 AM  Manager Login successful
+DATE: 2020-04-14 12:15:09 AM  attempting to addEvent
+DATE: 2020-04-14 12:15:29 AM Client Action:  addEvent | RequestParameters:  eventID: MTLM020220 eventType: Conferences eventCapacity: 2  | Server Response: Fail: No response from any server
+DATE: 2020-04-14 12:22:07 AM  login attempt
+DATE: 2020-04-14 12:22:07 AM  Manager Login successful
+DATE: 2020-04-14 12:22:23 AM  attempting to addEvent
+DATE: 2020-04-14 12:22:43 AM Client Action:  addEvent | RequestParameters:  eventID: MTLM020220 eventType: Conferences eventCapacity: 2  | Server Response: Fail: No response from any server

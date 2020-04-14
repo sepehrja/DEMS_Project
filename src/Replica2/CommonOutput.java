@@ -17,8 +17,8 @@ public class CommonOutput {
 	public static final String cancelEvent_fail_no_such_event = "No such event";
 	public static final String swapEvent_fail_no_such_event = "No such event";
 	public static final String swapEvent_fail_not_registered_in_event = "You are not registered in event";
-	private static final String SUCCESS = "Success:";
-	private static final String FAIL = "Fail:";
+	private static final String SUCCESS = "SUCCESS:";
+	private static final String FAIL = "FAIL:";
 
 	private static String standardOutput(boolean isSuccess, String method, String output) {
 		if (isSuccess)

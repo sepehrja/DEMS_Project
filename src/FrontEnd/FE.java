@@ -17,12 +17,14 @@ import java.net.SocketException;
 
 public class FE {
     private static final int sequencerPort = 1333;
-    private static final String sequencerIP = "192.168.2.17";
+    //    private static final String sequencerIP = "192.168.2.17";
+    private static final String sequencerIP = "localhost";
     private static final String RM_Multicast_group_address = "230.1.1.10";
     private static final int FE_SQ_PORT = 1414;
     private static final int FE_PORT = 1413;
     private static final int RM_Multicast_Port = 1234;
-    public static String FE_IP_Address = "192.168.2.11";
+    //    public static String FE_IP_Address = "192.168.2.11";
+    public static String FE_IP_Address = "localhost";
 
     public static void main(String[] args) {
         try {
@@ -49,7 +51,7 @@ public class FE {
                 @Override
                 public void retryRequest(MyRequest myRequest) {
                     System.out.println("No response from all Rms, Retrying request...");
-                    sendUnicastToSequencer(myRequest);
+//                    sendUnicastToSequencer(myRequest);
                 }
             };
             FrontEndImplementation servant = new FrontEndImplementation(inter);
@@ -129,8 +131,8 @@ public class FE {
             e.printStackTrace();
             System.out.println("IO: " + e.getMessage());
         } finally {
-//			if (aSocket != null)
-//				aSocket.close();
+            if (aSocket != null)
+                aSocket.close();
         }
         return sequenceID;
     }
@@ -166,7 +168,7 @@ public class FE {
 //                }
 //            }
 //            aSocket.joinGroup(InetAddress.getByName("230.1.1.5"));
-            aSocket = new DatagramSocket(FE_PORT, desiredAddress);
+            aSocket = new DatagramSocket(FE_PORT);
             byte[] buffer = new byte[1000];
             System.out.println("FE Server Started on " + desiredAddress + ":" + FE_PORT + "............");
 

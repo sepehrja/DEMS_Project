@@ -112,7 +112,7 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
         try {
             System.out.println("FE Implementation:waitForResponse>>>ResponsesRemain" + latch.getCount());
             boolean timeoutReached = latch.await(DYNAMIC_TIMEOUT, TimeUnit.MILLISECONDS);
-            if (!timeoutReached) {
+            if (timeoutReached) {
                 setDynamicTimout();
             }
         } catch (InterruptedException e) {
@@ -145,7 +145,7 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
                 resp = "Fail: " + myRequest.noRequestSendError();
                 break;
         }
-        System.out.println("FE Implementation:validateResponses>>>Responses received:" + latch.getCount() + " >>>Response to be sent to client " + resp);
+        System.out.println("FE Implementation:validateResponses>>>Responses remain:" + latch.getCount() + " >>>Response to be sent to client " + resp);
         return resp;
     }
 
@@ -299,7 +299,8 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
     }
 
     private void setDynamicTimout() {
-        DYNAMIC_TIMEOUT = responseTime * 2;
+        if (responseTime < 10000)
+            DYNAMIC_TIMEOUT = responseTime * 2;
         System.out.println("FE Implementation:setDynamicTimout>>>" + DYNAMIC_TIMEOUT);
     }
 

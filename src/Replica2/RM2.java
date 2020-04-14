@@ -236,25 +236,26 @@ public class RM2 {
     //Execute all request from the lastSequenceID, send the response back to Front and update the counter(lastSequenceID)
     private static void executeAllRequests()throws Exception
 	{
-        while(true)
-        {
-            Iterator <Message> itr = message_q.iterator();
-            while(itr.hasNext())
-            {
-                Message data = itr.next();
-                System.out.println("RM2 is executing message request. Detail:"+ data);
-                //when the servers are down serversFlag is False therefore, no execution untill all servers are up.
-                if(data.sequenceId == lastSequenceID && serversFlag)
-                {
-                    String response = requestToServers(data);
-                    Message message = new Message(data.sequenceId,response , "RM2", 
-                                    data.Function, data.userID, data.newEventID, 
-                                    data.newEventType, data.oldEventID, 
-                                    data.oldEventType, data.bookingCapacity);
-                    lastSequenceID +=1;
-                    messsageToFront(message.toString(), data.FrontIpAddress);
-                    itr.remove();
+        while (true) {
+            synchronized (RM2.class) {
+                Iterator<Message> itr = message_q.iterator();
+                while (itr.hasNext()) {
+                    Message data = itr.next();
+                    System.out.println("RM2 is executing message request. Detail:" + data);
+                    //when the servers are down serversFlag is False therefore, no execution untill all servers are up.
+                    if (data.sequenceId == lastSequenceID && serversFlag) {
+                        System.out.println("RM2 is executing message request. Detail:" + data);
+                        String response = requestToServers(data);
+                        Message message = new Message(data.sequenceId, response, "RM2",
+                                data.Function, data.userID, data.newEventID,
+                                data.newEventType, data.oldEventID,
+                                data.oldEventType, data.bookingCapacity);
+                        lastSequenceID += 1;
+                        messsageToFront(message.toString(), data.FrontIpAddress);
+//                    itr.remove();
+                    }
                 }
+                message_q.clear();
             }
         }
     }
@@ -266,7 +267,7 @@ public class RM2 {
         Registry registry = LocateRegistry.getRegistry(portNumber);
         EventManagementInterface obj = (EventManagementInterface) registry.lookup(EVENT_MANAGEMENT_REGISTERED_NAME);
 
-        if (input.userID.equalsIgnoreCase("M")) {
+        if (input.userID.substring(3, 4).equalsIgnoreCase("M")) {
             if (input.Function.equalsIgnoreCase("addEvent")) {
                 String response = obj.addEvent(input.newEventID, input.newEventType, input.bookingCapacity);
                 System.out.println(response);
@@ -280,7 +281,7 @@ public class RM2 {
                 System.out.println(response);
                 return response;
             }
-        } else if (input.userID.equalsIgnoreCase("C")) {
+        } else if (input.userID.substring(3, 4).equalsIgnoreCase("C")) {
             if (input.Function.equalsIgnoreCase("bookEvent")) {
                 String response = obj.bookEvent(input.userID, input.newEventID, input.newEventType);
                 System.out.println(response);
@@ -319,17 +320,21 @@ public class RM2 {
     public static void messsageToFront(String message, String FrontIpAddress) {
 		System.out.println("Message to front:"+message);
 		DatagramSocket socket = null;
-		try {
-			socket = new DatagramSocket();
-			byte[] bytes = message.getBytes();
-			InetAddress aHost = InetAddress.getByName(FrontIpAddress);
+        try {
+            socket = new DatagramSocket(4323, InetAddress.getByName("localhost"));
+            byte[] bytes = message.getBytes();
+            InetAddress aHost = InetAddress.getByName("127.0.0.1");
 
-			DatagramPacket request = new DatagramPacket(bytes, bytes.length, aHost, 1413);
-			socket.send(request);
-			socket.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+            System.out.println(aHost);
+            DatagramPacket request = new DatagramPacket(bytes, bytes.length, aHost, 1413);
+            socket.send(request);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (socket != null) {
+                socket.close();
+            }
+        }
 		
     }
     public static void reloadServers() throws Exception {

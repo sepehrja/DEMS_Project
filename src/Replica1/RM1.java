@@ -1,27 +1,26 @@
 package Replica1;
 
+import Replica1.DataBase.Message;
+import Replica1.Server.Montreal;
+import Replica1.Server.Quebec;
+import Replica1.Server.Sherbrooke;
+import Replica1.ServerInterface.EventManagementInterface;
+
 import java.io.IOException;
-import java.rmi.registry.Registry;
-import java.util.concurrent.ConcurrentHashMap;
+import java.net.*;
 import java.rmi.registry.LocateRegistry;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.MulticastSocket;
-import java.net.SocketException;
+import java.rmi.registry.Registry;
 import java.util.Iterator;
 import java.util.PriorityQueue;
-
-import Replica1.DataBase.Message;
-import Replica1.Server.*;
-import Replica1.ServerInterface.EventManagementInterface;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class RM1 {
     public static int lastSequenceID = 1;
     private static boolean serversFlag = true;
-    public static ConcurrentHashMap<Integer, Message> message_list = new ConcurrentHashMap<>();;
+    public static ConcurrentHashMap<Integer, Message> message_list = new ConcurrentHashMap<>();
     public static PriorityQueue<Message> message_q = new PriorityQueue<Message>();
-    public static void main(String args[]) throws Exception {
+
+    public static void main(String[] args) throws Exception {
         Run();
     }
 
@@ -88,7 +87,7 @@ public class RM1 {
                     if(message.sequenceId - lastSequenceID > 1)
                     {
                         Message initial_message = new Message(0, "Null", "02",Integer.toString(lastSequenceID), Integer.toString(message.sequenceId), "RM1", "Null", "Null", "Null", 0);
-                        System.out.println("RM1 send request to update its message list. from:" + Integer.toString(lastSequenceID) + "To:"+ Integer.toString(message.sequenceId));
+                        System.out.println("RM1 send request to update its message list. from:" + lastSequenceID + "To:" + message.sequenceId);
                         // Request all RMs to send back list of messages
                         send_multicast_toRM(initial_message);
                     }
@@ -210,7 +209,7 @@ public class RM1 {
         }
         // Remove the last @ character
         if(list.endsWith("@"))
-            list.substring(list.length()-1, list.length());
+            list.substring(list.length() - 1);
         Message message = new Message(0, list , "03", begin.toString(), end.toString(), RmNumber, "Null", "Null", "Null", 0);
         System.out.println("RM1 sending its list of messages for initialization. list of messages:" + list);
         send_multicast_toRM(message);
@@ -251,27 +250,28 @@ public class RM1 {
     }
 
     //Execute all request from the lastSequenceID, send the response back to Front and update the counter(lastSequenceID)
-    private static void executeAllRequests()throws Exception
-	{
-        while(true)
-        {
-            Iterator <Message> itr = message_q.iterator();
-            while(itr.hasNext())
-            {
-                Message data = itr.next();
-                System.out.println("RM1 is executing message request. Detail:"+ data);
-                //when the servers are down serversFlag is False therefore, no execution untill all servers are up.
-                if(data.sequenceId == lastSequenceID && serversFlag)
-                {
-                    String response = requestToServers(data);
-                    Message message = new Message(data.sequenceId,response , "RM1", 
-                                    data.Function, data.userID, data.newEventID, 
-                                    data.newEventType, data.oldEventID, 
-                                    data.oldEventType, data.bookingCapacity);
-                    lastSequenceID +=1;
-                    messsageToFront(message.toString(), data.FrontIpAddress);
-                    itr.remove();
+    private static void executeAllRequests()throws Exception {
+        while (true) {
+            synchronized (RM1.class) {
+                Iterator<Message> itr = message_q.iterator();
+                while (itr.hasNext()) {
+                    Message data = itr.next();
+                    System.out.println("RM1 is executing message request. Detail:" + data);
+                    //when the servers are down serversFlag is False therefore, no execution untill all servers are up.
+                    if (data.sequenceId == lastSequenceID && serversFlag) {
+                        System.out.println("RM1 is executing message request. Detail:" + data);
+                        String response = requestToServers(data);
+                        Message message = new Message(data.sequenceId, response, "RM1",
+                                data.Function, data.userID, data.newEventID,
+                                data.newEventType, data.oldEventID,
+                                data.oldEventType, data.bookingCapacity);
+                        lastSequenceID += 1;
+                        messsageToFront(message.toString(), data.FrontIpAddress);
+//                    message_q.remove(data);
+//                    itr.remove();
+                    }
                 }
+                message_q.clear();
             }
         }
     }
@@ -283,37 +283,26 @@ public class RM1 {
         Registry registry = LocateRegistry.getRegistry(portNumber);
         EventManagementInterface obj = (EventManagementInterface) registry.lookup("ServerClass");
 
-        if(input.userID.equalsIgnoreCase("M"))
-        {
-            if(input.Function.equalsIgnoreCase("addEvent"))
-            {
-                String response = obj.addEvent(input.newEventID, input.newEventType,input.bookingCapacity);
+        if (input.userID.substring(3, 4).equalsIgnoreCase("M")) {
+            if (input.Function.equalsIgnoreCase("addEvent")) {
+                String response = obj.addEvent(input.newEventID, input.newEventType, input.bookingCapacity);
                 System.out.println(response);
                 return response;
-            }
-            else if(input.Function.equalsIgnoreCase("removeEvent"))
-            {
+            } else if (input.Function.equalsIgnoreCase("removeEvent")) {
                 String response = obj.removeEvent(input.newEventID, input.newEventType);
                 System.out.println(response);
                 return response;
-            }
-            else if(input.Function.equalsIgnoreCase("listEventAvailability"))
-            {
+            } else if (input.Function.equalsIgnoreCase("listEventAvailability")) {
                 String response = obj.listEventAvailability(input.newEventType);
                 System.out.println(response);
                 return response;
             }
-        }
-        else if(input.userID.equalsIgnoreCase("C"))
-        {
-            if(input.Function.equalsIgnoreCase("bookEvent"))
-            {
+        } else if (input.userID.substring(3, 4).equalsIgnoreCase("C")) {
+            if (input.Function.equalsIgnoreCase("bookEvent")) {
                 String response = obj.bookEvent(input.userID, input.newEventID, input.newEventType);
                 System.out.println(response);
                 return response;
-            }
-            else if(input.Function.equalsIgnoreCase("getBookingSchedule"))
-            {
+            } else if (input.Function.equalsIgnoreCase("getBookingSchedule")) {
                 String response = obj.getBookingSchedule(input.userID);
                 System.out.println(response);
                 return response;
@@ -351,17 +340,21 @@ public class RM1 {
     public static void messsageToFront(String message, String FrontIpAddress) {
 		System.out.println("Message to front:"+message);
 		DatagramSocket socket = null;
-		try {
-			socket = new DatagramSocket();
-			byte[] bytes = message.getBytes();
-			InetAddress aHost = InetAddress.getByName(FrontIpAddress);
+        try {
+            socket = new DatagramSocket(4321, InetAddress.getByName("localhost"));
+            byte[] bytes = message.getBytes();
+            InetAddress aHost = InetAddress.getByName("127.0.0.1");
 
-			DatagramPacket request = new DatagramPacket(bytes, bytes.length, aHost, 1413);
-			socket.send(request);
-			socket.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+            System.out.println(aHost);
+            DatagramPacket request = new DatagramPacket(bytes, bytes.length, aHost, 1413);
+            socket.send(request);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (socket != null) {
+                socket.close();
+            }
+        }
 		
     }
     public static void reloadServers() throws Exception {

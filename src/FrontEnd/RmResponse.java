@@ -21,7 +21,7 @@ public class RmResponse {
         String[] messageParts = getUdpMessage().split(";");
         setSequenceID(Integer.parseInt(messageParts[0]));
         setResponse(messageParts[1]);
-        setRmNumber(Integer.parseInt(messageParts[2]));
+        setRmNumber(messageParts[2]);
         setFunction(messageParts[3]);
         setUserID(messageParts[4]);
         setNewEventID(messageParts[5]);
@@ -51,8 +51,16 @@ public class RmResponse {
         return rmNumber;
     }
 
-    public void setRmNumber(int rmNumber) {
-        this.rmNumber = rmNumber;
+    public void setRmNumber(String rmNumber) {
+        if (rmNumber.equalsIgnoreCase("RM1")) {
+            this.rmNumber = 1;
+        } else if (rmNumber.equalsIgnoreCase("RM2")) {
+            this.rmNumber = 2;
+        } else if (rmNumber.equalsIgnoreCase("RM3")) {
+            this.rmNumber = 3;
+        } else {
+            this.rmNumber = 0;
+        }
     }
 
     public String getFunction() {

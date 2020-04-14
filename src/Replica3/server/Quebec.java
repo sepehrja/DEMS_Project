@@ -3,10 +3,8 @@ package Replica3.server;
 import Replica3.CommonOutput;
 import Replica3.implementation.DemsImplementation;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -36,30 +34,30 @@ public class Quebec {
 		PrintStream o=new PrintStream(new File(location));
 		System.setOut(o);*/
 		
-		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");  
-	    Date date = new Date(); 
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		Date date = new Date();
 
 		// get reference to rootpoa &amp; activate
 
-	    DemsImplementation stub = new DemsImplementation();
+		DemsImplementation stub = new DemsImplementation();
 		Registry registry = LocateRegistry.createRegistry(5556);
 
 		registry.bind("Function", stub);
-		
 
-			eventList.put("Conferences", "a");
-			eventList.put("TradeShows", "b");
-			eventList.put("Seminars", "c");
 
-			System.out.println("Quebec Server ready and waiting ...");
+		eventList.put("CONFERENCES", "a");
+		eventList.put("TRADESHOWS", "b");
+		eventList.put("SEMINARS", "c");
 
-			 DatagramSocket MSocket = null;
-	            try {
-	                MSocket = new DatagramSocket(7001);
-	                // create socket at agreed port
-	                byte[] buffer = new byte[1000];
-	 
-	                System.out.println("Quebec UDP Server started");
+		System.out.println("Quebec Server ready and waiting ...");
+
+		DatagramSocket MSocket = null;
+		try {
+			MSocket = new DatagramSocket(7001);
+			// create socket at agreed port
+			byte[] buffer = new byte[1000];
+
+			System.out.println("Quebec UDP Server started");
 	                while (true) {
 	                DatagramPacket request = new DatagramPacket(buffer, buffer.length);
 	                MSocket.receive(request);
@@ -94,11 +92,11 @@ public class Quebec {
                         String oldEventID=(fullid.substring(13, 23));
                         String oldEventType=(fullid.substring(0, 1));
                         if(oldEventType.equalsIgnoreCase("c")){
-                            oldEventType="Conferences";
+							oldEventType = "CONFERENCES";
                         }else if(oldEventType.equalsIgnoreCase("t")){
-                            oldEventType="TradeShows";
+							oldEventType = "TRADESHOWS";
                         }else if(oldEventType.equalsIgnoreCase("s")){
-                            oldEventType="Seminars";
+							oldEventType = "SEMINARS";
                         }
                         String var = m.getHashMap(oldEventType);
                         String ans=m.checkAvailabilityOfEvent(var, oldEventID);
@@ -377,26 +375,26 @@ public class Quebec {
 		//kye=event id
 		if (var == "a") {
 			if (a.get(key) != null) {
-				String key1=new String(key);
-				StringBuffer remover=new StringBuffer("Removed "); 
-				if (Muser1.containsKey(key) ){
-					remover.append("Booking found for customer "+Muser1.get(key));
+				String key1 = key;
+				StringBuffer remover = new StringBuffer("Removed ");
+				if (Muser1.containsKey(key)) {
+					remover.append("Booking found for customer " + Muser1.get(key));
 					char[] c = key.toCharArray();
-					String str=Character.toString(c[4]);
-					String str2=Character.toString(c[5]);
-					String dat = str+str2;
-					
-					int i = Integer.parseInt(String.valueOf(dat));
-					int counter=0;
+					String str = Character.toString(c[4]);
+					String str2 = Character.toString(c[5]);
+					String dat = str + str2;
+
+					int i = Integer.parseInt(dat);
+					int counter = 0;
 					for (; i < 30; i++) {
 						char[] c1 = key1.toCharArray();
-										if(c1[3]=='M'){
-											key1 = key.substring(0, 3)+"A" + key1.substring(4);
-											if (a.containsKey(key1) && a.get(key1) != 0 ){
-												Muser1.put(key1, Muser1.get(key));
-												Muser1.remove(key);
-												int Value=a.get(key1);
-												a.replace(key1, Value-1);
+						if (c1[3] == 'M') {
+							key1 = key.substring(0, 3) + "A" + key1.substring(4);
+							if (a.containsKey(key1) && a.get(key1) != 0) {
+								Muser1.put(key1, Muser1.get(key));
+								Muser1.remove(key);
+								int Value = a.get(key1);
+								a.replace(key1, Value - 1);
 												remover.append(". "+"Booking got changed to "+key1);
 												counter++;
 												break;
@@ -407,17 +405,18 @@ public class Quebec {
 											if (a.containsKey(key1) && a.get(key1) != 0 ){
 												Muser1.put(key1, Muser1.get(key));
 												Muser1.remove(key);
-												int Value=a.get(key1);
-												a.replace(key1, Value-1);
-												remover.append(". "+"Booking got changed to "+key1);
+												int Value = a.get(key1);
+												a.replace(key1, Value - 1);
+												remover.append(". " + "Booking got changed to " + key1);
 												counter++;
 												break;
-											}c1 = key1.toCharArray();
+											}
+											c1 = key1.toCharArray();
 										}
-										if (i+1 < 10)
-													key1 = key1.substring(0, 4) + "0"+ Integer.toString(i+1) + key1.substring(6);
-										else
-													key1 = key1.substring(0, 4) + Integer.toString(i+1)+ key1.substring(6);
+						if (i + 1 < 10)
+							key1 = key1.substring(0, 4) + "0" + (i + 1) + key1.substring(6);
+						else
+							key1 = key1.substring(0, 4) + (i + 1) + key1.substring(6);
 										c1 = key1.toCharArray();
 										if(c1[3]=='E'){
 													key1 = key.substring(0, 3)+"M" + key1.substring(4);
@@ -445,26 +444,26 @@ public class Quebec {
 			}
 		} else if (var == "b") {
 			if (b.get(key) != null) {
-				String key1=new String(key);
-				StringBuffer remover=new StringBuffer("Removed "); 
-				if (Muser1.containsKey(key) ){
-					remover.append("Booking found for customer "+Muser1.get(key));
+				String key1 = key;
+				StringBuffer remover = new StringBuffer("Removed ");
+				if (Muser1.containsKey(key)) {
+					remover.append("Booking found for customer " + Muser1.get(key));
 					char[] c = key.toCharArray();
-					String str=Character.toString(c[4]);
-					String str2=Character.toString(c[5]);
-					String dat = str+str2;
-					
-					int i = Integer.parseInt(String.valueOf(dat));
-					int counter=0;
+					String str = Character.toString(c[4]);
+					String str2 = Character.toString(c[5]);
+					String dat = str + str2;
+
+					int i = Integer.parseInt(dat);
+					int counter = 0;
 					for (; i < 30; i++) {
 						char[] c1 = key1.toCharArray();
-										if(c1[3]=='M'){
-											key1 = key.substring(0, 3)+"A" + key1.substring(4);
-											if (b.containsKey(key1) && b.get(key1) != 0 ){
-												Muser1.put(key1, Muser1.get(key));
-												Muser1.remove(key);
-												int Value=b.get(key1);
-												b.replace(key1, Value-1);
+						if (c1[3] == 'M') {
+							key1 = key.substring(0, 3) + "A" + key1.substring(4);
+							if (b.containsKey(key1) && b.get(key1) != 0) {
+								Muser1.put(key1, Muser1.get(key));
+								Muser1.remove(key);
+								int Value = b.get(key1);
+								b.replace(key1, Value - 1);
 												remover.append(". "+"Booking got changed to "+key1);
 												counter++;
 												break;
@@ -475,17 +474,18 @@ public class Quebec {
 											if (b.containsKey(key1) && b.get(key1) != 0 ){
 												Muser1.put(key1, Muser1.get(key));
 												Muser1.remove(key);
-												int Value=b.get(key1);
-												b.replace(key1, Value-1);
-												remover.append(". "+"Booking got changed to "+key1);
+												int Value = b.get(key1);
+												b.replace(key1, Value - 1);
+												remover.append(". " + "Booking got changed to " + key1);
 												counter++;
 												break;
-											}c1 = key1.toCharArray();
+											}
+											c1 = key1.toCharArray();
 										}
-										if (i+1 < 10)
-													key1 = key1.substring(0, 4) + "0"+ Integer.toString(i+1) + key1.substring(6);
-										else
-													key1 = key1.substring(0, 4) + Integer.toString(i+1)+ key1.substring(6);
+						if (i + 1 < 10)
+							key1 = key1.substring(0, 4) + "0" + (i + 1) + key1.substring(6);
+						else
+							key1 = key1.substring(0, 4) + (i + 1) + key1.substring(6);
 										c1 = key1.toCharArray();
 										if(c1[3]=='E'){
 													key1 = key.substring(0, 3)+"M" + key1.substring(4);
@@ -513,26 +513,26 @@ public class Quebec {
 			}
 		} else if (var == "c") {
 			if (c.get(key) != null) {
-				String key1=new String(key);
-				StringBuffer remover=new StringBuffer("Removed "); 
-				if (Muser1.containsKey(key) ){
-					remover.append("Booking found for customer "+Muser1.get(key));
+				String key1 = key;
+				StringBuffer remover = new StringBuffer("Removed ");
+				if (Muser1.containsKey(key)) {
+					remover.append("Booking found for customer " + Muser1.get(key));
 					char[] ch = key.toCharArray();
-					String str=Character.toString(ch[4]);
-					String str2=Character.toString(ch[5]);
-					String dat = str+str2;
-					
-					int i = Integer.parseInt(String.valueOf(dat));
-					int counter=0;
+					String str = Character.toString(ch[4]);
+					String str2 = Character.toString(ch[5]);
+					String dat = str + str2;
+
+					int i = Integer.parseInt(dat);
+					int counter = 0;
 					for (; i < 30; i++) {
 						char[] c1 = key1.toCharArray();
-										if(c1[3]=='M'){
-											key1 = key.substring(0, 3)+"A" + key1.substring(4);
-											if (c.containsKey(key1) && c.get(key1) != 0 ){
-												Muser1.put(key1, Muser1.get(key));
-												Muser1.remove(key);
-												int Value=c.get(key1);
-												c.replace(key1, Value-1);
+						if (c1[3] == 'M') {
+							key1 = key.substring(0, 3) + "A" + key1.substring(4);
+							if (c.containsKey(key1) && c.get(key1) != 0) {
+								Muser1.put(key1, Muser1.get(key));
+								Muser1.remove(key);
+								int Value = c.get(key1);
+								c.replace(key1, Value - 1);
 												remover.append(". "+"Booking got changed to "+key1);
 												counter++;
 												break;
@@ -543,17 +543,18 @@ public class Quebec {
 											if (c.containsKey(key1) && c.get(key1) != 0 ){
 												Muser1.put(key1, Muser1.get(key));
 												Muser1.remove(key);
-												int Value=c.get(key1);
-												c.replace(key1, Value-1);
-												remover.append(". "+"Booking got changed to "+key1);
+												int Value = c.get(key1);
+												c.replace(key1, Value - 1);
+												remover.append(". " + "Booking got changed to " + key1);
 												counter++;
 												break;
-											}c1 = key1.toCharArray();
+											}
+											c1 = key1.toCharArray();
 										}
-										if (i+1 < 10)
-													key1 = key1.substring(0, 4) + "0"+ Integer.toString(i+1) + key1.substring(6);
-										else
-													key1 = key1.substring(0, 4) + Integer.toString(i+1)+ key1.substring(6);
+						if (i + 1 < 10)
+							key1 = key1.substring(0, 4) + "0" + (i + 1) + key1.substring(6);
+						else
+							key1 = key1.substring(0, 4) + (i + 1) + key1.substring(6);
 										c1 = key1.toCharArray();
 										if(c1[3]=='E'){
 													key1 = key.substring(0, 3)+"M" + key1.substring(4);
@@ -602,18 +603,18 @@ public class Quebec {
 			b.entrySet().forEach(entry -> {
 				temp.put(entry.getKey(), entry.getValue());
 			});
-			
+
 		} else if (value.equalsIgnoreCase("c")) {
 			c.entrySet().forEach(entry -> {
 				temp.put(entry.getKey(), entry.getValue());
 			});
-			
+
 		}
-		
-		StringBuffer str=new StringBuffer("");
+
+		StringBuffer str = new StringBuffer();
 		temp.entrySet().forEach(entry -> {
-			
-			str.append(entry.getKey()+" "+ entry.getValue() +",");
+
+			str.append(entry.getKey() + " " + entry.getValue() + ",");
 		});
 		return str.toString();
 
@@ -658,16 +659,16 @@ public class Quebec {
 
 	public synchronized String bookedEvent(String var,String eventID, String customerID) {
 		// TODO Auto-generated method stub
-		char ch[]=customerID.toCharArray();
-		char ch1[]={ ch[0], ch[1], ch[2] };
-		String server=new String(ch1);
-		
+		char[] ch = customerID.toCharArray();
+		char[] ch1 = {ch[0], ch[1], ch[2]};
+		String server = new String(ch1);
+
 		ArrayList<String> users = new ArrayList<String>();
-		if(Muser1.containsKey(eventID)){
-			users=Muser1.get(eventID);
+		if (Muser1.containsKey(eventID)) {
+			users = Muser1.get(eventID);
 			users.add(customerID);
 			Muser1.put(eventID, users);
-		}else{
+		} else {
 			users.add(customerID);
 			Muser1.put(eventID, users);
 		}
@@ -690,14 +691,14 @@ public class Quebec {
 	public synchronized String canceledEvent(String var,String eventID, String customerID) {
 		// TODO Auto-generated method stub
 
-		char ch[]=customerID.toCharArray();
-		char ch1[]={ ch[0], ch[1], ch[2] };
-		String server=new String(ch1);
-		
+		char[] ch = customerID.toCharArray();
+		char[] ch1 = {ch[0], ch[1], ch[2]};
+		String server = new String(ch1);
+
 		ArrayList<String> users = new ArrayList<String>();
-		if(Muser1.containsKey(eventID)){
-			users=Muser1.get(eventID);
-			if(users.size()>1){
+		if (Muser1.containsKey(eventID)) {
+			users = Muser1.get(eventID);
+			if (users.size() > 1) {
 				users.remove(customerID);
 				Muser1.put(eventID, users);
 			}
@@ -725,11 +726,8 @@ public class Quebec {
 			String customerID) {
 		// TODO Auto-generated method stub
 		//Muser1.put(eventID, customerID);
-		if (Muser1.containsKey(eventID)
-				&& Muser1.get(eventID).contains(customerID)) {
-			return true;
-		} else
-			return false;
+		return Muser1.containsKey(eventID)
+				&& Muser1.get(eventID).contains(customerID);
 	}
 
 	public synchronized String getUserData(String customerID) {
@@ -750,11 +748,11 @@ public class Quebec {
 		Muser1.entrySet().forEach(entry -> {
 			if (entry.getValue().contains(customerID)){
 				if (a.containsKey(entry.getKey()) ) {
-					temp11.put(entry.getKey(), "Conferences");
+					temp11.put(entry.getKey(), "CONFERENCES");
 				}else if(b.containsKey(entry.getKey()) ) {
-					temp11.put(entry.getKey(), "TradeShows");
+					temp11.put(entry.getKey(), "TRADESHOWS");
 				}else if(c.containsKey(entry.getKey()) ) {
-					temp11.put(entry.getKey(), "Seminars");
+					temp11.put(entry.getKey(), "SEMINARS");
 				}
 				
 			}
@@ -784,41 +782,41 @@ public class Quebec {
 		
 		if(date>=4 && date <=27)
 		{
-			for(int i=-3;i<=3;i++){
+			for(int i=-3;i<=3;i++) {
 				int c;
-				c=date;
-				c=c+i;
-				String newEvent = new String();
-				if(c>=1 && c<10){
-					newEvent="QUE"+EventId.substring(3,4)+"0"+c+EventId.substring(6,10);
-				}else if(c>=10){
-					newEvent="QUE"+EventId.substring(3,4)+c+EventId.substring(6,10);
+				c = date;
+				c = c + i;
+				String newEvent = "";
+				if (c >= 1 && c < 10) {
+					newEvent = "QUE" + EventId.substring(3, 4) + "0" + c + EventId.substring(6, 10);
+				} else if (c >= 10) {
+					newEvent = "QUE" + EventId.substring(3, 4) + c + EventId.substring(6, 10);
 				}
 				ar.add(newEvent);
 			}
 		} else if(date>27 && date <=30){
 			
-			for(int i=-3;i<=3;i++){
-				int month=Integer.parseInt(EventId.substring(6,8));
+			for(int i=-3;i<=3;i++) {
+				int month = Integer.parseInt(EventId.substring(6, 8));
 				int c;
-				c=date;
-				c=c+i;
-				if(c>30){
-					 month=Integer.parseInt(EventId.substring(6,8))+1;
-					c=c-30;
+				c = date;
+				c = c + i;
+				if (c > 30) {
+					month = Integer.parseInt(EventId.substring(6, 8)) + 1;
+					c = c - 30;
 				}
-					
-				String newEvent = new String();
-				if(c>=1 && c<10){
-					if(month>=1 && month<10){
-					newEvent="MTL"+EventId.substring(3,4)+"0"+c+"0"+month+EventId.substring(8,10);
-				}else if(month>=10){
-					newEvent="MTL"+EventId.substring(3,4)+"0"+c+"0"+month+EventId.substring(8,10);
-				}else if(month==0){
-					newEvent="MTL"+EventId.substring(3,4)+"0"+c+"12"+(Integer.parseInt(EventId.substring(8,10))-1);
-				}else if(month==13){
-					newEvent="MTL"+EventId.substring(3,4)+c+"01"+(Integer.parseInt(EventId.substring(8,10))+1);
-				}
+
+				String newEvent = "";
+				if (c >= 1 && c < 10) {
+					if (month >= 1 && month < 10) {
+						newEvent = "MTL" + EventId.substring(3, 4) + "0" + c + "0" + month + EventId.substring(8, 10);
+					} else if (month >= 10) {
+						newEvent = "MTL" + EventId.substring(3, 4) + "0" + c + "0" + month + EventId.substring(8, 10);
+					} else if (month == 0) {
+						newEvent = "MTL" + EventId.substring(3, 4) + "0" + c + "12" + (Integer.parseInt(EventId.substring(8, 10)) - 1);
+					} else if (month == 13) {
+						newEvent = "MTL" + EventId.substring(3, 4) + c + "01" + (Integer.parseInt(EventId.substring(8, 10)) + 1);
+					}
 				}else if(c>=10){
 					if(month>=1 && month<10){
 					newEvent="MTL"+EventId.substring(3,4)+c+"0"+month+EventId.substring(8,10);
@@ -834,27 +832,27 @@ public class Quebec {
 			}
 		}else if(date>=1 && date <=3){
 			
-			for(int i=-3;i<=3;i++){
-				int month=Integer.parseInt(EventId.substring(6,8));
+			for(int i=-3;i<=3;i++) {
+				int month = Integer.parseInt(EventId.substring(6, 8));
 				int c;
-				c=date;
-				c=c+i;
-				if(c<1){
-					 month=Integer.parseInt(EventId.substring(6,8))-1;
-					c=c+30;
+				c = date;
+				c = c + i;
+				if (c < 1) {
+					month = Integer.parseInt(EventId.substring(6, 8)) - 1;
+					c = c + 30;
 				}
-					
-				String newEvent = new String();
-				if(c>=1 && c<10){
-					if(month>=1 && month<10){
-					newEvent="MTL"+EventId.substring(3,4)+"0"+c+"0"+month+EventId.substring(8,10);
-				}else if(month>=10){
-					newEvent="MTL"+EventId.substring(3,4)+"0"+c+"0"+month+EventId.substring(8,10);
-				}else if(month==0){
-					newEvent="MTL"+EventId.substring(3,4)+"0"+c+"12"+(Integer.parseInt(EventId.substring(8,10))-1);
-				}else if(month==13){
-					newEvent="MTL"+EventId.substring(3,4)+c+"01"+(Integer.parseInt(EventId.substring(8,10))+1);
-				}
+
+				String newEvent = "";
+				if (c >= 1 && c < 10) {
+					if (month >= 1 && month < 10) {
+						newEvent = "MTL" + EventId.substring(3, 4) + "0" + c + "0" + month + EventId.substring(8, 10);
+					} else if (month >= 10) {
+						newEvent = "MTL" + EventId.substring(3, 4) + "0" + c + "0" + month + EventId.substring(8, 10);
+					} else if (month == 0) {
+						newEvent = "MTL" + EventId.substring(3, 4) + "0" + c + "12" + (Integer.parseInt(EventId.substring(8, 10)) - 1);
+					} else if (month == 13) {
+						newEvent = "MTL" + EventId.substring(3, 4) + c + "01" + (Integer.parseInt(EventId.substring(8, 10)) + 1);
+					}
 				}else if(c>=10){
 					if(month>=1 && month<10){
 					newEvent="MTL"+EventId.substring(3,4)+c+"0"+month+EventId.substring(8,10);
@@ -881,8 +879,8 @@ public class Quebec {
 		return count[0];
     }
 	 public synchronized String isbooked(String customerID) {
-         StringBuffer str = new StringBuffer("");
-         int[] count={0};
+		 StringBuffer str = new StringBuffer();
+		 int[] count = {0};
          Muser1.entrySet().forEach(entry -> {
              
                  
@@ -900,7 +898,7 @@ public class Quebec {
 	
 	public synchronized String UDPConnect(int serverPort, String combinedId) {
 		DatagramSocket aSocket = null;
-		String str=new String();
+		String str = "";
 		try {
 			System.out.println("Quebec client started");
 			aSocket = new DatagramSocket();

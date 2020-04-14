@@ -1,0 +1,7 @@
+DATE: 2020-04-13 10:20:27 PM| Request type: Add event | Request parameters:  EventType:CONFERENCES EventID:MTLM020220bookingCapacity:2 | Request result: successfully completed | Server resonse: Event added toMTL
+DATE: 2020-04-13 10:33:54 PM| Request type: Add event | Request parameters:  EventType:CONFERENCES EventID:MTLM020220bookingCapacity:2 | Request result: successfully completed | Server resonse: Event added toMTL
+DATE: 2020-04-13 11:44:01 PM| Request type: Add event | Request parameters:  EventType:CONFERENCES EventID:MTLM020220bookingCapacity:2 | Request result: successfully completed | Server resonse: Event added toMTL
+DATE: 2020-04-13 11:55:55 PM| Request type: Add event | Request parameters:  EventType:CONFERENCES EventID:MTLM020220bookingCapacity:2 | Request result: successfully completed | Server resonse: Event added toMTL
+DATE: 2020-04-13 11:57:44 PM| Request type: Remove event | Request parameters:  EventType:CONFERENCES EventID:MTLM020220 | Request result: successfully completed | Server resonse: Event removed from serverMTL
+DATE: 2020-04-14 12:15:10 AM| Request type: Add event | Request parameters:  EventType:CONFERENCES EventID:MTLM020220bookingCapacity:2 | Request result: successfully completed | Server resonse: Event added toMTL
+DATE: 2020-04-14 12:22:24 AM| Request type: Add event | Request parameters:  EventType:CONFERENCES EventID:MTLM020220bookingCapacity:2 | Request result: successfully completed | Server resonse: Capacity added to event

@@ -18,8 +18,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class EventManagement extends UnicastRemoteObject implements EventManagementInterface {
     public static final int Montreal_Server_Port = 8888;
-    public static final int Quebec_Server_Port = 7777;
-    public static final int Sherbrooke_Server_Port = 6666;
+    public static final int Quebec_Server_Port = 8887;
+    public static final int Sherbrooke_Server_Port = 8886;
     public static final String EVENT_SERVER_SHERBROOK = "SHERBROOK";
     public static final String EVENT_SERVER_QUEBEC = "QUEBEC";
     public static final String EVENT_SERVER_MONTREAL = "MONTREAL";

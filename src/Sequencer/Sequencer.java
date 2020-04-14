@@ -8,11 +8,13 @@ import java.net.SocketException;
 
 public class Sequencer {
 	private static int sequencerId = 0;
+	//	private static String sequencerIP = "192.168.2.17";
+	private static final String sequencerIP = "localhost";
 
 	public static void main(String[] args) {
 		DatagramSocket aSocket = null;
 		try {
-			aSocket = new DatagramSocket(1333, InetAddress.getByName("192.168.2.17"));
+			aSocket = new DatagramSocket(1333, InetAddress.getByName(sequencerIP));
 			byte[] buffer = new byte[1000];
 			System.out.println("Sequencer UDP Server Started");
 			while (true) {
@@ -29,6 +31,7 @@ public class Sequencer {
 				String[] parts = sentence.split(";");
 				int sequencerId1 = Integer.parseInt(parts[0]);
 				String ip = request.getAddress().getHostAddress();
+//				ip = "localhost";
 
 				String sentence1 = ip + ";" +
 						parts[2] + ";" +
@@ -48,6 +51,7 @@ public class Sequencer {
 				InetAddress aHost1 = request.getAddress();
 				int port1 = request.getPort();
 
+				System.out.println(aHost1 + ":" + port1);
 				DatagramPacket request1 = new DatagramPacket(SeqId,
 						SeqId.length, aHost1, port1);
 				aSocket.send(request1);
@@ -64,7 +68,7 @@ public class Sequencer {
 	}
 
 	public static void sendMessage(String message, int sequencerId1) {
-		int port = 1412;
+		int port = 1234;
 
 		if (sequencerId1 == 0) {
 			sequencerId1 = ++sequencerId;
