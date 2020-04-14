@@ -10,7 +10,9 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Iterator;
 import java.util.PriorityQueue;
+import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import static Replica2.com.sepehr.Server.ServerInstance.*;
 
@@ -19,7 +21,7 @@ public class RM2 {
     public static int lastSequenceID = 1;
     private static boolean serversFlag = true;
     public static ConcurrentHashMap<Integer, Message> message_list = new ConcurrentHashMap<>();
-    public static PriorityQueue<Message> message_q = new PriorityQueue<Message>();
+    public static Queue<Message> message_q = new ConcurrentLinkedQueue<Message>();
 
     public static void main(String[] args) throws Exception {
         Run();
