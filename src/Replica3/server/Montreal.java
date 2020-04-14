@@ -94,7 +94,7 @@ public class Montreal {
                     String oldEventID=(fullid.substring(13, 23));
                     String oldEventType=(fullid.substring(0, 1));
                     if(oldEventType.equalsIgnoreCase("c")){
-                        oldEventType="Conferences";
+                        oldEventType="CONFERENCES";
                     }else if(oldEventType.equalsIgnoreCase("t")){
 						oldEventType = "TRADESHOWS";
                     }else if(oldEventType.equalsIgnoreCase("s")){
@@ -875,7 +875,7 @@ public class Montreal {
 				
 			if (entry.getValue().contains(customerID)){
 				if (a.containsKey(entry.getKey()) ) {
-					temp11.put(entry.getKey(), "Conferences");
+					temp11.put(entry.getKey(), "CONFERENCES");
 				}else if(b.containsKey(entry.getKey()) ) {
 					temp11.put(entry.getKey(), "TRADESHOWS");
 				}else if(c.containsKey(entry.getKey()) ) {
@@ -887,7 +887,7 @@ public class Montreal {
 		
 		StringBuffer str = new StringBuffer(" ");
 		temp11.entrySet().forEach(entry -> {
-			str.append(entry.getKey() + " " + entry.getValue() + ",");
+			str.append(entry.getValue() + " " + entry.getKey() + ",");
 		});
 		return str.toString();
 
