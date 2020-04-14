@@ -21,3 +21,31 @@ DATE: 2020-04-14 03:29:10 PM ClientID: Event Manager | RequestType:  UDP request
 DATE: 2020-04-14 04:03:01 PM  Server is Up & Running
 DATE: 2020-04-14 04:03:01 PM  UDP Server Started at port 8888
 DATE: 2020-04-14 04:04:13 PM ClientID: Event Manager | RequestType:  addEvent  | RequestParameters:  eventID: MTLM020220 eventType: CONFERENCES bookingCapacity 2  | ServerResponse: Success: Event MTLM020220 added successfully
+DATE: 2020-04-14 04:22:08 PM  Server is Up & Running
+DATE: 2020-04-14 04:22:09 PM  UDP Server Started at port 8888
+DATE: 2020-04-14 04:22:34 PM ClientID: Event Manager | RequestType:  addEvent  | RequestParameters:  eventID: MTLM020220 eventType: CONFERENCES bookingCapacity 2  | ServerResponse: Success: Event MTLM020220 added successfully
+DATE: 2020-04-14 04:22:45 PM ClientID: Event Manager | RequestType:  addEvent  | RequestParameters:  eventID: MTLM030330 eventType: CONFERENCES bookingCapacity 3  | ServerResponse: Success: Event MTLM030330 added successfully
+DATE: 2020-04-14 04:23:03 PM ClientID: Event Manager | RequestType:  UDP request sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse:  ... 
+DATE: 2020-04-14 04:23:03 PM ClientID: Event Manager | RequestType:  UDP reply receivedlistEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-14 04:23:03 PM ClientID: Event Manager | RequestType:  UDP request sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse:  ... 
+DATE: 2020-04-14 04:23:03 PM ClientID: Event Manager | RequestType:  UDP reply receivedlistEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-14 04:23:03 PM ClientID: Event Manager | RequestType:  listEventAvailability  | RequestParameters:  eventType: CONFERENCES  | ServerResponse: MONTREAL Server CONFERENCES:
+ (MTLM030330) in the Morning of 03/03/2030 Total[Remaining] Capacity: 3[3] ||  (MTLM020220) in the Morning of 02/02/2020 Total[Remaining] Capacity: 2[2] || 
+=====================================
+;;
+DATE: 2020-04-14 04:23:46 PM ClientID: Event Manager | RequestType:  addEvent  | RequestParameters:  eventID: MTLA030321 eventType: SEMINARS bookingCapacity 2  | ServerResponse: Success: Event MTLA030321 added successfully
+DATE: 2020-04-14 04:24:01 PM ClientID: Event Manager | RequestType:  UDP request sent listEventAvailability  | RequestParameters:  eventID: null eventType: SEMINARS  | ServerResponse:  ... 
+DATE: 2020-04-14 04:24:01 PM ClientID: Event Manager | RequestType:  UDP reply receivedlistEventAvailability  | RequestParameters:  eventID: null eventType: SEMINARS  | ServerResponse: ;
+DATE: 2020-04-14 04:24:01 PM ClientID: Event Manager | RequestType:  UDP request sent listEventAvailability  | RequestParameters:  eventID: null eventType: SEMINARS  | ServerResponse:  ... 
+DATE: 2020-04-14 04:24:01 PM ClientID: Event Manager | RequestType:  UDP reply receivedlistEventAvailability  | RequestParameters:  eventID: null eventType: SEMINARS  | ServerResponse: ;
+DATE: 2020-04-14 04:24:01 PM ClientID: Event Manager | RequestType:  listEventAvailability  | RequestParameters:  eventType: SEMINARS  | ServerResponse: MONTREAL Server SEMINARS:
+ (MTLA030321) in the Afternoon of 03/03/2021 Total[Remaining] Capacity: 2[2] || 
+=====================================
+;;
+DATE: 2020-04-14 04:24:58 PM ClientID: MTLC1234 | RequestType:  bookEvent  | RequestParameters:  eventID: MTLM030330 eventType: CONFERENCES  | ServerResponse: SUCCESS:bookEvent > successful
+DATE: 2020-04-14 04:25:21 PM ClientID: MTLC1234 | RequestType:  getBookingSchedule  | RequestParameters: null | ServerResponse: CONFERENCES:
+MTLM030330 ||
+=====================================
+
+DATE: 2020-04-14 04:26:59 PM ClientID: MTLC1234 | RequestType:  bookEvent  | RequestParameters:  eventID: MTLA030321 eventType: SEMINARS  | ServerResponse: SUCCESS:bookEvent > successful
+DATE: 2020-04-14 04:26:59 PM ClientID: MTLC1234 | RequestType:  swapEvent  | RequestParameters:  oldEventID: MTLM030330 oldEventType: CONFERENCES newEventID: MTLA030321 newEventType: SEMINARS  | ServerResponse: FAIL:swapEvent > failed

@@ -11,3 +11,9 @@ DATE: 2020-04-14 03:23:39 PM  Server is Up & Running
 DATE: 2020-04-14 03:23:39 PM  UDP Server Started at port 8887
 DATE: 2020-04-14 04:03:01 PM  Server is Up & Running
 DATE: 2020-04-14 04:03:01 PM  UDP Server Started at port 8887
+DATE: 2020-04-14 04:22:08 PM  Server is Up & Running
+DATE: 2020-04-14 04:22:09 PM  UDP Server Started at port 8887
+DATE: 2020-04-14 04:23:03 PM ClientID: Event Manager | RequestType:  UDP request received listEventAvailability  | RequestParameters:  eventType: CONFERENCES  | ServerResponse:  ...
+DATE: 2020-04-14 04:23:03 PM ClientID: Event Manager | RequestType:  UDP reply sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-14 04:24:01 PM ClientID: Event Manager | RequestType:  UDP request received listEventAvailability  | RequestParameters:  eventType: SEMINARS  | ServerResponse:  ...
+DATE: 2020-04-14 04:24:01 PM ClientID: Event Manager | RequestType:  UDP reply sent listEventAvailability  | RequestParameters:  eventID: null eventType: SEMINARS  | ServerResponse: ;

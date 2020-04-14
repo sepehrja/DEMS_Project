@@ -239,9 +239,9 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
     }
 
     private void rmBugFound(int rmNumber) {
-        System.out.println("FE Implementation:rmDown>>>RM1" + Rm1BugCount);
-        System.out.println("FE Implementation:rmDown>>>RM2" + Rm2BugCount);
-        System.out.println("FE Implementation:rmDown>>>RM3" + Rm3BugCount);
+        System.out.println("FE Implementation:rmBugFound>>>RM1 - bugs:" + Rm1BugCount);
+        System.out.println("FE Implementation:rmBugFound>>>RM2 - bugs:" + Rm2BugCount);
+        System.out.println("FE Implementation:rmBugFound>>>RM3 - bugs:" + Rm3BugCount);
         switch (rmNumber) {
             case 1:
                 Rm1BugCount++;
@@ -269,9 +269,9 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
     }
 
     private void rmDown(int rmNumber) {
-        System.out.println("FE Implementation:rmDown>>>RM1" + Rm1NoResponseCount);
-        System.out.println("FE Implementation:rmDown>>>RM2" + Rm2NoResponseCount);
-        System.out.println("FE Implementation:rmDown>>>RM3" + Rm3NoResponseCount);
+        System.out.println("FE Implementation:rmDown>>>RM1 - noResponse:" + Rm1NoResponseCount);
+        System.out.println("FE Implementation:rmDown>>>RM2 - noResponse:" + Rm2NoResponseCount);
+        System.out.println("FE Implementation:rmDown>>>RM3 - noResponse:" + Rm3NoResponseCount);
         switch (rmNumber) {
             case 1:
                 Rm1NoResponseCount++;

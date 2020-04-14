@@ -121,3 +121,21 @@ DATE: 2020-04-14 04:05:25 PM  attempting to addEvent
 DATE: 2020-04-14 04:05:27 PM Client Action:  addEvent | RequestParameters:  eventID: MTLA030330 eventType: Conferences eventCapacity: 3  | Server Response: SUCCESS:addEvent > Event added successfully
 DATE: 2020-04-14 04:05:39 PM  attempting to listEventAvailability
 DATE: 2020-04-14 04:05:41 PM Client Action:  listEventAvailability | RequestParameters:  eventType: Conferences  | Server Response: Fail: majority response not found
+DATE: 2020-04-14 04:22:24 PM  login attempt
+DATE: 2020-04-14 04:22:24 PM  Manager Login successful
+DATE: 2020-04-14 04:22:32 PM  attempting to addEvent
+DATE: 2020-04-14 04:22:34 PM Client Action:  addEvent | RequestParameters:  eventID: MTLM020220 eventType: Conferences eventCapacity: 2  | Server Response: SUCCESS:addEvent > Event added successfully
+DATE: 2020-04-14 04:22:45 PM  attempting to addEvent
+DATE: 2020-04-14 04:22:45 PM Client Action:  addEvent | RequestParameters:  eventID: MTLM030330 eventType: Conferences eventCapacity: 3  | Server Response: SUCCESS:addEvent > Event added successfully
+DATE: 2020-04-14 04:23:03 PM  attempting to listEventAvailability
+DATE: 2020-04-14 04:23:03 PM Client Action:  listEventAvailability | RequestParameters:  eventType: Conferences  | Server Response: SUCCESS:listEventAvailability > MTLM030330 3@MTLM020220 2
+DATE: 2020-04-14 04:23:46 PM  attempting to addEvent
+DATE: 2020-04-14 04:23:46 PM Client Action:  addEvent | RequestParameters:  eventID: MTLA030321 eventType: Seminars eventCapacity: 2  | Server Response: SUCCESS:addEvent > Event added successfully
+DATE: 2020-04-14 04:24:01 PM  attempting to listEventAvailability
+DATE: 2020-04-14 04:24:01 PM Client Action:  listEventAvailability | RequestParameters:  eventType: Seminars  | Server Response: SUCCESS:listEventAvailability > MTLA030321 2
+DATE: 2020-04-14 04:24:58 PM  attempting to bookEvent
+DATE: 2020-04-14 04:24:58 PM Client Action:  bookEvent | RequestParameters:  customerID: MTLC1234 eventID: MTLM030330 eventType: Conferences  | Server Response: SUCCESS:bookEvent > successful
+DATE: 2020-04-14 04:25:21 PM  attempting to getBookingSchedule
+DATE: 2020-04-14 04:25:21 PM Client Action:  getBookingSchedule | RequestParameters:  customerID: MTLC1234  | Server Response: SUCCESS:getBookingSchedule > CONFERENCES MTLM030330
+DATE: 2020-04-14 04:26:59 PM  attempting to swapEvent
+DATE: 2020-04-14 04:26:59 PM Client Action:  swapEvent | RequestParameters:  customerID: MTLC1234 oldEventID: MTLM030330 oldEventType: Conferences newEventID: MTLA030321 newEventType: Seminars  | Server Response: Fail: majority response not found
