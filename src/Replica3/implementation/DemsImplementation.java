@@ -333,8 +333,8 @@ public class DemsImplementation  extends UnicastRemoteObject  implements Manager
 	    	for(String s: al){
 	    		List<String> users = new ArrayList<String>();
 	    	   String[] str3=s.split(" ");
-	    	   users.add(str2[1]);
-	    	   a.put(str2[0], users);
+	    	   users.add(str3[1]);
+	    	   a.put(str3[0], users);
 	    	
 	}
 
@@ -571,15 +571,15 @@ public class DemsImplementation  extends UnicastRemoteObject  implements Manager
 			} else if (oldServ.equalsIgnoreCase("QUE")) {
 				String var = oldEventType.substring(0, 1) + "getExistence"
 						+ oldEventID;
-				String ans = (mn.UDPConnect(7001, var)).substring(0, 10);
+				String ans = (mn.UDPConnect(7001, var));
 
 				String variable = "isBooked" + customerID;
 				String bookingexistence = (mn.UDPConnect(7001, variable))
-						.substring(0, 6);
-				if (bookingexistence.equalsIgnoreCase("False ")) {
+						;
+				if (bookingexistence.contains("False")) {
 					return CommonOutput.swapEventOutput(false, CommonOutput.swapEvent_fail_not_registered_in_event);
 				}
-				if (ans.equalsIgnoreCase("Available ")) {
+				if (ans.contains("Available")) {
 					count++;
 					if (Lowest_EventId.equals(oldEventID)) {
 						String count1 = mn.UDPConnect(7001, ("checkCount"
@@ -594,15 +594,15 @@ public class DemsImplementation  extends UnicastRemoteObject  implements Manager
 			} else if (oldServ.equalsIgnoreCase("SHE")) {
 				String var = oldEventType.substring(0, 1) + "getExistence"
 						+ oldEventID;
-				String ans = (mn.UDPConnect(7002, var)).substring(0, 10);
+				String ans = (mn.UDPConnect(7002, var));
 
 				String variable = "isBooked" + customerID;
 				String bookingexistence = (mn.UDPConnect(7002, variable))
-						.substring(0, 6);
-				if (bookingexistence.equalsIgnoreCase("False ")) {
+						;
+				if (bookingexistence.contains("False")) {
 					return CommonOutput.swapEventOutput(false, CommonOutput.swapEvent_fail_not_registered_in_event);
 				}
-				if (ans.equalsIgnoreCase("Available ")) {
+				if (ans.contains("Available")) {
 					count++;
 					if (Lowest_EventId.equals(oldEventID)) {
 						String count1 = mn.UDPConnect(7001, ("checkCount"
@@ -637,8 +637,8 @@ public class DemsImplementation  extends UnicastRemoteObject  implements Manager
 			} else if (newServ.equalsIgnoreCase("QUE")) {
 				String var = newEventType.substring(0, 1) + "getExistence"
 						+ newEventID;
-				String ans = (mn.UDPConnect(7001, var)).substring(0, 10);
-				if (ans.equalsIgnoreCase("Available ")) {
+				String ans = (mn.UDPConnect(7001, var));
+				if (ans.equalsIgnoreCase("Available")) {
 					count++;
 					if (Lowest_EventId.equals(newEventID)) {
 						String count1 = mn.UDPConnect(7001, ("checkCount"
@@ -653,8 +653,8 @@ public class DemsImplementation  extends UnicastRemoteObject  implements Manager
 			} else if (newServ.equalsIgnoreCase("SHE")) {
 				String var = newEventType.substring(0, 1) + "getExistence"
 						+ newEventID;
-				String ans = (mn.UDPConnect(7002, var)).substring(0, 10);
-				if (ans.equalsIgnoreCase("Available ")) {
+				String ans = (mn.UDPConnect(7002, var));
+				if (ans.equalsIgnoreCase("Available")) {
 					count++;
 					if (Lowest_EventId.equals(newEventID)) {
 						String count1 = mn.UDPConnect(7001, ("checkCount"
@@ -696,15 +696,15 @@ public class DemsImplementation  extends UnicastRemoteObject  implements Manager
 			} else if (oldServ.equalsIgnoreCase("MTL")) {
 				String var = oldEventType.substring(0, 1) + "getExistence"
 						+ oldEventID;
-				String ans = (mn.UDPConnect(7000, var)).substring(0, 10);
-
+				String ans = (mn.UDPConnect(7000, var));
+				//String test2=ans.substring(0, 10);
 				String variable = "isBooked" + customerID;
 				String bookingexistence = (mn.UDPConnect(7000, variable))
-						.substring(0, 6);
-				if (bookingexistence.equalsIgnoreCase("False ")) {
+						;
+				if (bookingexistence.equalsIgnoreCase("False")) {
 					return CommonOutput.swapEventOutput(false, CommonOutput.swapEvent_fail_not_registered_in_event);
 				}
-				if (ans.equalsIgnoreCase("Available ")) {
+				if (ans.equalsIgnoreCase("Available")) {
 					count++;
 					if (Lowest_EventId.equals(oldEventID)) {
 						String count1 = mn.UDPConnect(7000, ("checkCount"
@@ -719,15 +719,15 @@ public class DemsImplementation  extends UnicastRemoteObject  implements Manager
 			} else if (oldServ.equalsIgnoreCase("SHE")) {
 				String var = oldEventType.substring(0, 1) + "getExistence"
 						+ oldEventID;
-				String ans = (mn.UDPConnect(7002, var)).substring(0, 10);
+				String ans = (mn.UDPConnect(7002, var));
 
 				String variable = "isBooked" + customerID;
 				String bookingexistence = (mn.UDPConnect(7002, variable))
-						.substring(0, 6);
-				if (bookingexistence.equalsIgnoreCase("False ")) {
+						;
+				if (bookingexistence.equalsIgnoreCase("False")) {
 					return CommonOutput.swapEventOutput(false, CommonOutput.swapEvent_fail_not_registered_in_event);
 				}
-				if (ans.equalsIgnoreCase("Available ")) {
+				if (ans.equalsIgnoreCase("Available")) {
 					count++;
 					if (Lowest_EventId.equals(oldEventID)) {
 						String count1 = mn.UDPConnect(7000, ("checkCount"
@@ -762,8 +762,8 @@ public class DemsImplementation  extends UnicastRemoteObject  implements Manager
 			} else if (newServ.equalsIgnoreCase("MTL")) {
 				String var = newEventType.substring(0, 1) + "getExistence"
 						+ newEventID;
-				String ans = (mn.UDPConnect(7000, var)).substring(0, 10);
-				if (ans.equalsIgnoreCase("Available ")) {
+				String ans = (mn.UDPConnect(7000, var));
+				if (ans.equalsIgnoreCase("Available")) {
 					count++;
 					if (Lowest_EventId.equals(newEventID)) {
 						String count1 = mn.UDPConnect(7000, ("checkCount"
@@ -778,8 +778,8 @@ public class DemsImplementation  extends UnicastRemoteObject  implements Manager
 			} else if (newServ.equalsIgnoreCase("SHE")) {
 				String var = newEventType.substring(0, 1) + "getExistence"
 						+ newEventID;
-				String ans = (mn.UDPConnect(7002, var)).substring(0, 10);
-				if (ans.equalsIgnoreCase("Available ")) {
+				String ans = (mn.UDPConnect(7002, var));
+				if (ans.equalsIgnoreCase("Available")) {
 					count++;
 					if (Lowest_EventId.equals(newEventID)) {
 						String count1 = mn.UDPConnect(7000, ("checkCount"
@@ -821,15 +821,15 @@ public class DemsImplementation  extends UnicastRemoteObject  implements Manager
 			} else if (oldServ.equalsIgnoreCase("MTL")) {
 				String var = oldEventType.substring(0, 1) + "getExistence"
 						+ oldEventID;
-				String ans = (mn.UDPConnect(7000, var)).substring(0, 10);
+				String ans = (mn.UDPConnect(7000, var));
 
 				String variable = "isBooked" + customerID;
 				String bookingexistence = (mn.UDPConnect(7000, variable))
-						.substring(0, 6);
-				if (bookingexistence.equalsIgnoreCase("False ")) {
+						;
+				if (bookingexistence.equalsIgnoreCase("False")) {
 					return CommonOutput.swapEventOutput(false, CommonOutput.swapEvent_fail_not_registered_in_event);
 				}
-				if (ans.equalsIgnoreCase("Available ")) {
+				if (ans.equalsIgnoreCase("Available")) {
 					count++;
 					if (Lowest_EventId.equals(oldEventID)) {
 						String count1 = mn.UDPConnect(7000, ("checkCount"
@@ -844,15 +844,15 @@ public class DemsImplementation  extends UnicastRemoteObject  implements Manager
 			} else if (oldServ.equalsIgnoreCase("QUE")) {
 				String var = oldEventType.substring(0, 1) + "getExistence"
 						+ oldEventID;
-				String ans = (mn.UDPConnect(7001, var)).substring(0, 10);
+				String ans = (mn.UDPConnect(7001, var));
 
 				String variable = "isBooked" + customerID;
 				String bookingexistence = (mn.UDPConnect(7001, variable))
-						.substring(0, 6);
-				if (bookingexistence.equalsIgnoreCase("False ")) {
+						;
+				if (bookingexistence.equalsIgnoreCase("False")) {
 					return CommonOutput.swapEventOutput(false, CommonOutput.swapEvent_fail_not_registered_in_event);
 				}
-				if (ans.equalsIgnoreCase("Available ")) {
+				if (ans.equalsIgnoreCase("Available")) {
 					count++;
 					if (Lowest_EventId.equals(oldEventID)) {
 						String count1 = mn.UDPConnect(7000, ("checkCount"
@@ -887,8 +887,8 @@ public class DemsImplementation  extends UnicastRemoteObject  implements Manager
 			} else if (newServ.equalsIgnoreCase("MTL")) {
 				String var = newEventType.substring(0, 1) + "getExistence"
 						+ newEventID;
-				String ans = (mn.UDPConnect(7000, var)).substring(0, 10);
-				if (ans.equalsIgnoreCase("Available ")) {
+				String ans = (mn.UDPConnect(7000, var));
+				if (ans.equalsIgnoreCase("Available")) {
 					count++;
 					if (Lowest_EventId.equals(newEventID)) {
 						String count1 = mn.UDPConnect(7000, ("checkCount"
@@ -903,8 +903,8 @@ public class DemsImplementation  extends UnicastRemoteObject  implements Manager
 			} else if (newServ.equalsIgnoreCase("QUE")) {
 				String var = newEventType.substring(0, 1) + "getExistence"
 						+ newEventID;
-				String ans = (mn.UDPConnect(7001, var)).substring(0, 10);
-				if (ans.equalsIgnoreCase("Available ")) {
+				String ans = (mn.UDPConnect(7001, var));
+				if (ans.equalsIgnoreCase("Available")) {
 					count++;
 					if (Lowest_EventId.equals(newEventID)) {
 						String count1 = mn.UDPConnect(7000, ("checkCount"
