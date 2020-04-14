@@ -616,7 +616,8 @@ public class EventManagement extends UnicastRemoteObject implements EventManagem
             aSocket.receive(reply);
             result = new String(reply.getData()).trim();
             String[] parts = result.split(";");
-            result = parts[0];
+            if (parts.length != 0)
+                result = parts[0];
         } catch (SocketException e) {
             System.out.println("Socket: " + e.getMessage());
         } catch (IOException e) {

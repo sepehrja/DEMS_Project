@@ -13,3 +13,11 @@ DATE: 2020-04-13 11:55:55 PM ClientID: Event Manager | RequestType:  addEvent  |
 DATE: 2020-04-13 11:57:44 PM ClientID: Event Manager | RequestType:  removeEvent  | RequestParameters:  eventID: MTLM020220 eventType: CONFERENCES  | ServerResponse: Success: Event MTLM020220 Removed Successfully
 DATE: 2020-04-14 12:15:10 AM ClientID: Event Manager | RequestType:  addEvent  | RequestParameters:  eventID: MTLM020220 eventType: CONFERENCES bookingCapacity 2  | ServerResponse: Success: Event MTLM020220 added successfully
 DATE: 2020-04-14 12:22:24 AM ClientID: Event Manager | RequestType:  addEvent  | RequestParameters:  eventID: MTLM020220 eventType: CONFERENCES bookingCapacity 2  | ServerResponse: Success: Event MTLM020220 Capacity increased to 2
+DATE: 2020-04-14 03:23:39 PM  Server is Up & Running
+DATE: 2020-04-14 03:23:39 PM  UDP Server Started at port 8888
+DATE: 2020-04-14 03:28:25 PM ClientID: Event Manager | RequestType:  addEvent  | RequestParameters:  eventID: MTLM020220 eventType: CONFERENCES bookingCapacity 2  | ServerResponse: Success: Event MTLM020220 added successfully
+DATE: 2020-04-14 03:28:54 PM ClientID: Event Manager | RequestType:  removeEvent  | RequestParameters:  eventID: MTLM020220 eventType: CONFERENCES  | ServerResponse: Success: Event MTLM020220 Removed Successfully
+DATE: 2020-04-14 03:29:10 PM ClientID: Event Manager | RequestType:  UDP request sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse:  ... 
+DATE: 2020-04-14 04:03:01 PM  Server is Up & Running
+DATE: 2020-04-14 04:03:01 PM  UDP Server Started at port 8888
+DATE: 2020-04-14 04:04:13 PM ClientID: Event Manager | RequestType:  addEvent  | RequestParameters:  eventID: MTLM020220 eventType: CONFERENCES bookingCapacity 2  | ServerResponse: Success: Event MTLM020220 added successfully

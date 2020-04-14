@@ -19,8 +19,8 @@ public class RM1 {
     public static int bug_counter = 0;
     private static boolean serversFlag = true;
     private static boolean BugFlag = true;
-    private static String Bug_ID = "MTLM8888";
-    private static String Crash_ID= "MTLM9999";
+    private static final String Bug_ID = "MTLM8888";
+    private static final String Crash_ID = "MTLM9999";
     public static ConcurrentHashMap<Integer, Message> message_list = new ConcurrentHashMap<>();
     public static PriorityQueue<Message> message_q = new PriorityQueue<Message>();
 
@@ -362,17 +362,17 @@ public class RM1 {
         try {
             socket = new DatagramSocket(4321, InetAddress.getByName("localhost"));
             byte[] bytes = message.getBytes();
-            InetAddress aHost = InetAddress.getByName("127.0.0.1");
+            InetAddress aHost = InetAddress.getByName("localhost");
 
             System.out.println(aHost);
-            DatagramPacket request = new DatagramPacket(bytes, bytes.length, aHost, 1413);
+            DatagramPacket request = new DatagramPacket(bytes, bytes.length, aHost, 1999);
             socket.send(request);
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            if (socket != null) {
-                socket.close();
-            }
+//            if (socket != null) {
+//                socket.close();
+//            }
         }
 		
     }

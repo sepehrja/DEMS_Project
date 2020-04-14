@@ -323,17 +323,17 @@ public class RM2 {
         try {
             socket = new DatagramSocket(4323, InetAddress.getByName("localhost"));
             byte[] bytes = message.getBytes();
-            InetAddress aHost = InetAddress.getByName("127.0.0.1");
+            InetAddress aHost = InetAddress.getByName("localhost");
 
             System.out.println(aHost);
-            DatagramPacket request = new DatagramPacket(bytes, bytes.length, aHost, 1413);
+            DatagramPacket request = new DatagramPacket(bytes, bytes.length, aHost, 1999);
             socket.send(request);
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            if (socket != null) {
-                socket.close();
-            }
+//            if (socket != null) {
+//                socket.close();
+//            }
         }
 		
     }

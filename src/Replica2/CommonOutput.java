@@ -50,7 +50,9 @@ public class CommonOutput {
 				StringBuilder reasonBuilder = new StringBuilder();
 				for (String event :
 						allEventIDsWithCapacity) {
-					reasonBuilder.append(event).append("@");
+					if (event.length() > 10) {
+						reasonBuilder.append(event).append("@");
+					}
 				}
 				reason = reasonBuilder.toString();
 				if (!reason.equals(""))

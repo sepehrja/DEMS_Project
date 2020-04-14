@@ -21,7 +21,7 @@ public class FE {
     private static final String sequencerIP = "localhost";
     private static final String RM_Multicast_group_address = "230.1.1.10";
     private static final int FE_SQ_PORT = 1414;
-    private static final int FE_PORT = 1413;
+    private static final int FE_PORT = 1999;
     private static final int RM_Multicast_Port = 1234;
     //    public static String FE_IP_Address = "192.168.2.11";
     public static String FE_IP_Address = "localhost";
@@ -159,7 +159,7 @@ public class FE {
 
 //            aSocket = new MulticastSocket(1413);
 //            InetAddress[] allAddresses = Inet4Address.getAllByName("SepJ-ROG");
-            InetAddress desiredAddress = InetAddress.getByName(FE_IP_Address);
+            InetAddress desiredAddress = InetAddress.getByName("localhost");
 //            //In order to find the desired Ip to be routed by other modules (WiFi adapter)
 //            for (InetAddress address :
 //                    allAddresses) {
@@ -168,7 +168,7 @@ public class FE {
 //                }
 //            }
 //            aSocket.joinGroup(InetAddress.getByName("230.1.1.5"));
-            aSocket = new DatagramSocket(FE_PORT);
+            aSocket = new DatagramSocket(FE_PORT, desiredAddress);
             byte[] buffer = new byte[1000];
             System.out.println("FE Server Started on " + desiredAddress + ":" + FE_PORT + "............");
 
@@ -193,8 +193,8 @@ public class FE {
         } catch (IOException e) {
             System.out.println("IO: " + e.getMessage());
         } finally {
-            if (aSocket != null)
-                aSocket.close();
+//            if (aSocket != null)
+//                aSocket.close();
         }
     }
 }
