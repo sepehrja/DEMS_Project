@@ -16,6 +16,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class RM1 {
     public static int lastSequenceID = 1;
+    public static int bug_counter = 0;
     private static boolean serversFlag = true;
     private static boolean BugFlag = true;
     private static String Bug_ID = "MTLM8888";
@@ -84,14 +85,7 @@ public class RM1 {
                 if(parts[2].equalsIgnoreCase("00"))
                 {  
                     Message message=message_obj_create(data);
-                    if(message.userID.equalsIgnoreCase(Bug_ID) && BugFlag == true){
-                        Message bug_message = new Message(message.sequenceId, "Null", "RM1",
-                        message.Function, message.userID, message.newEventID,
-                        message.newEventType, message.oldEventID,
-                        message.oldEventType, message.bookingCapacity);
-                        messsageToFront(bug_message.toString(), message.FrontIpAddress);
-                    }
-                    else if(!message.userID.equalsIgnoreCase(Crash_ID)){
+                    if(!message.userID.equalsIgnoreCase(Crash_ID)){
                         Message message_To_RMs = message_obj_create(data);
                         message_To_RMs.MessageType = "01";
                         send_multicast_toRM(message_To_RMs);
@@ -273,13 +267,25 @@ public class RM1 {
                     //when the servers are down serversFlag is False therefore, no execution untill all servers are up.
                     if (data.sequenceId == lastSequenceID && serversFlag) {
                         System.out.println("RM1 is executing message request. Detail:" + data);
-                        String response = requestToServers(data);
-                        Message message = new Message(data.sequenceId, response, "RM1",
-                                data.Function, data.userID, data.newEventID,
-                                data.newEventType, data.oldEventID,
-                                data.oldEventType, data.bookingCapacity);
-                        lastSequenceID += 1;
-                        messsageToFront(message.toString(), data.FrontIpAddress);
+                        if(data.userID.equalsIgnoreCase(Bug_ID) && BugFlag == true){
+                            if(bug_counter==0)
+                                requestToServers(data);
+                            Message bug_message = new Message(data.sequenceId, "Null", "RM1",
+                            data.Function, data.userID, data.newEventID,
+                            data.newEventType, data.oldEventID,
+                            data.oldEventType, data.bookingCapacity);
+                            bug_counter+=1;
+                            messsageToFront(bug_message.toString(), data.FrontIpAddress);
+                        }
+                        else{
+                            String response = requestToServers(data);
+                            Message message = new Message(data.sequenceId, response, "RM1",
+                                    data.Function, data.userID, data.newEventID,
+                                    data.newEventType, data.oldEventID,
+                                    data.oldEventType, data.bookingCapacity);
+                            lastSequenceID += 1;
+                            messsageToFront(message.toString(), data.FrontIpAddress);
+                        }
 //                    message_q.remove(data);
 //                    itr.remove();
                     }
