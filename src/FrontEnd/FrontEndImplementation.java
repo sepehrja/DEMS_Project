@@ -137,9 +137,9 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
                     myRequest.countRetry();
                     resp = retryRequest(myRequest);
                 }
-                Rm1NoResponseCount++;
-                Rm2NoResponseCount++;
-                Rm3NoResponseCount++;
+                rmDown(1);
+                rmDown(2);
+                rmDown(3);
                 break;
             default:
                 resp = "Fail: " + myRequest.noRequestSendError();

@@ -127,6 +127,6 @@ public class MyRequest {
                 getEventType().toUpperCase() + ";" +
                 getOldEventID().toUpperCase() + ";" +
                 getOldEventType().toUpperCase() + ";" +
-                getBookingCapacity() + ";";
+                getBookingCapacity();
     }
 }

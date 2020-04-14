@@ -51,7 +51,7 @@ public class FE {
                 @Override
                 public void retryRequest(MyRequest myRequest) {
                     System.out.println("No response from all Rms, Retrying request...");
-//                    sendUnicastToSequencer(myRequest);
+                    sendUnicastToSequencer(myRequest);
                 }
             };
             FrontEndImplementation servant = new FrontEndImplementation(inter);

@@ -15,12 +15,13 @@ public class RmResponse {
     private String oldEventType = "null";
     private int bookingCapacity = 0;
     private String udpMessage = "null";
+    private boolean isSuccess = false;
 
     public RmResponse(String udpMessage) {
         setUdpMessage(udpMessage.trim());
         String[] messageParts = getUdpMessage().split(";");
         setSequenceID(Integer.parseInt(messageParts[0]));
-        setResponse(messageParts[1]);
+        setResponse(messageParts[1].trim());
         setRmNumber(messageParts[2]);
         setFunction(messageParts[3]);
         setUserID(messageParts[4]);
@@ -44,6 +45,7 @@ public class RmResponse {
     }
 
     public void setResponse(String response) {
+        isSuccess = response.contains("Success:");
         this.response = response;
     }
 
@@ -127,6 +129,10 @@ public class RmResponse {
         this.udpMessage = udpMessage;
     }
 
+    public boolean isSuccess() {
+        return isSuccess;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj != null) {
@@ -135,7 +141,8 @@ public class RmResponse {
                 return obj1.getFunction().equalsIgnoreCase(this.getFunction())
                         && obj1.getSequenceID() == this.getSequenceID()
                         && obj1.getUserID().equalsIgnoreCase(this.getUserID())
-                        && obj1.getResponse().equalsIgnoreCase(this.getResponse());
+                        && obj1.isSuccess() == this.isSuccess();
+//                        && obj1.getResponse().equalsIgnoreCase(this.getResponse());
             }
         }
         return false;
