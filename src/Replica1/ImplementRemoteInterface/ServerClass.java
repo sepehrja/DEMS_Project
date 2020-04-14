@@ -385,7 +385,7 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 	
 	@Override
 	public synchronized String bookEvent(final String customerID, final String eventID, final String eventType) throws RemoteException{
-		String response="";
+		String response=CommonOutput.bookEventOutput(false, null);
 		final String city = eventID.substring(0,3).toUpperCase().trim();
 		final String eventDetail = eventType.toUpperCase().trim()+ ";" + eventID.toUpperCase().trim();
 
@@ -393,7 +393,7 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 		{
 			response = book_accepted_event(customerID, eventID, eventType);
 				
-			if(response.indexOf("ERR_NO_CAPACITY")!=-1)
+			if(response.contains("full"))
 			{
 				try 
 				{
@@ -404,7 +404,7 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 					e.printStackTrace();
 				}
 			}
-			else if(response.indexOf("ERR_NO_RECORD")!=-1)
+			else if(response.contains("No"))
 			{
 				try 
 				{
@@ -677,22 +677,22 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 	}
 	public String book_accepted_event(final String customerID, final String eventID, final String eventType)
 	{
-		String response="";
+		String response = CommonOutput.bookEventOutput(false, null);;
 
 		if(EventMap.containsKey(eventType.toUpperCase().trim()) && EventMap.get(eventType.toUpperCase().trim()).containsKey(eventID.toUpperCase().trim()))
 		{
 			final int capacity = EventMap.get(eventType.toUpperCase().trim()).get(eventID.toUpperCase().trim()).bookingCapacity;
 			
 			if( capacity == 0)
-				return "ERR_NO_CAPACITY";
+				return CommonOutput.bookEventOutput(false, CommonOutput.bookEvent_fail_no_capacity);
 			else
 			{
-				return "BOOKING_APPROVED";
+				response = CommonOutput.bookEventOutput(true, null);
 			}
 		}
 		else
 		{
-			response = "ERR_NO_RECORD!";
+			response = CommonOutput.bookEventOutput(false, CommonOutput.bookEvent_fail_no_such_event);
 		}
 
 		return response;
@@ -889,7 +889,7 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 	@Override
 	public synchronized String swapEvent(final String customerID, final String newEventID, final String newEventType, final String oldEventID, final String oldEventType) throws RemoteException{
 		final String eventDetail = oldEventType.toUpperCase().trim()+ ";" + oldEventID.toUpperCase().trim();
-		String response = "";
+		String response = CommonOutput.bookEventOutput(false, null);
 		if(!week_limit_check(customerID.toUpperCase().trim(), newEventID.substring(4)))
 		{
 			if(!oldEventID.substring(0, 3).equals(serverName.trim()))
@@ -911,7 +911,7 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 					e.printStackTrace();
 				}
 				
-				return CommonOutput.swapEventOutput(false, CommonOutput.bookEvent_fail_no_capacity);
+				return CommonOutput.swapEventOutput(false, CommonOutput.bookEvent_fail_weekly_limit);
 			}	
 		}
 		else if(ClientMap.containsKey(customerID.toUpperCase().trim()) && ClientMap.get(customerID.toUpperCase().trim()).containsKey(eventDetail))		
