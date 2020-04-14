@@ -17,6 +17,9 @@ import java.util.concurrent.ConcurrentHashMap;
 public class RM1 {
     public static int lastSequenceID = 1;
     private static boolean serversFlag = true;
+    private static boolean BugFlag = true;
+    private static String Bug_ID = "MTLM8888";
+    private static String Crash_ID= "MTLM9999";
     public static ConcurrentHashMap<Integer, Message> message_list = new ConcurrentHashMap<>();
     public static PriorityQueue<Message> message_q = new PriorityQueue<Message>();
 
@@ -81,18 +84,27 @@ public class RM1 {
                 if(parts[2].equalsIgnoreCase("00"))
                 {  
                     Message message=message_obj_create(data);
-                    Message message_To_RMs = message_obj_create(data);
-                    message_To_RMs.MessageType = "01";
-                    send_multicast_toRM(message_To_RMs);
-                    if(message.sequenceId - lastSequenceID > 1)
-                    {
-                        Message initial_message = new Message(0, "Null", "02",Integer.toString(lastSequenceID), Integer.toString(message.sequenceId), "RM1", "Null", "Null", "Null", 0);
-                        System.out.println("RM1 send request to update its message list. from:" + lastSequenceID + "To:" + message.sequenceId);
-                        // Request all RMs to send back list of messages
-                        send_multicast_toRM(initial_message);
+                    if(message.userID.equalsIgnoreCase(Bug_ID) && BugFlag == true){
+                        Message bug_message = new Message(message.sequenceId, "Null", "RM1",
+                        message.Function, message.userID, message.newEventID,
+                        message.newEventType, message.oldEventID,
+                        message.oldEventType, message.bookingCapacity);
+                        messsageToFront(bug_message.toString(), message.FrontIpAddress);
                     }
-                    message_q.add(message);
-                    message_list.put(message.sequenceId,message);
+                    else if(!message.userID.equalsIgnoreCase(Crash_ID)){
+                        Message message_To_RMs = message_obj_create(data);
+                        message_To_RMs.MessageType = "01";
+                        send_multicast_toRM(message_To_RMs);
+                        if(message.sequenceId - lastSequenceID > 1)
+                        {
+                            Message initial_message = new Message(0, "Null", "02",Integer.toString(lastSequenceID), Integer.toString(message.sequenceId), "RM1", "Null", "Null", "Null", 0);
+                            System.out.println("RM1 send request to update its message list. from:" + lastSequenceID + "To:" + message.sequenceId);
+                            // Request all RMs to send back list of messages
+                            send_multicast_toRM(initial_message);
+                        }
+                        message_q.add(message);
+                        message_list.put(message.sequenceId,message);
+                    }
                 }
                 else if(parts[2].equalsIgnoreCase("01"))
                 {            
@@ -111,6 +123,7 @@ public class RM1 {
                 else if(parts[2].equalsIgnoreCase("11"))
                 {
                     Message message=message_obj_create(data);
+                    BugFlag = false;
                     System.out.println("Rm1 has bug:" + message.toString());
                 }
                 else if(parts[2].equalsIgnoreCase("12"))
