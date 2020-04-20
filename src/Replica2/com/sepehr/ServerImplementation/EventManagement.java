@@ -525,15 +525,13 @@ public class EventManagement extends UnicastRemoteObject implements EventManagem
 
     @Override
     public String shutDown() throws RemoteException {
-        new Thread(new Runnable() {
-            public void run() {
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    // ignored
-                }
-                System.exit(1);
+        new Thread(() -> {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                // ignored
             }
+            System.exit(1);
         });
         System.out.println(serverName + ">>>Shutting down");
         return "Shutting down";
@@ -542,19 +540,25 @@ public class EventManagement extends UnicastRemoteObject implements EventManagem
     /**
      * for udp calls only
      *
-     * @param oldEventID
+     * @param oldNewEventID
      * @param eventType
      * @param customerID
      * @return
      */
-    public String removeEventUDP(String oldEventID, String eventType, String customerID) throws RemoteException {
-        String response;
+    public String removeEventUDP(String oldNewEventID, String eventType, String customerID) throws RemoteException {
+        String response, oldEventID, newEventID;
+        String[] parts = oldNewEventID.split(":");
+        oldEventID = parts[0];
+        newEventID = parts[1];
         if (!checkClientExists(customerID)) {
             response = "Fail: You " + customerID + " Are Not Registered in " + oldEventID;
             System.out.println(serverName + ">>>" + response);
             return CommonOutput.removeEventOutput(false, null);
         } else {
             if (removeEventIfExists(customerID, eventType, oldEventID)) {
+                if (!newEventID.equalsIgnoreCase("null")) {
+                    bookEvent(customerID, newEventID, eventType);
+                }
                 response = "Success: Event " + oldEventID + " Was Removed from " + customerID + " Schedule";
                 System.out.println(serverName + ">>>" + response);
                 return CommonOutput.removeEventOutput(true, null);
@@ -637,44 +641,41 @@ public class EventManagement extends UnicastRemoteObject implements EventManagem
     }
 
     private String getNextSameEvent(Set<String> keySet, String eventType, String oldEventID) throws RemoteException {
-        List<String> sortedIDs = new ArrayList<String>(keySet);
+        List<String> sortedIDs = new ArrayList<>(keySet);
         sortedIDs.add(oldEventID);
-        sortedIDs.sort(new Comparator<String>() {
-            @Override
-            public int compare(String ID1, String ID2) {
-                Integer timeSlot1 = 0;
-                switch (ID1.substring(3, 4).toUpperCase()) {
-                    case "M":
-                        timeSlot1 = 1;
-                        break;
-                    case "A":
-                        timeSlot1 = 2;
-                        break;
-                    case "E":
-                        timeSlot1 = 3;
-                        break;
-                }
-                int timeSlot2 = 0;
-                switch (ID2.substring(3, 4).toUpperCase()) {
-                    case "M":
-                        timeSlot2 = 1;
-                        break;
-                    case "A":
-                        timeSlot2 = 2;
-                        break;
-                    case "E":
-                        timeSlot2 = 3;
-                        break;
-                }
-                Integer date1 = Integer.parseInt(ID1.substring(8, 10) + ID1.substring(6, 8) + ID1.substring(4, 6));
-                Integer date2 = Integer.parseInt(ID2.substring(8, 10) + ID2.substring(6, 8) + ID2.substring(4, 6));
-                int dateCompare = date1.compareTo(date2);
-                int timeSlotCompare = timeSlot1.compareTo(timeSlot2);
-                if (dateCompare == 0) {
-                    return ((timeSlotCompare == 0) ? dateCompare : timeSlotCompare);
-                } else {
-                    return dateCompare;
-                }
+        sortedIDs.sort((ID1, ID2) -> {
+            Integer timeSlot1 = 0;
+            switch (ID1.substring(3, 4).toUpperCase()) {
+                case "M":
+                    timeSlot1 = 1;
+                    break;
+                case "A":
+                    timeSlot1 = 2;
+                    break;
+                case "E":
+                    timeSlot1 = 3;
+                    break;
+            }
+            int timeSlot2 = 0;
+            switch (ID2.substring(3, 4).toUpperCase()) {
+                case "M":
+                    timeSlot2 = 1;
+                    break;
+                case "A":
+                    timeSlot2 = 2;
+                    break;
+                case "E":
+                    timeSlot2 = 3;
+                    break;
+            }
+            Integer date1 = Integer.parseInt(ID1.substring(8, 10) + ID1.substring(6, 8) + ID1.substring(4, 6));
+            Integer date2 = Integer.parseInt(ID2.substring(8, 10) + ID2.substring(6, 8) + ID2.substring(4, 6));
+            int dateCompare = date1.compareTo(date2);
+            int timeSlotCompare = timeSlot1.compareTo(timeSlot2);
+            if (dateCompare == 0) {
+                return ((timeSlotCompare == 0) ? dateCompare : timeSlotCompare);
+            } else {
+                return dateCompare;
             }
         });
         int index = sortedIDs.indexOf(oldEventID) + 1;
@@ -724,37 +725,41 @@ public class EventManagement extends UnicastRemoteObject implements EventManagem
                 registeredClients) {
             if (customerID.substring(0, 3).equals(serverID)) {
                 removeEventIfExists(customerID, eventType, oldEventID);
-                tryToBookNextSameEvent(customerID, eventType, oldEventID);
-            } else {
-                String res = sendUDPMessage(getServerPort(customerID.substring(0, 3)), "removeEvent", customerID, eventType, oldEventID);
-                if (res.startsWith("Success:")) {
-                    tryToBookNextSameEvent(customerID, eventType, oldEventID);
-                } else {
-                    String response = "Acquiring nextSameEvent for Client (" + customerID + "):" + res;
-                    System.out.println(serverName + ">>>" + response);
-                    try {
-                        Logger.serverLog(serverID, customerID, " addCustomersToNextSameEvent ", " oldEventID: " + oldEventID + " eventType: " + eventType + " ", response);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
             }
+            //                if (res.startsWith("Success:")) {
+            //                    tryToBookNextSameEvent(customerID, eventType, oldEventID);
+            //                } else {
+            //                    String response = "Acquiring nextSameEvent for Client (" + customerID + "):" + res;
+            //                    try {
+            //                        Logger.serverLog(serverID, customerID, " addCustomersToNextSameEvent ", " oldEventID: " + oldEventID + " eventType: " + eventType + " ", response);
+            //                    } catch (IOException e) {
+            //                        e.printStackTrace();
+            //                    }
+            //                }
+            tryToBookNextSameEvent(customerID, eventType, oldEventID);
         }
     }
 
     private void tryToBookNextSameEvent(String customerID, String eventType, String oldEventID) throws RemoteException {
         String response;
         String nextSameEventResult = getNextSameEvent(allEvents.get(eventType).keySet(), eventType, oldEventID);
-        if (nextSameEventResult.equals("Fail")) {
+        if (nextSameEventResult.equals("Failed")) {
+            if (!customerID.substring(0, 3).equals(serverID)) {
+                sendUDPMessage(getServerPort(customerID.substring(0, 3)), "removeEvent", customerID, eventType, oldEventID + ":null");
+            }
             response = "Acquiring nextSameEvent for Client (" + customerID + "):" + nextSameEventResult;
-            System.out.println(serverName + ">>>" + response);
             try {
                 Logger.serverLog(serverID, customerID, " addCustomersToNextSameEvent ", " oldEventID: " + oldEventID + " eventType: " + eventType + " ", response);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         } else {
-            bookEvent(customerID, nextSameEventResult, eventType);
+            if (customerID.substring(0, 3).equals(serverID)) {
+                bookEvent(customerID, nextSameEventResult, eventType);
+            } else {
+                String oldNewEventID = oldEventID + ":" + nextSameEventResult;
+                sendUDPMessage(getServerPort(customerID.substring(0, 3)), "removeEvent", customerID, eventType, oldNewEventID);
+            }
         }
     }
 
