@@ -816,9 +816,16 @@ public class EventManagement extends UnicastRemoteObject implements EventManagem
 
     private boolean onTheSameWeek(String newEventDate, String eventID) {
         if (eventID.substring(6, 8).equals(newEventDate.substring(2, 4)) && eventID.substring(8, 10).equals(newEventDate.substring(4, 6))) {
-            int week1 = Integer.parseInt(eventID.substring(4, 6)) / 7;
-            int week2 = Integer.parseInt(newEventDate.substring(0, 2)) / 7;
-//                    int diff = Math.abs(day2 - day1);
+            int day1 = Integer.parseInt(eventID.substring(4, 6));
+            int day2 = Integer.parseInt(newEventDate.substring(0, 2));
+            if (day1 % 7 == 0) {
+                day1--;
+            }
+            if (day2 % 7 == 0) {
+                day2--;
+            }
+            int week1 = day1 / 7;
+            int week2 = day2 / 7;
             return week1 == week2;
         } else {
             return false;
