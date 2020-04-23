@@ -164,16 +164,12 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 					{
 						serverLog("Remove event", " EventType:"+eventType+ " EventID:"+eventID,"successfully completed", 
 							"Event removed for client:" + customer.getKey().toUpperCase().trim());
-					
-						clientLog(customer.getKey().toUpperCase().trim(), "Remove event", "eventType:" + eventType+" eventID:"+eventID+" has been removed");
 					}
 					else
 					{
 						add_book_customer(customer.getKey().toUpperCase().trim(),new_eventID, eventType);
 						serverLog("Remove event", " EventType:"+eventType+ " EventID:"+new_eventID,"successfully completed", 
 								"Event has been replaced for client:" + customer.getKey().toUpperCase().trim());
-						
-							clientLog(customer.getKey().toUpperCase().trim(), "Remove event", "eventType:" + eventType+" eventID:"+new_eventID+" has been replaced");
 					}
 				} catch (final IOException e) {
 					e.printStackTrace();
@@ -398,7 +394,6 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 				try 
 				{
 					serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID +" CustomerID:"+ customerID,"failed","There is no capacity for this event");
-					clientLog(customerID, "Book an event", "There is no capacity for eventType:" + eventType+" eventID:"+eventID);
 					response = CommonOutput.bookEventOutput(false, CommonOutput.bookEvent_fail_no_capacity);
 				} catch (final IOException e) {
 					e.printStackTrace();
@@ -409,7 +404,6 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 				try 
 				{
 					serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID+" CustomerID:"+ customerID,"failed","There is no such an event");
-					clientLog(customerID, "Book an event", "There is no such an event --> eventType:" + eventType+" eventID:"+eventID);
 					response = CommonOutput.bookEventOutput(false, CommonOutput.bookEvent_fail_no_such_event);
 				} catch (final IOException e) {
 					e.printStackTrace();
@@ -427,7 +421,6 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 							try 
 							{
 								serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID +" CustomerID:"+ customerID,"failed","This event has already been booked");
-								clientLog(customerID, "Book an event", "This event has already been booked --> eventType:" + eventType+" eventID:"+eventID);
 
 							} catch (final IOException e) {
 								e.printStackTrace();
@@ -441,7 +434,6 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 						EventMap.get(eventType.toUpperCase().trim()).replace(eventID,new EventDetail(eventType.toUpperCase().trim(), eventID.toUpperCase().trim(), capacity - 1));
 					
 					serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID+" CustomerID:"+ customerID,"successfully completed","Booking request has been approved");
-					clientLog(customerID, "Book an event", "Booking request has been approved --> eventType:" + eventType+" eventID:"+eventID);
 					response = CommonOutput.bookEventOutput(true, null);
 				} catch (final IOException e) {
 					e.printStackTrace();
@@ -458,7 +450,6 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 					try 
 					{
 						serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID +" CustomerID:"+ customerID,"failed","This event has already been booked");
-						clientLog(customerID, "Book an event", "This event has already been booked --> eventType:" + eventType+" eventID:"+eventID);
 
 					} catch (final IOException e) {
 						e.printStackTrace();
@@ -473,7 +464,6 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 						try 
 						{
 							serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID+" CustomerID:"+ customerID,"failed","This customer has already booked 3 times from other cities!");
-							clientLog(customerID, "Book an event", "This customer has already booked 3 times from other cities --> eventType:" + eventType+" eventID:"+eventID);
 						} catch (final IOException e) {
 							e.printStackTrace();
 						}
@@ -487,7 +477,6 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 					try 
 					{
 						serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID+" CustomerID:"+ customerID,"successfully completed","Booking request has been approved");
-						clientLog(customerID, "Book an event", "Booking request has been approved --> eventType:" + eventType+" eventID:"+eventID);
 					} catch (final IOException e) {
 						e.printStackTrace();
 					}
@@ -498,7 +487,6 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 					try 
 					{
 						serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID +" CustomerID:"+ customerID,"failed","There is no capacity for this event");
-						clientLog(customerID, "Book an event", "There is no capacity for eventType:" + eventType+" eventID:"+eventID);
 
 					} catch (final IOException e) {
 						e.printStackTrace();
@@ -509,7 +497,6 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 					try 
 					{
 						serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID+" CustomerID:"+ customerID,"failed","There is no such an event");
-						clientLog(customerID, "Book an event", "There is no such an event --> eventType:" + eventType+" eventID:"+eventID);
 					} catch (final IOException e) {
 						e.printStackTrace();
 					}
@@ -522,7 +509,6 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 					try 
 					{
 						serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID +" CustomerID:"+ customerID,"failed","This event has already been booked");
-						clientLog(customerID, "Book an event", "This event has already been booked --> eventType:" + eventType+" eventID:"+eventID);
 					} catch (final IOException e) {
 						e.printStackTrace();
 					}
@@ -536,7 +522,6 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 						try 
 						{
 							serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID+" CustomerID:"+ customerID,"failed","This customer has already booked 3 times from other cities!");
-							clientLog(customerID, "Book an event", "This customer has already booked 3 times from other cities --> eventType:" + eventType+" eventID:"+eventID);
 						} catch (final IOException e) {
 							e.printStackTrace();
 						}
@@ -549,7 +534,6 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 					try 
 					{
 						serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID+" CustomerID:"+ customerID,"successfully completed","Booking request has been approved");
-						clientLog(customerID, "Book an event", "Booking request has been approved --> eventType:" + eventType+" eventID:"+eventID);
 					} catch (final IOException e) {
 						e.printStackTrace();
 					}
@@ -560,7 +544,6 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 					try 
 					{
 						serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID +" CustomerID:"+ customerID,"failed","There is no capacity for this event");
-						clientLog(customerID, "Book an event", "There is no capacity for eventType:" + eventType+" eventID:"+eventID);
 					} catch (final IOException e) {
 						e.printStackTrace();
 					}
@@ -570,7 +553,6 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 					try 
 					{
 						serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID+" CustomerID:"+ customerID,"failed","There is no such an event");
-						clientLog(customerID, "Book an event", "There is no such an event --> eventType:" + eventType+" eventID:"+eventID);
 					} catch (final IOException e) {
 						e.printStackTrace();
 					}
@@ -583,7 +565,6 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 					try 
 					{
 						serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID +" CustomerID:"+ customerID,"failed","This event has already been booked");
-						clientLog(customerID, "Book an event", "This event has already been booked --> eventType:" + eventType+" eventID:"+eventID);
 					} catch (final IOException e) {
 						e.printStackTrace();
 					}
@@ -597,7 +578,6 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 						try 
 						{
 							serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID+" CustomerID:"+ customerID,"failed","This customer has already booked 3 times from other cities!");
-							clientLog(customerID, "Book an event", "This customer has already booked 3 times from other cities --> eventType:" + eventType+" eventID:"+eventID);
 						} catch (final IOException e) {
 							e.printStackTrace();
 						}
@@ -610,7 +590,6 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 					try 
 					{
 						serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID+" CustomerID:"+ customerID,"successfully completed","Booking request has been approved");
-						clientLog(customerID, "Book an event", "Booking request has been approved --> eventType:" + eventType+" eventID:"+eventID);
 					} catch (final IOException e) {
 						e.printStackTrace();
 					}
@@ -621,7 +600,6 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 					try 
 					{
 						serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID +" CustomerID:"+ customerID,"failed","There is no capacity for this event");
-						clientLog(customerID, "Book an event", "There is no capacity for eventType:" + eventType+" eventID:"+eventID);
 					} catch (final IOException e) {
 						e.printStackTrace();
 					}
@@ -631,7 +609,6 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 					try 
 					{
 						serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID+" CustomerID:"+ customerID,"failed","There is no such an event");
-						clientLog(customerID, "Book an event", "There is no such an event --> eventType:" + eventType+" eventID:"+eventID);
 					} catch (final IOException e) {
 						e.printStackTrace();
 					}
@@ -763,7 +740,6 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 				try 
 				{
 					serverLog("Cancel an event", " EventType:"+eventType+ " EventID:"+eventID+" CustomerID:"+ customerID,"successfully completed","Event has been canceled");
-					clientLog(customerID, "Cancel an event", "Event has been canceled --> eventType:" + eventType+" eventID:"+eventID);
 				} catch (final IOException e) {
 					e.printStackTrace();
 				}
@@ -774,7 +750,6 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 				try 
 				{
 					serverLog("Cancel an event", " EventType:"+eventType+ " EventID:"+eventID+" CustomerID:"+ customerID,"successfully completed","Event has been canceled");
-					clientLog(customerID, "Cancel an event", "Event has been canceled --> eventType:" + eventType+" eventID:"+eventID);
 				} catch (final IOException e) {
 					e.printStackTrace();
 				}
@@ -786,7 +761,6 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 				try 
 				{
 					serverLog("Cancel an event", " EventType:"+eventType+ " EventID:"+eventID+" CustomerID:"+ customerID,"successfully completed","Event has been canceled");
-					clientLog(customerID, "Cancel an event", "Event has been canceled --> eventType:" + eventType+" eventID:"+eventID);
 				} catch (final IOException e) {
 					e.printStackTrace();
 				}
@@ -798,7 +772,6 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 				try 
 				{
 					serverLog("Cancel an event", " EventType:"+eventType+ " EventID:"+eventID+" CustomerID:"+ customerID,"successfully completed","Event has been canceled");
-					clientLog(customerID, "Cancel an event", "Event has been canceled --> eventType:" + eventType+" eventID:"+eventID);
 				} catch (final IOException e) {
 					e.printStackTrace();
 				}
@@ -850,15 +823,6 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 		final FileWriter fileWriter = new FileWriter(getDirectory(city.trim().toUpperCase(), "Server"),true);
 		final PrintWriter printWriter = new PrintWriter(fileWriter);
 		printWriter.println("DATE: "+formattedDate+"| Request type: "+acion+" | Request parameters: "+ peram +" | Request result: "+requestResult+" | Server resonse: "+ response);
-
-		printWriter.close();
-
-	}
-	
-	public void clientLog(final String ID, final String acion, final String response) throws IOException {
-		final FileWriter fileWriter = new FileWriter(getDirectory(ID, "Clients"),true);
-		final PrintWriter printWriter = new PrintWriter(fileWriter);
-		printWriter.println("Request type: "+acion+" | Resonse: "+ response);
 
 		printWriter.close();
 
