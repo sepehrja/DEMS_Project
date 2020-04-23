@@ -9,7 +9,6 @@ import java.net.*;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Iterator;
-import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -323,9 +322,9 @@ public class RM2 {
 		System.out.println("Message to front:"+message);
 		DatagramSocket socket = null;
         try {
-            socket = new DatagramSocket(4323, InetAddress.getByName("localhost"));
+            socket = new DatagramSocket(4323);
             byte[] bytes = message.getBytes();
-            InetAddress aHost = InetAddress.getByName("localhost");
+            InetAddress aHost = InetAddress.getByName(FrontIpAddress);
 
             System.out.println(aHost);
             DatagramPacket request = new DatagramPacket(bytes, bytes.length, aHost, 1999);
