@@ -412,7 +412,7 @@ public class DemsImplementation  extends UnicastRemoteObject  implements Manager
 
 			if (serv.equalsIgnoreCase(bookingServ)) {
 				
-				if (mn.checkAvailabilityOfEvent(var.substring(0, 1), eventID).equalsIgnoreCase(
+				if (mn.checkAvailabilityOfEvent1(var.substring(0, 1), eventID).equalsIgnoreCase(
 						"available ")) {
 					if (mn.checkUserBooking(eventID, customerID)) {
 						String c = mn.canceledEvent(var.substring(0, 1),eventID, customerID);
@@ -443,7 +443,7 @@ public class DemsImplementation  extends UnicastRemoteObject  implements Manager
 
 			String var = mn.getHashMap(eventType)+"cancel "+customerID+eventID;
 			if (serv.equalsIgnoreCase(bookingServ)) {
-				if (mn.checkAvailabilityOfEvent(var.substring(0, 1), eventID).equalsIgnoreCase(
+				if (mn.checkAvailabilityOfEvent1(var.substring(0, 1), eventID).equalsIgnoreCase(
 						"available ")) {
 					if (mn.checkUserBooking(eventID, customerID)) {
 						String c = mn.canceledEvent(var.substring(0, 1),eventID, customerID);
@@ -473,7 +473,7 @@ public class DemsImplementation  extends UnicastRemoteObject  implements Manager
 
 			String var = mn.getHashMap(eventType)+"cancel "+customerID+eventID;
 			if (serv.equalsIgnoreCase(bookingServ)) {
-				if (mn.checkAvailabilityOfEvent(var.substring(0, 1), eventID).equalsIgnoreCase(
+				if (mn.checkAvailabilityOfEvent1(var.substring(0, 1), eventID).equalsIgnoreCase(
 						"available ")) {
 					if (mn.checkUserBooking(eventID, customerID)) {
 						String c = mn.canceledEvent(var.substring(0, 1),eventID, customerID);
