@@ -411,6 +411,10 @@ public class Client {
     private static int promptForCapacity() {
         System.out.println("*************************************");
         System.out.println("Please enter the booking capacity:");
-        return input.nextInt();
+        int cap = input.nextInt();
+        if (cap > 0) {
+            return cap;
+        }
+        return promptForCapacity();
     }
 }
