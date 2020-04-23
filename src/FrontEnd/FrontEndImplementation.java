@@ -9,7 +9,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 public class FrontEndImplementation extends ServerObjectInterfacePOA {
-    private static long DYNAMIC_TIMEOUT = 10000;
+    private static final long DYNAMIC_TIMEOUT = 10000;
     private static int Rm1BugCount = 0;
     private static int Rm2BugCount = 0;
     private static int Rm3BugCount = 0;
@@ -239,9 +239,6 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
     }
 
     private void rmBugFound(int rmNumber) {
-        System.out.println("FE Implementation:rmBugFound>>>RM1 - bugs:" + Rm1BugCount);
-        System.out.println("FE Implementation:rmBugFound>>>RM2 - bugs:" + Rm2BugCount);
-        System.out.println("FE Implementation:rmBugFound>>>RM3 - bugs:" + Rm3BugCount);
         switch (rmNumber) {
             case 1:
                 Rm1BugCount++;
@@ -266,12 +263,12 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
                 }
                 break;
         }
+        System.out.println("FE Implementation:rmBugFound>>>RM1 - bugs:" + Rm1BugCount);
+        System.out.println("FE Implementation:rmBugFound>>>RM2 - bugs:" + Rm2BugCount);
+        System.out.println("FE Implementation:rmBugFound>>>RM3 - bugs:" + Rm3BugCount);
     }
 
     private void rmDown(int rmNumber) {
-        System.out.println("FE Implementation:rmDown>>>RM1 - noResponse:" + Rm1NoResponseCount);
-        System.out.println("FE Implementation:rmDown>>>RM2 - noResponse:" + Rm2NoResponseCount);
-        System.out.println("FE Implementation:rmDown>>>RM3 - noResponse:" + Rm3NoResponseCount);
         switch (rmNumber) {
             case 1:
                 Rm1NoResponseCount++;
@@ -296,12 +293,18 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
                 }
                 break;
         }
+        System.out.println("FE Implementation:rmDown>>>RM1 - noResponse:" + Rm1NoResponseCount);
+        System.out.println("FE Implementation:rmDown>>>RM2 - noResponse:" + Rm2NoResponseCount);
+        System.out.println("FE Implementation:rmDown>>>RM3 - noResponse:" + Rm3NoResponseCount);
     }
 
     private void setDynamicTimout() {
-        if (responseTime < 10000)
-            DYNAMIC_TIMEOUT = responseTime * 2;
-        System.out.println("FE Implementation:setDynamicTimout>>>" + DYNAMIC_TIMEOUT);
+        if (responseTime < 10000) {
+//            DYNAMIC_TIMEOUT = responseTime * 2;
+            System.out.println("FE Implementation:setDynamicTimout>>>" + responseTime * 2);
+        } else {
+            System.out.println("FE Implementation:setDynamicTimout>>>" + DYNAMIC_TIMEOUT);
+        }
     }
 
     private void notifyOKCommandReceived() {
