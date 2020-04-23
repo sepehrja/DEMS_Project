@@ -148,7 +148,7 @@ public class Quebec {
 	                    }else if(var2.equalsIgnoreCase("cancel ")){
 							String customerID = fullid.substring( 8,16);
 							String eventID = fullid.substring(16, 26);
-							if (m.checkAvailabilityOfEvent(var, eventID).equalsIgnoreCase(
+							if (m.checkAvailabilityOfEvent1(var, eventID).equalsIgnoreCase(
 									"available ")) {
 								if (m.checkUserBooking(eventID, customerID)) {
 									String s = m.canceledEvent(var,eventID, customerID);
@@ -213,7 +213,7 @@ public class Quebec {
 	                    }else if(var2.equalsIgnoreCase("cancel ")){
 							String customerID = fullid.substring( 8,16);
 							String eventID = fullid.substring(16, 26);
-							if (m.checkAvailabilityOfEvent(var, eventID).equalsIgnoreCase(
+							if (m.checkAvailabilityOfEvent1(var, eventID).equalsIgnoreCase(
 									"available ")) {
 								if (m.checkUserBooking(eventID, customerID)) {
 									String s = m.canceledEvent(var,eventID, customerID);
@@ -277,7 +277,7 @@ public class Quebec {
 	                    }else if(var2.equalsIgnoreCase("cancel ")){
 							String customerID = fullid.substring( 8,16);
 							String eventID = fullid.substring(16, 26);
-							if (m.checkAvailabilityOfEvent(var, eventID).equalsIgnoreCase(
+							if (m.checkAvailabilityOfEvent1(var, eventID).equalsIgnoreCase(
 									"available ")) {
 								if (m.checkUserBooking(eventID, customerID)) {
 									String s = m.canceledEvent(var,eventID, customerID);
@@ -581,7 +581,7 @@ public class Quebec {
 				//return("No record");
 			}
 		}
-		return null;
+		return CommonOutput.removeEventOutput(false, null);
 		
 	}
 
@@ -656,7 +656,33 @@ public class Quebec {
 		}
 		return null;
 	}
+	public synchronized String checkAvailabilityOfEvent1(String var, String key) {
+		// key is event id
 
+		if (var.equalsIgnoreCase("a")) {
+			if (a.containsKey(key)) {
+				return ("Available ");
+			} else {
+
+				return ("Not");
+			}
+		} else if (var.equalsIgnoreCase("b")) {
+			if (b.containsKey(key)) {
+				return ("Available ");
+			} else {
+
+				return ("Not");
+			}
+		} else if (var.equalsIgnoreCase("c")) {
+			if (c.containsKey(key)) {
+				return ("Available ");
+			} else {
+
+				return ("Not");
+			}
+		}
+		return null;
+	}
 	public synchronized String bookedEvent(String var,String eventID, String customerID) {
 		// TODO Auto-generated method stub
 		char[] ch = customerID.toCharArray();
@@ -792,7 +818,19 @@ public class Quebec {
 				} else if (c >= 10) {
 					newEvent = "QUE" + EventId.substring(3, 4) + c + EventId.substring(6, 10);
 				}
-				ar.add(newEvent);
+				 if(EventId.substring(3,4).equalsIgnoreCase("M")){
+                	 ar.add(newEvent);
+                	 ar.add(newEvent.substring(0, 3)+"A"+newEvent.substring(4));
+                	 ar.add(newEvent.substring(0, 3)+"E"+newEvent.substring(4));
+                }else if(EventId.substring(3,4).equalsIgnoreCase("A")){
+                	 ar.add(newEvent);
+                	 ar.add(newEvent.substring(0, 3)+"M"+newEvent.substring(4));
+                	 ar.add(newEvent.substring(0, 3)+"E"+newEvent.substring(4));
+                }else if(EventId.substring(3,4).equalsIgnoreCase("E")){
+                	 ar.add(newEvent);
+                	 ar.add(newEvent.substring(0, 3)+"A"+newEvent.substring(4));
+                	 ar.add(newEvent.substring(0, 3)+"M"+newEvent.substring(4));
+                }
 			}
 		} else if(date>27 && date <=30){
 			
@@ -828,7 +866,19 @@ public class Quebec {
 					newEvent="QUE"+EventId.substring(3,4)+c+"01"+(Integer.parseInt(EventId.substring(8,10))+1);
 				}
 				}
-				ar.add(newEvent);
+				 if(EventId.substring(3,4).equalsIgnoreCase("M")){
+                	 ar.add(newEvent);
+                	 ar.add(newEvent.substring(0, 3)+"A"+newEvent.substring(4));
+                	 ar.add(newEvent.substring(0, 3)+"E"+newEvent.substring(4));
+                }else if(EventId.substring(3,4).equalsIgnoreCase("A")){
+                	 ar.add(newEvent);
+                	 ar.add(newEvent.substring(0, 3)+"M"+newEvent.substring(4));
+                	 ar.add(newEvent.substring(0, 3)+"E"+newEvent.substring(4));
+                }else if(EventId.substring(3,4).equalsIgnoreCase("E")){
+                	 ar.add(newEvent);
+                	 ar.add(newEvent.substring(0, 3)+"A"+newEvent.substring(4));
+                	 ar.add(newEvent.substring(0, 3)+"M"+newEvent.substring(4));
+                }
 			}
 		}else if(date>=1 && date <=3){
 			
@@ -864,7 +914,19 @@ public class Quebec {
 					newEvent="QUE"+EventId.substring(3,4)+c+"01"+(Integer.parseInt(EventId.substring(8,10))+1);
 				}
 				}
-				ar.add(newEvent);
+				 if(EventId.substring(3,4).equalsIgnoreCase("M")){
+                	 ar.add(newEvent);
+                	 ar.add(newEvent.substring(0, 3)+"A"+newEvent.substring(4));
+                	 ar.add(newEvent.substring(0, 3)+"E"+newEvent.substring(4));
+                }else if(EventId.substring(3,4).equalsIgnoreCase("A")){
+                	 ar.add(newEvent);
+                	 ar.add(newEvent.substring(0, 3)+"M"+newEvent.substring(4));
+                	 ar.add(newEvent.substring(0, 3)+"E"+newEvent.substring(4));
+                }else if(EventId.substring(3,4).equalsIgnoreCase("E")){
+                	 ar.add(newEvent);
+                	 ar.add(newEvent.substring(0, 3)+"A"+newEvent.substring(4));
+                	 ar.add(newEvent.substring(0, 3)+"M"+newEvent.substring(4));
+                }
 			}
 		}
 		
