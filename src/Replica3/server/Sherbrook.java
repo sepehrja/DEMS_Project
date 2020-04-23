@@ -769,23 +769,23 @@ public class Sherbrook {
 				String newEvent = "";
 				if (c >= 1 && c < 10) {
 					if (month >= 1 && month < 10) {
-						newEvent = "MTL" + EventId.substring(3, 4) + "0" + c + "0" + month + EventId.substring(8, 10);
+						newEvent = "SHE" + EventId.substring(3, 4) + "0" + c + "0" + month + EventId.substring(8, 10);
 					} else if (month >= 10) {
-						newEvent = "MTL" + EventId.substring(3, 4) + "0" + c + "0" + month + EventId.substring(8, 10);
+						newEvent = "SHE" + EventId.substring(3, 4) + "0" + c + "0" + month + EventId.substring(8, 10);
 					} else if (month == 0) {
-						newEvent = "MTL" + EventId.substring(3, 4) + "0" + c + "12" + (Integer.parseInt(EventId.substring(8, 10)) - 1);
+						newEvent = "SHE" + EventId.substring(3, 4) + "0" + c + "12" + (Integer.parseInt(EventId.substring(8, 10)) - 1);
 					} else if (month == 13) {
-						newEvent = "MTL" + EventId.substring(3, 4) + c + "01" + (Integer.parseInt(EventId.substring(8, 10)) + 1);
+						newEvent = "SHE" + EventId.substring(3, 4) + c + "01" + (Integer.parseInt(EventId.substring(8, 10)) + 1);
 					}
 				}else if(c>=10){
 					if(month>=1 && month<10){
-					newEvent="MTL"+EventId.substring(3,4)+c+"0"+month+EventId.substring(8,10);
+					newEvent="SHE"+EventId.substring(3,4)+c+"0"+month+EventId.substring(8,10);
 				}else if(month>=10){
-					newEvent="MTL"+EventId.substring(3,4)+c+"0"+month+EventId.substring(8,10);
+					newEvent="SHE"+EventId.substring(3,4)+c+"0"+month+EventId.substring(8,10);
 				}else if(month==0){
-					newEvent="MTL"+EventId.substring(3,4)+c+"12"+(Integer.parseInt(EventId.substring(8,10))-1);
+					newEvent="SHE"+EventId.substring(3,4)+c+"12"+(Integer.parseInt(EventId.substring(8,10))-1);
 				}else if(month==13){
-					newEvent="MTL"+EventId.substring(3,4)+c+"01"+(Integer.parseInt(EventId.substring(8,10))+1);
+					newEvent="SHE"+EventId.substring(3,4)+c+"01"+(Integer.parseInt(EventId.substring(8,10))+1);
 				}
 				}
 				ar.add(newEvent);
@@ -805,23 +805,23 @@ public class Sherbrook {
 				String newEvent = "";
 				if (c >= 1 && c < 10) {
 					if (month >= 1 && month < 10) {
-						newEvent = "MTL" + EventId.substring(3, 4) + "0" + c + "0" + month + EventId.substring(8, 10);
+						newEvent = "SHE" + EventId.substring(3, 4) + "0" + c + "0" + month + EventId.substring(8, 10);
 					} else if (month >= 10) {
-						newEvent = "MTL" + EventId.substring(3, 4) + "0" + c + "0" + month + EventId.substring(8, 10);
+						newEvent = "SHE" + EventId.substring(3, 4) + "0" + c + "0" + month + EventId.substring(8, 10);
 					} else if (month == 0) {
-						newEvent = "MTL" + EventId.substring(3, 4) + "0" + c + "12" + (Integer.parseInt(EventId.substring(8, 10)) - 1);
+						newEvent = "SHE" + EventId.substring(3, 4) + "0" + c + "12" + (Integer.parseInt(EventId.substring(8, 10)) - 1);
 					} else if (month == 13) {
-						newEvent = "MTL" + EventId.substring(3, 4) + c + "01" + (Integer.parseInt(EventId.substring(8, 10)) + 1);
+						newEvent = "SHE" + EventId.substring(3, 4) + c + "01" + (Integer.parseInt(EventId.substring(8, 10)) + 1);
 					}
 				}else if(c>=10){
 					if(month>=1 && month<10){
-					newEvent="MTL"+EventId.substring(3,4)+c+"0"+month+EventId.substring(8,10);
+					newEvent="SHE"+EventId.substring(3,4)+c+"0"+month+EventId.substring(8,10);
 				}else if(month>=10){
-					newEvent="MTL"+EventId.substring(3,4)+c+"0"+month+EventId.substring(8,10);
+					newEvent="SHE"+EventId.substring(3,4)+c+"0"+month+EventId.substring(8,10);
 				}else if(month==0){
-					newEvent="MTL"+EventId.substring(3,4)+c+"12"+(Integer.parseInt(EventId.substring(8,10))-1);
+					newEvent="SHE"+EventId.substring(3,4)+c+"12"+(Integer.parseInt(EventId.substring(8,10))-1);
 				}else if(month==13){
-					newEvent="MTL"+EventId.substring(3,4)+c+"01"+(Integer.parseInt(EventId.substring(8,10))+1);
+					newEvent="SHE"+EventId.substring(3,4)+c+"01"+(Integer.parseInt(EventId.substring(8,10))+1);
 				}
 				}
 				ar.add(newEvent);
