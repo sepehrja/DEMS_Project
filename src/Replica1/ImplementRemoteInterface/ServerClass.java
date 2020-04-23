@@ -663,8 +663,16 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 	{
         if (eventID.substring(2, 4).equals(newEventDate.substring(2, 4)) && eventID.substring(4, 6).equals(newEventDate.substring(4, 6))) 
         {
-            final int w1 = Integer.parseInt(eventID.substring(0, 2)) / 7;
-            final int w2 = Integer.parseInt(newEventDate.substring(0, 2)) / 7;
+        	int day1 = Integer.parseInt(eventID.substring(0, 2));
+        	int day2 = Integer.parseInt(newEventDate.substring(0, 2));
+        	if(day1%7 == 0) {
+                day1--;
+            }
+            if(day2%7 == 0) {
+                day2--;
+            }
+            int w1 = day1 / 7;
+            int w2 = day2 / 7;
             
             if(w1 == w2)
             	return true;
@@ -673,7 +681,6 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
         } 
         else 
             return false;
-
 	}
 	public String book_accepted_event(final String customerID, final String eventID, final String eventType)
 	{
@@ -892,27 +899,20 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 		String response = CommonOutput.bookEventOutput(false, null);
 		if(!week_limit_check(customerID.toUpperCase().trim(), newEventID.substring(4)))
 		{
-			if(!oldEventID.substring(0, 3).equals(serverName.trim()))
+			response = cancelEvent(customerID, oldEventID, oldEventType);
+			if(response.trim().contains("successful"))
 			{
-				response = cancelEvent(customerID, oldEventID, oldEventType);
-				if(response.trim().contains("successful"))
-				{
-					response = bookEvent(customerID, newEventID, newEventType);
+				response = bookEvent(customerID, newEventID, newEventType);
+				if(response.trim().equals("BOOKING_APPROVED"))
 					return CommonOutput.swapEventOutput(true, null);
+				else
+				{
+					bookEvent(customerID, oldEventID, oldEventType);
+					return response;
 				}
 			}
 			else
-			{
-				try 
-				{
-					serverLog("Swap an event", " oldEventType:"+oldEventType+ " oldEventID:"+oldEventID+"newEventType:"+ newEventType+" newEventID:"+newEventID+"CustomerID:"+ customerID,"failed","This customer has already booked 3 times from other cities!");
-					clientLog(customerID, "Book an event", "This customer has already booked 3 times from other cities");
-				} catch (final IOException e) {
-					e.printStackTrace();
-				}
-				
-				return CommonOutput.swapEventOutput(false, CommonOutput.bookEvent_fail_weekly_limit);
-			}	
+				return response;
 		}
 		else if(ClientMap.containsKey(customerID.toUpperCase().trim()) && ClientMap.get(customerID.toUpperCase().trim()).containsKey(eventDetail))		
 		{
