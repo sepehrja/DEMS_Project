@@ -27,11 +27,11 @@ import Replica1.DataBase.*;
 
 public class ServerClass extends UnicastRemoteObject implements EventManagementInterface{
 	
-	private final ConcurrentHashMap<String, ConcurrentHashMap<String, EventDetail>> EventMap;
-	private final ConcurrentHashMap<String, ConcurrentHashMap<String, ClientDetail>> ClientMap;
-	private final int quebec_port, montreal_port, sherbrooke_port;
-	private final String serverName;
-	public ServerClass(final int quebec_port, final int montreal_port, final int sherbrooke_port, final String serverName) throws RemoteException {
+	private  ConcurrentHashMap<String, ConcurrentHashMap<String, EventDetail>> EventMap;
+	private  ConcurrentHashMap<String, ConcurrentHashMap<String, ClientDetail>> ClientMap;
+	private  int quebec_port, montreal_port, sherbrooke_port;
+	private  String serverName;
+	public ServerClass( int quebec_port,  int montreal_port,  int sherbrooke_port,  String serverName) throws RemoteException {
 		super();
 		
 		this.quebec_port = quebec_port;
@@ -44,17 +44,17 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 	}
 
 	@Override
-	public synchronized String addEvent(final String eventID, final String eventType, final int bookingCapacity) throws RemoteException {
+	public synchronized String addEvent( String eventID,  String eventType,  int bookingCapacity) throws RemoteException {
 		if(EventMap.containsKey(eventType.toUpperCase().trim()) && EventMap.get(eventType.toUpperCase().trim()).containsKey(eventID.toUpperCase().trim()))
 		{
-			final int currentCapacity = EventMap.get(eventType.toUpperCase().trim()).get(eventID.toUpperCase().trim()).bookingCapacity;
+			 int currentCapacity = EventMap.get(eventType.toUpperCase().trim()).get(eventID.toUpperCase().trim()).bookingCapacity;
 			EventMap.get(eventType.toUpperCase().trim()).replace(eventID,new EventDetail(eventType.toUpperCase().trim(), eventID.toUpperCase().trim(), currentCapacity + bookingCapacity));
 
 			try 
 			{
 				serverLog("Add event", " EventType:"+eventType+ " EventID:"+eventID +
 						"bookingCapacity:"+ bookingCapacity,"successfully completed", "Capacity added to event");				
-			} catch (final IOException e) {
+			} catch ( IOException e) {
 				e.printStackTrace();
 			}
 			return CommonOutput.addEventOutput(true, CommonOutput.addEvent_success_capacity_updated);
@@ -66,37 +66,37 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 			{
 				serverLog("Add event", " EventType:"+eventType+ " EventID:"+eventID +
 						"bookingCapacity:"+ bookingCapacity,"successfully completed", "Event added to" + serverName.toUpperCase().trim());
-			} catch (final IOException e) {
+			} catch ( IOException e) {
 				e.printStackTrace();
 			}
 			return CommonOutput.addEventOutput(true, CommonOutput.addEvent_success_added);
 		}	
 		else
 		{
-			final ConcurrentHashMap <String, EventDetail> subHashMap = new ConcurrentHashMap<>();
+			 ConcurrentHashMap <String, EventDetail> subHashMap = new ConcurrentHashMap<>();
 			subHashMap.put(eventID.toUpperCase().trim(), new EventDetail(eventType.toUpperCase().trim(), eventID.toUpperCase().trim(), bookingCapacity));
 			EventMap.put(eventType.toUpperCase().trim(), subHashMap);
 			try 
 			{
 				serverLog("Add event", " EventType:"+eventType+ " EventID:"+eventID +
 						"bookingCapacity:"+ bookingCapacity,"successfully completed", "Event added to" + serverName.toUpperCase().trim());
-			} catch (final IOException e) {
+			} catch ( IOException e) {
 				e.printStackTrace();
 			}
 			return CommonOutput.addEventOutput(true, CommonOutput.addEvent_success_added);
 		}
 	}
 	@Override
-	public synchronized String removeEvent(final String eventID, final String eventType) throws RemoteException{
+	public synchronized String removeEvent( String eventID,  String eventType) throws RemoteException{
 		if(EventMap.containsKey(eventType.toUpperCase().trim()) && EventMap.get(eventType.toUpperCase().trim()).containsKey(eventID.toUpperCase().trim()))
 		{			
 			String response="";
-			final String branch = eventID.substring(0,3).toUpperCase().trim();
+			 String branch = eventID.substring(0,3).toUpperCase().trim();
 			EventMap.get(eventType.toUpperCase().trim()).remove(eventID.toUpperCase().trim());
 			try {
 				serverLog("Remove event", " EventType:"+eventType+ " EventID:"+eventID
 						,"successfully completed", "Event removed from server" + serverName.toUpperCase().trim());
-			} catch (final IOException e) {
+			} catch ( IOException e) {
 				e.printStackTrace();
 			}
 			
@@ -127,20 +127,20 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 		}
 	}
 	
-	public String remove_client_event(final String eventID, final String eventType) 
+	public String remove_client_event( String eventID,  String eventType) 
 	{
 		String data = "";
 		String new_eventID = "";
-		for(final Entry<String, ConcurrentHashMap<String, ClientDetail>> customer : ClientMap.entrySet())
+		for( Entry<String, ConcurrentHashMap<String, ClientDetail>> customer : ClientMap.entrySet())
 		{
-			final ConcurrentHashMap<String, ClientDetail> eventDetail = customer.getValue();
-			final String branch = eventID.substring(0,3).toUpperCase().trim();
+			 ConcurrentHashMap<String, ClientDetail> eventDetail = customer.getValue();
+			 String branch = eventID.substring(0,3).toUpperCase().trim();
 
 			if(eventDetail.containsKey(eventType.toUpperCase().trim() +";"+ eventID.toUpperCase().trim()+""))
 			{	
 				eventDetail.remove(eventType.toUpperCase().trim() +";"+ eventID.toUpperCase().trim());
 
-				for (final ConcurrentHashMap.Entry<String,ClientDetail> entry : customer.getValue().entrySet()) 
+				for ( ConcurrentHashMap.Entry<String,ClientDetail> entry : customer.getValue().entrySet()) 
 				{
 					data +=(entry.getValue().eventID.toUpperCase().trim()+":");
 				}
@@ -171,7 +171,7 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 						serverLog("Remove event", " EventType:"+eventType+ " EventID:"+new_eventID,"successfully completed", 
 								"Event has been replaced for client:" + customer.getKey().toUpperCase().trim());
 					}
-				} catch (final IOException e) {
+				} catch ( IOException e) {
 					e.printStackTrace();
 				}
 			}
@@ -180,10 +180,10 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 		return "Event with eventID:"+ eventID.toUpperCase().trim() +" and eventType: "+eventType.toUpperCase().trim() +" for clients has been removed for server\n";
 	}
 	
-	public String boook_next_event(final String temp,final String removedEventID, final String eventType) {
+	public String boook_next_event( String temp, String removedEventID,  String eventType) {
 		
-		final String response="";
-		final String [] data = temp.split(":");
+		 String response="";
+		 String [] data = temp.split(":");
 		String eventID="";
 		int capacity =0;
         List<String> sortedEventIDs = new ArrayList<String>();
@@ -216,7 +216,7 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 						{
 							serverLog("Remove event", " EventType:"+eventType+ " EventID:"+eventID,"successfully completed", 
 									"Next available event replaced for client:");
-						} catch (final IOException e) {
+						} catch ( IOException e) {
 							e.printStackTrace();
 						}
 						return eventID;
@@ -234,7 +234,7 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 					{
 						serverLog("Remove event", " EventType:"+eventType+ " EventID:"+eventID,"successfully completed", 
 								"Next available event replaced for client:");
-					} catch (final IOException e) {
+					} catch ( IOException e) {
 						e.printStackTrace();
 					}
 					return eventID;
@@ -245,13 +245,13 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 		return response;	
 	}
 
-	private List<String> getSortedEventID(final String eventType, final String removedEventID) {
-        final List<String> sortedEventIDs = new ArrayList<String>();
-        final List<String> morningEventIDs = new ArrayList<String>();
-        final List<String> afternoonEventIDs = new ArrayList<String>();
-        final List<String> eveningEventIDs = new ArrayList<String>();
+	private List<String> getSortedEventID( String eventType,  String removedEventID) {
+         List<String> sortedEventIDs = new ArrayList<String>();
+         List<String> morningEventIDs = new ArrayList<String>();
+         List<String> afternoonEventIDs = new ArrayList<String>();
+         List<String> eveningEventIDs = new ArrayList<String>();
 
-		for (final ConcurrentHashMap.Entry<String,EventDetail> entry : EventMap.get(eventType).entrySet()) 
+		for ( ConcurrentHashMap.Entry<String,EventDetail> entry : EventMap.get(eventType).entrySet()) 
 		{
 			if(entry.getValue().eventID.substring(3,4).equals("M") && !removedEventID.substring(3,4).equals("A")&& !removedEventID.substring(3,4).equals("E"))
 			{
@@ -287,14 +287,14 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 		return sortedEventIDs;
 	}
 	
-	private List<String> sortByDate(final List<String> list) {
-		final int n = list.size(); 
+	private List<String> sortByDate( List<String> list) {
+		 int n = list.size(); 
 		//sort by year
 		for (int i = 0; i < n-1; i++) 
 			for (int j = 0; j < n-i-1; j++) 
 			{
-				final int a = Integer.parseInt(list.get(j).substring(8));
-				final int b = Integer.parseInt(list.get(j+1).substring(8));
+				 int a = Integer.parseInt(list.get(j).substring(8));
+				 int b = Integer.parseInt(list.get(j+1).substring(8));
 
 				if (a > b) 
 				{ 
@@ -305,8 +305,8 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 		for (int i = 0; i < n-1; i++) 
 			for (int j = 0; j < n-i-1; j++) 
 			{
-				final int a = Integer.parseInt(list.get(j).substring(6,8));
-				final int b = Integer.parseInt(list.get(j+1).substring(6,8));
+				 int a = Integer.parseInt(list.get(j).substring(6,8));
+				 int b = Integer.parseInt(list.get(j+1).substring(6,8));
 
 				if (a > b) 
 				{ 
@@ -317,8 +317,8 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 		for (int i = 0; i < n-1; i++) 
 			for (int j = 0; j < n-i-1; j++) 
 			{
-				final int a = Integer.parseInt(list.get(j).substring(4,6));
-				final int b = Integer.parseInt(list.get(j+1).substring(4,6));
+				 int a = Integer.parseInt(list.get(j).substring(4,6));
+				 int b = Integer.parseInt(list.get(j+1).substring(4,6));
 
 				if (a > b) 
 				{ 
@@ -329,14 +329,14 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 	}
 
 	@Override
-	public String listEventAvailability(final String eventType) throws RemoteException{
+	public String listEventAvailability( String eventType) throws RemoteException{
 		List<String> allEventIDsWithCapacity = new ArrayList<>();
 		String response1="" ,response2="";
 		List<String> server1 = new ArrayList<>();
         List<String> server2 = new ArrayList<>();
 		if(EventMap.containsKey(eventType.toUpperCase().trim()))
 		{
-			for (final Map.Entry<String, EventDetail> entry : EventMap.get(eventType.toUpperCase().trim()).entrySet()) 
+			for ( Map.Entry<String, EventDetail> entry : EventMap.get(eventType.toUpperCase().trim()).entrySet()) 
 			{
 				allEventIDsWithCapacity.add(entry.getKey() + " " + entry.getValue().bookingCapacity);
 			}
@@ -363,13 +363,13 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
         allEventIDsWithCapacity.addAll(server2);
 		return CommonOutput.listEventAvailabilityOutput(true, allEventIDsWithCapacity, null);
 	}
-	public String list_events(final String eventType) 
+	public String list_events( String eventType) 
 	{
 		String response = "";
 
 		if(EventMap.containsKey(eventType.toUpperCase().trim()))
 		{	
-			for (final ConcurrentHashMap.Entry<String, EventDetail> entry : EventMap.get(eventType).entrySet()) 
+			for ( ConcurrentHashMap.Entry<String, EventDetail> entry : EventMap.get(eventType).entrySet()) 
 			{
 				response += entry.getKey() + " " + entry.getValue().bookingCapacity+"@";
 			}
@@ -380,10 +380,10 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 	}
 	
 	@Override
-	public synchronized String bookEvent(final String customerID, final String eventID, final String eventType) throws RemoteException{
+	public synchronized String bookEvent( String customerID,  String eventID,  String eventType) throws RemoteException{
 		String response=CommonOutput.bookEventOutput(false, null);
-		final String city = eventID.substring(0,3).toUpperCase().trim();
-		final String eventDetail = eventType.toUpperCase().trim()+ ";" + eventID.toUpperCase().trim();
+		 String city = eventID.substring(0,3).toUpperCase().trim();
+		 String eventDetail = eventType.toUpperCase().trim()+ ";" + eventID.toUpperCase().trim();
 
 		if(city.trim().equals(serverName))
 		{
@@ -395,7 +395,7 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 				{
 					serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID +" CustomerID:"+ customerID,"failed","There is no capacity for this event");
 					response = CommonOutput.bookEventOutput(false, CommonOutput.bookEvent_fail_no_capacity);
-				} catch (final IOException e) {
+				} catch ( IOException e) {
 					e.printStackTrace();
 				}
 			}
@@ -405,7 +405,7 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 				{
 					serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID+" CustomerID:"+ customerID,"failed","There is no such an event");
 					response = CommonOutput.bookEventOutput(false, CommonOutput.bookEvent_fail_no_such_event);
-				} catch (final IOException e) {
+				} catch ( IOException e) {
 					e.printStackTrace();
 				}
 			}
@@ -413,7 +413,7 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 			{
 				try 
 				{
-					final int capacity = EventMap.get(eventType.toUpperCase().trim()).get(eventID.toUpperCase().trim()).bookingCapacity;
+					 int capacity = EventMap.get(eventType.toUpperCase().trim()).get(eventID.toUpperCase().trim()).bookingCapacity;
 					if(serverName.trim().equals(customerID.substring(0,3).toUpperCase().trim()))
 					{
 						if(ClientMap.containsKey(customerID.toUpperCase().trim()) && ClientMap.get(customerID.toUpperCase().trim()).containsKey(eventDetail))			
@@ -422,7 +422,7 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 							{
 								serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID +" CustomerID:"+ customerID,"failed","This event has already been booked");
 
-							} catch (final IOException e) {
+							} catch ( IOException e) {
 								e.printStackTrace();
 							}
 							return CommonOutput.bookEventOutput(false, null);
@@ -435,7 +435,7 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 					
 					serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID+" CustomerID:"+ customerID,"successfully completed","Booking request has been approved");
 					response = CommonOutput.bookEventOutput(true, null);
-				} catch (final IOException e) {
+				} catch ( IOException e) {
 					e.printStackTrace();
 				}
 			}
@@ -451,7 +451,7 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 					{
 						serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID +" CustomerID:"+ customerID,"failed","This event has already been booked");
 
-					} catch (final IOException e) {
+					} catch ( IOException e) {
 						e.printStackTrace();
 					}
 					
@@ -464,7 +464,7 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 						try 
 						{
 							serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID+" CustomerID:"+ customerID,"failed","This customer has already booked 3 times from other cities!");
-						} catch (final IOException e) {
+						} catch ( IOException e) {
 							e.printStackTrace();
 						}
 						
@@ -477,7 +477,7 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 					try 
 					{
 						serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID+" CustomerID:"+ customerID,"successfully completed","Booking request has been approved");
-					} catch (final IOException e) {
+					} catch ( IOException e) {
 						e.printStackTrace();
 					}
 					add_book_customer(customerID, eventID, eventType);
@@ -488,7 +488,7 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 					{
 						serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID +" CustomerID:"+ customerID,"failed","There is no capacity for this event");
 
-					} catch (final IOException e) {
+					} catch ( IOException e) {
 						e.printStackTrace();
 					}
 				}
@@ -497,7 +497,7 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 					try 
 					{
 						serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID+" CustomerID:"+ customerID,"failed","There is no such an event");
-					} catch (final IOException e) {
+					} catch ( IOException e) {
 						e.printStackTrace();
 					}
 				}
@@ -509,7 +509,7 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 					try 
 					{
 						serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID +" CustomerID:"+ customerID,"failed","This event has already been booked");
-					} catch (final IOException e) {
+					} catch ( IOException e) {
 						e.printStackTrace();
 					}
 					
@@ -522,7 +522,7 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 						try 
 						{
 							serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID+" CustomerID:"+ customerID,"failed","This customer has already booked 3 times from other cities!");
-						} catch (final IOException e) {
+						} catch ( IOException e) {
 							e.printStackTrace();
 						}
 						return CommonOutput.bookEventOutput(false, CommonOutput.bookEvent_fail_weekly_limit);
@@ -534,7 +534,7 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 					try 
 					{
 						serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID+" CustomerID:"+ customerID,"successfully completed","Booking request has been approved");
-					} catch (final IOException e) {
+					} catch ( IOException e) {
 						e.printStackTrace();
 					}
 					add_book_customer(customerID, eventID, eventType);
@@ -544,7 +544,7 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 					try 
 					{
 						serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID +" CustomerID:"+ customerID,"failed","There is no capacity for this event");
-					} catch (final IOException e) {
+					} catch ( IOException e) {
 						e.printStackTrace();
 					}
 				}
@@ -553,7 +553,7 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 					try 
 					{
 						serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID+" CustomerID:"+ customerID,"failed","There is no such an event");
-					} catch (final IOException e) {
+					} catch ( IOException e) {
 						e.printStackTrace();
 					}
 				}
@@ -565,7 +565,7 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 					try 
 					{
 						serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID +" CustomerID:"+ customerID,"failed","This event has already been booked");
-					} catch (final IOException e) {
+					} catch ( IOException e) {
 						e.printStackTrace();
 					}
 					
@@ -578,7 +578,7 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 						try 
 						{
 							serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID+" CustomerID:"+ customerID,"failed","This customer has already booked 3 times from other cities!");
-						} catch (final IOException e) {
+						} catch ( IOException e) {
 							e.printStackTrace();
 						}
 						return CommonOutput.bookEventOutput(false, CommonOutput.bookEvent_fail_weekly_limit);
@@ -590,7 +590,7 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 					try 
 					{
 						serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID+" CustomerID:"+ customerID,"successfully completed","Booking request has been approved");
-					} catch (final IOException e) {
+					} catch ( IOException e) {
 						e.printStackTrace();
 					}
 					add_book_customer(customerID, eventID, eventType);
@@ -600,7 +600,7 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 					try 
 					{
 						serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID +" CustomerID:"+ customerID,"failed","There is no capacity for this event");
-					} catch (final IOException e) {
+					} catch ( IOException e) {
 						e.printStackTrace();
 					}
 				}
@@ -609,7 +609,7 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 					try 
 					{
 						serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID+" CustomerID:"+ customerID,"failed","There is no such an event");
-					} catch (final IOException e) {
+					} catch ( IOException e) {
 						e.printStackTrace();
 					}
 				}
@@ -619,11 +619,11 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 		return response;
 	}
 	
-	public boolean week_limit_check(final String customerID,final String eventDate)
+	public boolean week_limit_check( String customerID, String eventDate)
 	{
         int limit = 0;
 
-		for(final Entry<String, ClientDetail> events : ClientMap.get(customerID).entrySet())
+		for( Entry<String, ClientDetail> events : ClientMap.get(customerID).entrySet())
 		{
 			if(!events.getValue().eventID.substring(0, 3).equals(serverName) && same_week_check(events.getValue().eventID.substring(4), eventDate))
 			{
@@ -636,7 +636,7 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 			return false;
 	}
 	
-	private boolean same_week_check(final String newEventDate, final String eventID) 
+	private boolean same_week_check( String newEventDate,  String eventID) 
 	{
         if (eventID.substring(2, 4).equals(newEventDate.substring(2, 4)) && eventID.substring(4, 6).equals(newEventDate.substring(4, 6))) 
         {
@@ -659,13 +659,13 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
         else 
             return false;
 	}
-	public String book_accepted_event(final String customerID, final String eventID, final String eventType)
+	public String book_accepted_event( String customerID,  String eventID,  String eventType)
 	{
 		String response = CommonOutput.bookEventOutput(false, null);;
 
 		if(EventMap.containsKey(eventType.toUpperCase().trim()) && EventMap.get(eventType.toUpperCase().trim()).containsKey(eventID.toUpperCase().trim()))
 		{
-			final int capacity = EventMap.get(eventType.toUpperCase().trim()).get(eventID.toUpperCase().trim()).bookingCapacity;
+			 int capacity = EventMap.get(eventType.toUpperCase().trim()).get(eventID.toUpperCase().trim()).bookingCapacity;
 			
 			if( capacity == 0)
 				return CommonOutput.bookEventOutput(false, CommonOutput.bookEvent_fail_no_capacity);
@@ -682,10 +682,10 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 		return response;
 	}
 
-	public String add_book_customer(final String customerID, final String eventID, final String eventType)
+	public String add_book_customer( String customerID,  String eventID,  String eventType)
 	{
 		String response = "";
-		final String eventDetail = eventType.toUpperCase().trim()+ ";" + eventID.toUpperCase().trim();
+		 String eventDetail = eventType.toUpperCase().trim()+ ";" + eventID.toUpperCase().trim();
 
 		if(ClientMap.containsKey(customerID.toUpperCase().trim()))			
 		{	
@@ -694,7 +694,7 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 		}
 		else
 		{
-			final ConcurrentHashMap <String, ClientDetail> subHashMap = new ConcurrentHashMap<>();
+			 ConcurrentHashMap <String, ClientDetail> subHashMap = new ConcurrentHashMap<>();
 			subHashMap.put(eventDetail, new ClientDetail(customerID.toUpperCase().trim(), eventType.toUpperCase().trim(), eventID.toUpperCase().trim()));
 			ClientMap.put(customerID.toUpperCase().trim(), subHashMap);
 			response = "BOOKED";
@@ -703,13 +703,13 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 	}
 
 	@Override
-	public String getBookingSchedule(final String customerID) throws RemoteException{
+	public String getBookingSchedule( String customerID) throws RemoteException{
 		Map<String, List<String>> events = new HashMap<>();
 		if(ClientMap.containsKey(customerID.toUpperCase().trim()))			
 		{
-			for (final ConcurrentHashMap.Entry<String, ClientDetail> entry : ClientMap.get(customerID.toUpperCase().trim()).entrySet()) 
+			for ( ConcurrentHashMap.Entry<String, ClientDetail> entry : ClientMap.get(customerID.toUpperCase().trim()).entrySet()) 
 			{
-				final String [] data = entry.getKey().split(";");
+				 String [] data = entry.getKey().split(";");
 				List<String> list;
 				if(!events.containsKey(data[0]))
 					list=new ArrayList<>();
@@ -725,9 +725,9 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 	}
 
 	@Override
-	public String cancelEvent(final String customerID, final String eventID, final String eventType) throws RemoteException{
-		final String eventDetail = eventType.toUpperCase().trim()+ ";" + eventID.toUpperCase().trim();
-		final String branch = eventID.substring(0,3).toUpperCase().trim();
+	public String cancelEvent( String customerID,  String eventID,  String eventType) throws RemoteException{
+		 String eventDetail = eventType.toUpperCase().trim()+ ";" + eventID.toUpperCase().trim();
+		 String branch = eventID.substring(0,3).toUpperCase().trim();
 		
 		if(ClientMap.containsKey(customerID.toUpperCase().trim()) && ClientMap.get(customerID.toUpperCase().trim()).containsKey(eventDetail))		
 		{
@@ -735,12 +735,12 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 
 			if(branch.trim().equals(serverName))
 			{
-				final int currentCapacity = EventMap.get(eventType.toUpperCase().trim()).get(eventID.toUpperCase().trim()).bookingCapacity;
+				 int currentCapacity = EventMap.get(eventType.toUpperCase().trim()).get(eventID.toUpperCase().trim()).bookingCapacity;
 				EventMap.get(eventType.toUpperCase().trim()).replace(eventID,new EventDetail(eventType.toUpperCase().trim(), eventID.toUpperCase().trim(), currentCapacity + 1));
 				try 
 				{
 					serverLog("Cancel an event", " EventType:"+eventType+ " EventID:"+eventID+" CustomerID:"+ customerID,"successfully completed","Event has been canceled");
-				} catch (final IOException e) {
+				} catch ( IOException e) {
 					e.printStackTrace();
 				}
 			}
@@ -750,7 +750,7 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 				try 
 				{
 					serverLog("Cancel an event", " EventType:"+eventType+ " EventID:"+eventID+" CustomerID:"+ customerID,"successfully completed","Event has been canceled");
-				} catch (final IOException e) {
+				} catch ( IOException e) {
 					e.printStackTrace();
 				}
 				
@@ -761,7 +761,7 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 				try 
 				{
 					serverLog("Cancel an event", " EventType:"+eventType+ " EventID:"+eventID+" CustomerID:"+ customerID,"successfully completed","Event has been canceled");
-				} catch (final IOException e) {
+				} catch ( IOException e) {
 					e.printStackTrace();
 				}
 
@@ -772,7 +772,7 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 				try 
 				{
 					serverLog("Cancel an event", " EventType:"+eventType+ " EventID:"+eventID+" CustomerID:"+ customerID,"successfully completed","Event has been canceled");
-				} catch (final IOException e) {
+				} catch ( IOException e) {
 					e.printStackTrace();
 				}
 			}
@@ -782,19 +782,19 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 			return CommonOutput.cancelEventOutput(false, CommonOutput.cancelEvent_fail_no_such_event);
 	}
 	
-	public String cancel_client_event(final String eventID, final String eventType)
+	public String cancel_client_event( String eventID,  String eventType)
 	{
 		if(EventMap.containsKey(eventType.toUpperCase().trim()) && EventMap.get(eventType.toUpperCase().trim()).containsKey(eventID.toUpperCase().trim()))
 		{
-			final int currentCapacity = EventMap.get(eventType.toUpperCase().trim()).get(eventID.toUpperCase().trim()).bookingCapacity;
+			 int currentCapacity = EventMap.get(eventType.toUpperCase().trim()).get(eventID.toUpperCase().trim()).bookingCapacity;
 			EventMap.get(eventType.toUpperCase().trim()).replace(eventID,new EventDetail(eventType.toUpperCase().trim(), eventID.toUpperCase().trim(), currentCapacity + 1));
 		}	
 		return "CANCELED";
 		
 	}
 
-	private static String getDirectory(final String ID, final String type) {
-        final String dir = System.getProperty("user.dir");
+	private static String getDirectory( String ID,  String type) {
+         String dir = System.getProperty("user.dir");
 		String fileName = dir;
 		if(type == "Server")
 		{
@@ -813,40 +813,40 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
         return fileName;
 	}
 	
-	public void serverLog(final String acion, final String peram, final String requestResult, final String response) throws IOException {
-		final String city = serverName;
-		final Date date = new Date();
-		final String strDateFormat = "yyyy-MM-dd hh:mm:ss a";
-		final DateFormat dateFormat = new SimpleDateFormat(strDateFormat);
-		final String formattedDate= dateFormat.format(date);
+	public void serverLog( String acion,  String peram,  String requestResult,  String response) throws IOException {
+		 String city = serverName;
+		 Date date = new Date();
+		 String strDateFormat = "yyyy-MM-dd hh:mm:ss a";
+		 DateFormat dateFormat = new SimpleDateFormat(strDateFormat);
+		 String formattedDate= dateFormat.format(date);
 
-		final FileWriter fileWriter = new FileWriter(getDirectory(city.trim().toUpperCase(), "Server"),true);
-		final PrintWriter printWriter = new PrintWriter(fileWriter);
+		 FileWriter fileWriter = new FileWriter(getDirectory(city.trim().toUpperCase(), "Server"),true);
+		 PrintWriter printWriter = new PrintWriter(fileWriter);
 		printWriter.println("DATE: "+formattedDate+"| Request type: "+acion+" | Request parameters: "+ peram +" | Request result: "+requestResult+" | Server resonse: "+ response);
 
 		printWriter.close();
 
 	}
 	
-	private static String send_data_request(final int serverPort,final String function,final String eventID, final String eventType, final String customerID) {
+	private static String send_data_request( int serverPort, String function, String eventID,  String eventType,  String customerID) {
 		DatagramSocket socket = null;
 		String result ="";
-		final String clientRequest = function+";"+eventID.toUpperCase().trim()+";"+eventType.toUpperCase().trim()+";" + customerID.toUpperCase().trim();
+		 String clientRequest = function+";"+eventID.toUpperCase().trim()+";"+eventType.toUpperCase().trim()+";" + customerID.toUpperCase().trim();
 		try {
 			socket = new DatagramSocket();
-			final byte[] data = clientRequest.getBytes();
-			final InetAddress host = InetAddress.getByName("localhost");
-			final DatagramPacket request = new DatagramPacket(data, clientRequest.length(), host, serverPort);
+			 byte[] data = clientRequest.getBytes();
+			 InetAddress host = InetAddress.getByName("localhost");
+			 DatagramPacket request = new DatagramPacket(data, clientRequest.length(), host, serverPort);
 			socket.send(request);
 
-			final byte[] buffer = new byte[1000];
-			final DatagramPacket reply = new DatagramPacket(buffer, buffer.length);
+			 byte[] buffer = new byte[1000];
+			 DatagramPacket reply = new DatagramPacket(buffer, buffer.length);
 
 			socket.receive(reply);
 			result = new String(reply.getData());
-		} catch (final SocketException e) {
+		} catch ( SocketException e) {
 			System.out.println("Socket exception: " + e.getMessage());
-		} catch (final IOException e) {
+		} catch ( IOException e) {
 			e.printStackTrace();
 			System.out.println("IO Error: " + e.getMessage());
 		} finally {
@@ -858,8 +858,8 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 	}
 
 	@Override
-	public synchronized String swapEvent(final String customerID, final String newEventID, final String newEventType, final String oldEventID, final String oldEventType) throws RemoteException{
-		final String eventDetail = oldEventType.toUpperCase().trim()+ ";" + oldEventID.toUpperCase().trim();
+	public synchronized String swapEvent( String customerID,  String newEventID,  String newEventType,  String oldEventID,  String oldEventType) throws RemoteException{
+		 String eventDetail = oldEventType.toUpperCase().trim()+ ";" + oldEventID.toUpperCase().trim();
 		String response = CommonOutput.bookEventOutput(false, null);
 		if(!week_limit_check(customerID.toUpperCase().trim(), newEventID.substring(4)))
 		{
