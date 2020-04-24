@@ -1,0 +1,17 @@
+DATE: 2020-04-24 05:49:34 PM  login attempt
+DATE: 2020-04-24 05:49:34 PM  Manager Login successful
+DATE: 2020-04-24 05:49:38 PM  attempting to listEventAvailability
+DATE: 2020-04-24 05:49:38 PM Client Action:  listEventAvailability | RequestParameters:  eventType: Conferences  | Server Response: Success:listEventAvailability > MTLE101020 3
+DATE: 2020-04-24 05:49:42 PM  attempting to listEventAvailability
+DATE: 2020-04-24 05:49:42 PM Client Action:  listEventAvailability | RequestParameters:  eventType: Seminars  | Server Response: Success:listEventAvailability > MTLE101020 3@SHEA101020 2
+DATE: 2020-04-24 05:49:46 PM  attempting to listEventAvailability
+DATE: 2020-04-24 05:49:46 PM Client Action:  listEventAvailability | RequestParameters:  eventType: TradeShows  | Server Response: Success:listEventAvailability > SHEA111120 2
+DATE: 2020-04-24 05:50:21 PM  attempting to bookEvent
+DATE: 2020-04-24 05:50:21 PM Client Action:  bookEvent | RequestParameters:  customerID: QUEC1234 eventID: MTLE101020 eventType: Conferences  | Server Response: Success:bookEvent > successful
+DATE: 2020-04-24 05:50:53 PM  attempting to bookEvent
+DATE: 2020-04-24 05:50:53 PM Client Action:  bookEvent | RequestParameters:  customerID: QUEC1234 eventID: SHEA101020 eventType: Seminars  | Server Response: Success:bookEvent > successful
+DATE: 2020-04-24 05:51:21 PM  attempting to bookEvent
+DATE: 2020-04-24 05:51:21 PM Client Action:  bookEvent | RequestParameters:  customerID: QUEC1234 eventID: SHEA111120 eventType: TradeShows  | Server Response: Success:bookEvent > successful
+DATE: 2020-04-24 05:51:29 PM  attempting to getBookingSchedule
+DATE: 2020-04-24 05:51:29 PM Client Action:  getBookingSchedule | RequestParameters:  customerID: QUEC1234  | Server Response: Success:getBookingSchedule > TRADESHOWS SHEA111120@CONFERENCES MTLE101020@SEMINARS SHEA101020
+DATE: 2020-04-24 05:52:11 PM attempting to Logout

@@ -321,3 +321,122 @@ DATE: 2020-04-23 10:17:53 PM  attempting to getBookingSchedule
 DATE: 2020-04-23 10:17:53 PM Client Action:  getBookingSchedule | RequestParameters:  customerID: MTLC1234  | Server Response: Success:getBookingSchedule > successful
 DATE: 2020-04-23 10:18:50 PM  attempting to listEventAvailability
 DATE: 2020-04-23 10:18:50 PM Client Action:  listEventAvailability | RequestParameters:  eventType: Seminars  | Server Response: Success:listEventAvailability > MTLE101020 4
+DATE: 2020-04-24 05:36:57 PM  login attempt
+DATE: 2020-04-24 05:36:57 PM  Manager Login successful
+DATE: 2020-04-24 05:37:11 PM  attempting to addEvent
+DATE: 2020-04-24 05:37:12 PM Client Action:  addEvent | RequestParameters:  eventID: MTLA101020 eventType: Seminars eventCapacity: 2  | Server Response: Success:addEvent > Event added successfully
+DATE: 2020-04-24 05:37:41 PM  attempting to addEvent
+DATE: 2020-04-24 05:37:41 PM Client Action:  addEvent | RequestParameters:  eventID: MTLE101020 eventType: Conferences eventCapacity: 3  | Server Response: Success:addEvent > Event added successfully
+DATE: 2020-04-24 05:38:18 PM  attempting to bookEvent
+DATE: 2020-04-24 05:38:18 PM Client Action:  bookEvent | RequestParameters:  customerID: MTLC1234 eventID: MTLE101020 eventType: Conferences  | Server Response: Success:bookEvent > successful
+DATE: 2020-04-24 05:38:44 PM  attempting to swapEvent
+DATE: 2020-04-24 05:38:44 PM Client Action:  swapEvent | RequestParameters:  customerID: MTLC1234 oldEventID: MTLE101020 oldEventType: Conferences newEventID: MTLA101020 newEventType: Conferences  | Server Response: Fail:swapEvent > failed
+DATE: 2020-04-24 05:39:42 PM  attempting to listEventAvailability
+DATE: 2020-04-24 05:39:42 PM Client Action:  listEventAvailability | RequestParameters:  eventType: Conferences  | Server Response: Success:listEventAvailability > MTLE101020 2
+DATE: 2020-04-24 05:39:51 PM  attempting to listEventAvailability
+DATE: 2020-04-24 05:39:51 PM Client Action:  listEventAvailability | RequestParameters:  eventType: Seminars  | Server Response: Success:listEventAvailability > MTLA101020 2
+DATE: 2020-04-24 05:40:49 PM  attempting to swapEvent
+DATE: 2020-04-24 05:40:49 PM Client Action:  swapEvent | RequestParameters:  customerID: MTLC1234 oldEventID: MTLE101020 oldEventType: Conferences newEventID: MTLA101020 newEventType: Seminars  | Server Response: Success:swapEvent > successful
+DATE: 2020-04-24 05:41:10 PM  attempting to getBookingSchedule
+DATE: 2020-04-24 05:41:10 PM Client Action:  getBookingSchedule | RequestParameters:  customerID: MTLC1234  | Server Response: Success:getBookingSchedule > SEMINARS MTLA101020
+DATE: 2020-04-24 05:44:15 PM  login attempt
+DATE: 2020-04-24 05:44:15 PM  Manager Login successful
+DATE: 2020-04-24 05:44:29 PM  attempting to addEvent
+DATE: 2020-04-24 05:44:29 PM Client Action:  addEvent | RequestParameters:  eventID: MTLE101020 eventType: Seminars eventCapacity: 4  | Server Response: Success:addEvent > Event added successfully
+DATE: 2020-04-24 05:44:39 PM  attempting to listEventAvailability
+DATE: 2020-04-24 05:44:39 PM Client Action:  listEventAvailability | RequestParameters:  eventType: Seminars  | Server Response: Success:listEventAvailability > MTLE101020 4@MTLA101020 1
+DATE: 2020-04-24 05:45:00 PM  attempting to removeEvent
+DATE: 2020-04-24 05:45:00 PM Client Action:  removeEvent | RequestParameters:  eventID: MTLA101020 eventType: Seminars  | Server Response: Success:removeEvent > successful
+DATE: 2020-04-24 05:45:22 PM  attempting to getBookingSchedule
+DATE: 2020-04-24 05:45:22 PM Client Action:  getBookingSchedule | RequestParameters:  customerID: MTLC1234  | Server Response: Success:getBookingSchedule > SEMINARS MTLE101020
+DATE: 2020-04-24 05:47:30 PM attempting to Logout
+DATE: 2020-04-24 05:52:17 PM  login attempt
+DATE: 2020-04-24 05:52:17 PM  Manager Login successful
+DATE: 2020-04-24 05:52:29 PM  attempting to addEvent
+DATE: 2020-04-24 05:52:29 PM Client Action:  addEvent | RequestParameters:  eventID: MTLA111122 eventType: TradeShows eventCapacity: 1  | Server Response: Success:addEvent > Event added successfully
+DATE: 2020-04-24 05:52:34 PM attempting to Logout
+DATE: 2020-04-24 05:55:45 PM  login attempt
+DATE: 2020-04-24 05:55:45 PM  Manager Login successful
+DATE: 2020-04-24 05:56:01 PM  attempting to listEventAvailability
+DATE: 2020-04-24 05:56:01 PM Client Action:  listEventAvailability | RequestParameters:  eventType: TradeShows  | Server Response: Success:listEventAvailability > MTLA111122 0@SHEA111120 1
+DATE: 2020-04-24 05:59:21 PM  login attempt
+DATE: 2020-04-24 05:59:21 PM  Manager Login successful
+DATE: 2020-04-24 06:00:07 PM  attempting to addEvent
+DATE: 2020-04-24 06:00:09 PM Client Action:  addEvent | RequestParameters:  eventID: MTLA101020 eventType: Conferences eventCapacity: 2  | Server Response: Success:addEvent > Event added successfully
+DATE: 2020-04-24 06:00:24 PM  attempting to addEvent
+DATE: 2020-04-24 06:00:24 PM Client Action:  addEvent | RequestParameters:  eventID: MTLA111020 eventType: Conferences eventCapacity: 3  | Server Response: Success:addEvent > Event added successfully
+DATE: 2020-04-24 06:00:37 PM  attempting to addEvent
+DATE: 2020-04-24 06:00:37 PM Client Action:  addEvent | RequestParameters:  eventID: MTLA121020 eventType: Conferences eventCapacity: 3  | Server Response: Success:addEvent > Event added successfully
+DATE: 2020-04-24 06:00:42 PM  attempting to listEventAvailability
+DATE: 2020-04-24 06:00:42 PM Client Action:  listEventAvailability | RequestParameters:  eventType: Conferences  | Server Response: Success:listEventAvailability > MTLA121020 3@MTLA111020 3@MTLA101020 2
+DATE: 2020-04-24 06:01:00 PM  attempting to addEvent
+DATE: 2020-04-24 06:01:00 PM Client Action:  addEvent | RequestParameters:  eventID: MTLE091020 eventType: Conferences eventCapacity: 3  | Server Response: Success:addEvent > Event added successfully
+DATE: 2020-04-24 06:01:02 PM  attempting to listEventAvailability
+DATE: 2020-04-24 06:01:03 PM Client Action:  listEventAvailability | RequestParameters:  eventType: Conferences  | Server Response: Success:listEventAvailability > MTLE091020 3@MTLA121020 3@MTLA111020 3@MTLA101020 2
+DATE: 2020-04-24 06:01:19 PM attempting to Logout
+DATE: 2020-04-24 06:03:05 PM  login attempt
+DATE: 2020-04-24 06:03:05 PM  Manager Login successful
+DATE: 2020-04-24 06:03:07 PM  attempting to listEventAvailability
+DATE: 2020-04-24 06:03:07 PM Client Action:  listEventAvailability | RequestParameters:  eventType: Conferences  | Server Response: Success:listEventAvailability > MTLE091020 2@MTLA121020 2@MTLA111020 2@MTLA101020 2
+DATE: 2020-04-24 06:03:33 PM attempting to Logout
+DATE: 2020-04-24 06:08:08 PM  login attempt
+DATE: 2020-04-24 06:08:08 PM  Manager Login successful
+DATE: 2020-04-24 06:08:12 PM  attempting to listEventAvailability
+DATE: 2020-04-24 06:08:12 PM Client Action:  listEventAvailability | RequestParameters:  eventType: Seminars  | Server Response: Success:listEventAvailability >
+DATE: 2020-04-24 06:08:15 PM  attempting to listEventAvailability
+DATE: 2020-04-24 06:08:15 PM Client Action:  listEventAvailability | RequestParameters:  eventType: Conferences  | Server Response: Success:listEventAvailability > MTLE091020 1@MTLA121020 1@MTLA111020 1@MTLA101020 1
+DATE: 2020-04-24 06:08:40 PM  attempting to bookEvent
+DATE: 2020-04-24 06:08:40 PM Client Action:  bookEvent | RequestParameters:  customerID: MTLC2345 eventID: MTLE091020 eventType: Conferences  | Server Response: Success:bookEvent > successful
+DATE: 2020-04-24 06:09:26 PM  attempting to bookEvent
+DATE: 2020-04-24 06:09:26 PM Client Action:  bookEvent | RequestParameters:  customerID: MTLC1234 eventID: MTLE091020 eventType: Conferences  | Server Response: Fail:bookEvent > Event is full
+DATE: 2020-04-24 06:10:42 PM  attempting to bookEvent
+DATE: 2020-04-24 06:10:42 PM Client Action:  bookEvent | RequestParameters:  customerID: MTLC1234 eventID: MTLE101020 eventType: Conferences  | Server Response: Fail:bookEvent > No such event
+DATE: 2020-04-24 06:10:54 PM  attempting to listEventAvailability
+DATE: 2020-04-24 06:10:54 PM Client Action:  listEventAvailability | RequestParameters:  eventType: Conferences  | Server Response: Success:listEventAvailability > MTLE091020 0@MTLA121020 1@MTLA111020 1@MTLA101020 1
+DATE: 2020-04-24 06:11:08 PM  attempting to bookEvent
+DATE: 2020-04-24 06:11:08 PM Client Action:  bookEvent | RequestParameters:  customerID: MTLC1234 eventID: MTLA101020 eventType: Conferences  | Server Response: Fail:bookEvent > failed
+DATE: 2020-04-24 06:11:44 PM  attempting to listEventAvailability
+DATE: 2020-04-24 06:11:44 PM Client Action:  listEventAvailability | RequestParameters:  eventType: Conferences  | Server Response: Success:listEventAvailability > MTLE091020 0@MTLA121020 1@MTLA111020 1@MTLA101020 1
+DATE: 2020-04-24 06:12:02 PM  attempting to getBookingSchedule
+DATE: 2020-04-24 06:12:02 PM Client Action:  getBookingSchedule | RequestParameters:  customerID: MTLC1234  | Server Response: Success:getBookingSchedule > CONFERENCES MTLE091020@CONFERENCES MTLA121020@CONFERENCES MTLA111020@CONFERENCES MTLA101020
+DATE: 2020-04-24 06:13:08 PM  attempting to removeEvent
+DATE: 2020-04-24 06:13:08 PM Client Action:  removeEvent | RequestParameters:  eventID: MTLA101020 eventType: Conferences  | Server Response: Success:removeEvent > successful
+DATE: 2020-04-24 06:13:29 PM  attempting to listEventAvailability
+DATE: 2020-04-24 06:13:29 PM Client Action:  listEventAvailability | RequestParameters:  eventType: Conferences  | Server Response: Success:listEventAvailability > MTLE091020 0@MTLA121020 1@MTLA111020 1
+DATE: 2020-04-24 06:15:30 PM attempting to Logout
+DATE: 2020-04-24 06:29:47 PM  login attempt
+DATE: 2020-04-24 06:29:47 PM  Manager Login successful
+DATE: 2020-04-24 06:30:12 PM  attempting to addEvent
+DATE: 2020-04-24 06:30:22 PM Client Action:  addEvent | RequestParameters:  eventID: MTLA101020 eventType: Conferences eventCapacity: 2  | Server Response: Success:addEvent > Event added successfully
+DATE: 2020-04-24 06:33:27 PM  login attempt
+DATE: 2020-04-24 06:33:27 PM  Manager Login successful
+DATE: 2020-04-24 06:33:36 PM  attempting to addEvent
+DATE: 2020-04-24 06:33:37 PM Client Action:  addEvent | RequestParameters:  eventID: MTLA101020 eventType: Conferences eventCapacity: 2  | Server Response: Success:addEvent > Event added successfully
+DATE: 2020-04-24 06:35:02 PM attempting to Logout
+DATE: 2020-04-24 06:52:17 PM  login attempt
+DATE: 2020-04-24 06:52:17 PM  Manager Login successful
+DATE: 2020-04-24 06:53:03 PM  attempting to listEventAvailability
+DATE: 2020-04-24 06:53:04 PM Client Action:  listEventAvailability | RequestParameters:  eventType: Conferences  | Server Response: Success:listEventAvailability >
+DATE: 2020-04-24 06:56:01 PM  attempting to addEvent
+DATE: 2020-04-24 06:56:01 PM Client Action:  addEvent | RequestParameters:  eventID: MTLA101020 eventType: Conferences eventCapacity: 3  | Server Response: Success:addEvent > Event added successfully
+DATE: 2020-04-24 07:00:54 PM  attempting to bookEvent
+DATE: 2020-04-24 07:00:54 PM Client Action:  bookEvent | RequestParameters:  customerID: MTLC1234 eventID: MTLA101020 eventType: Conferences  | Server Response: Success:bookEvent > successful
+DATE: 2020-04-24 07:01:04 PM  attempting to getBookingSchedule
+DATE: 2020-04-24 07:01:04 PM Client Action:  getBookingSchedule | RequestParameters:  customerID: MTLC1234  | Server Response: Success:getBookingSchedule > CONFERENCES MTLA101020
+DATE: 2020-04-24 07:01:23 PM  attempting to addEvent
+DATE: 2020-04-24 07:01:23 PM Client Action:  addEvent | RequestParameters:  eventID: MTLA111020 eventType: Conferences eventCapacity: 2  | Server Response: Success:addEvent > Event added successfully
+DATE: 2020-04-24 07:01:41 PM  attempting to bookEvent
+DATE: 2020-04-24 07:01:41 PM Client Action:  bookEvent | RequestParameters:  customerID: MTLC1234 eventID: MTLA111020 eventType: Conferences  | Server Response: Success:bookEvent > successful
+DATE: 2020-04-24 07:01:49 PM  attempting to getBookingSchedule
+DATE: 2020-04-24 07:01:49 PM Client Action:  getBookingSchedule | RequestParameters:  customerID: MTLC1234  | Server Response: Success:getBookingSchedule > CONFERENCES MTLA101020@CONFERENCES MTLA111020
+DATE: 2020-04-24 07:02:20 PM attempting to Logout
+DATE: 2020-04-24 07:05:46 PM  login attempt
+DATE: 2020-04-24 07:05:46 PM  Manager Login successful
+DATE: 2020-04-24 07:05:55 PM  attempting to addEvent
+DATE: 2020-04-24 07:05:56 PM Client Action:  addEvent | RequestParameters:  eventID: MTLA101020 eventType: Conferences eventCapacity: 2  | Server Response: Success:addEvent > Event added successfully
+DATE: 2020-04-24 07:06:04 PM attempting to Logout
+DATE: 2020-04-24 07:14:10 PM  login attempt
+DATE: 2020-04-24 07:14:10 PM  Manager Login successful
+DATE: 2020-04-24 07:14:18 PM  attempting to addEvent
+DATE: 2020-04-24 07:14:19 PM Client Action:  addEvent | RequestParameters:  eventID: MTLA101020 eventType: Conferences eventCapacity: 3  | Server Response: Success:addEvent > Event added successfully
+DATE: 2020-04-24 07:14:24 PM attempting to Logout

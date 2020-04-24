@@ -1,0 +1,7 @@
+DATE: 2020-04-24 05:52:41 PM  login attempt
+DATE: 2020-04-24 05:52:41 PM  Customer Login successful
+DATE: 2020-04-24 05:52:56 PM  attempting to bookEvent
+DATE: 2020-04-24 05:52:56 PM Client Action:  bookEvent | RequestParameters:  eventID: MTLA111122 eventType: TradeShows  | Server Response: Success:bookEvent > successful
+DATE: 2020-04-24 05:53:09 PM  attempting to getBookingSchedule
+DATE: 2020-04-24 05:53:09 PM Client Action:  bookEvent | RequestParameters:  null  | Server Response: Success:getBookingSchedule > TRADESHOWS SHEA111120@TRADESHOWS MTLA111122@CONFERENCES MTLE101020@SEMINARS SHEA101020
+DATE: 2020-04-24 05:55:41 PM  attempting to Logout

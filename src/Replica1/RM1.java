@@ -255,6 +255,7 @@ public class RM1 {
                                     data.newEventType, data.oldEventID,
                                     data.oldEventType, data.bookingCapacity);
 //                            bug_counter += 1;
+                            lastSequenceID += 1;
                             messsageToFront(bug_message.toString(), data.FrontIpAddress);
                             message_q.poll();
                         } else {

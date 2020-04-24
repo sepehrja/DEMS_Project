@@ -1,0 +1,16 @@
+DATE: 2020-04-24 06:01:35 PM  login attempt
+DATE: 2020-04-24 06:01:35 PM  Customer Login successful
+DATE: 2020-04-24 06:01:46 PM  attempting to bookEvent
+DATE: 2020-04-24 06:01:46 PM Client Action:  bookEvent | RequestParameters:  eventID: MTLE091020 eventType: Conferences  | Server Response: Success:bookEvent > successful
+DATE: 2020-04-24 06:01:57 PM  attempting to bookEvent
+DATE: 2020-04-24 06:01:57 PM Client Action:  bookEvent | RequestParameters:  eventID: MTLA121020 eventType: Conferences  | Server Response: Success:bookEvent > successful
+DATE: 2020-04-24 06:02:16 PM  attempting to bookEvent
+DATE: 2020-04-24 06:02:16 PM Client Action:  bookEvent | RequestParameters:  eventID: MTLA111020 eventType: Conferences  | Server Response: Success:bookEvent > successful
+DATE: 2020-04-24 06:02:19 PM  attempting to getBookingSchedule
+DATE: 2020-04-24 06:02:19 PM Client Action:  bookEvent | RequestParameters:  null  | Server Response: Success:getBookingSchedule > CONFERENCES MTLE091020@CONFERENCES MTLA121020@CONFERENCES MTLA111020
+DATE: 2020-04-24 06:03:00 PM  attempting to Logout
+DATE: 2020-04-24 06:03:48 PM  login attempt
+DATE: 2020-04-24 06:03:48 PM  Customer Login successful
+DATE: 2020-04-24 06:04:04 PM  attempting to bookEvent
+DATE: 2020-04-24 06:04:05 PM Client Action:  bookEvent | RequestParameters:  eventID: MTLA101020 eventType: Conferences  | Server Response: Fail:bookEvent > Weekly limit reached
+DATE: 2020-04-24 06:05:38 PM  attempting to Logout

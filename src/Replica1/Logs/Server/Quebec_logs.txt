@@ -1,0 +1,4 @@
+DATE: 2020-04-24 05:50:21 PM| Request type: Book an event | Request parameters:  EventType:CONFERENCES EventID:MTLE101020 CustomerID:QUEC1234 | Request result: successfully completed | Server resonse: Booking request has been approved
+DATE: 2020-04-24 05:50:53 PM| Request type: Book an event | Request parameters:  EventType:SEMINARS EventID:SHEA101020 CustomerID:QUEC1234 | Request result: successfully completed | Server resonse: Booking request has been approved
+DATE: 2020-04-24 05:51:21 PM| Request type: Book an event | Request parameters:  EventType:TRADESHOWS EventID:SHEA111120 CustomerID:QUEC1234 | Request result: successfully completed | Server resonse: Booking request has been approved
+DATE: 2020-04-24 05:52:56 PM| Request type: Book an event | Request parameters:  EventType:TRADESHOWS EventID:MTLA111122 CustomerID:QUEC1234 | Request result: successfully completed | Server resonse: Booking request has been approved

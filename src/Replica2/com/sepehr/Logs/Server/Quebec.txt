@@ -57,3 +57,128 @@ DATE: 2020-04-23 10:14:53 PM  Server is Up & Running
 DATE: 2020-04-23 10:14:53 PM  UDP Server Started at port 8887
 DATE: 2020-04-23 10:18:50 PM ClientID: Event Manager | RequestType:  UDP request received listEventAvailability  | RequestParameters:  eventType: SEMINARS  | ServerResponse:  ...
 DATE: 2020-04-23 10:18:50 PM ClientID: Event Manager | RequestType:  UDP reply sent listEventAvailability  | RequestParameters:  eventID: null eventType: SEMINARS  | ServerResponse: ;
+DATE: 2020-04-24 05:36:28 PM  Server is Up & Running
+DATE: 2020-04-24 05:36:28 PM  UDP Server Started at port 8887
+DATE: 2020-04-24 05:39:42 PM ClientID: Event Manager | RequestType:  UDP request received listEventAvailability  | RequestParameters:  eventType: CONFERENCES  | ServerResponse:  ...
+DATE: 2020-04-24 05:39:42 PM ClientID: Event Manager | RequestType:  UDP reply sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-24 05:39:51 PM ClientID: Event Manager | RequestType:  UDP request received listEventAvailability  | RequestParameters:  eventType: SEMINARS  | ServerResponse:  ...
+DATE: 2020-04-24 05:39:51 PM ClientID: Event Manager | RequestType:  UDP reply sent listEventAvailability  | RequestParameters:  eventID: null eventType: SEMINARS  | ServerResponse: ;
+DATE: 2020-04-24 05:44:39 PM ClientID: Event Manager | RequestType:  UDP request received listEventAvailability  | RequestParameters:  eventType: SEMINARS  | ServerResponse:  ...
+DATE: 2020-04-24 05:44:39 PM ClientID: Event Manager | RequestType:  UDP reply sent listEventAvailability  | RequestParameters:  eventID: null eventType: SEMINARS  | ServerResponse: ;
+DATE: 2020-04-24 05:48:23 PM ClientID: Event Manager | RequestType:  UDP request received listEventAvailability  | RequestParameters:  eventType: CONFERENCES  | ServerResponse:  ...
+DATE: 2020-04-24 05:48:23 PM ClientID: Event Manager | RequestType:  UDP reply sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-24 05:48:31 PM ClientID: Event Manager | RequestType:  UDP request received listEventAvailability  | RequestParameters:  eventType: SEMINARS  | ServerResponse:  ...
+DATE: 2020-04-24 05:48:31 PM ClientID: Event Manager | RequestType:  UDP reply sent listEventAvailability  | RequestParameters:  eventID: null eventType: SEMINARS  | ServerResponse: ;
+DATE: 2020-04-24 05:49:38 PM ClientID: Event Manager | RequestType:  UDP request sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse:  ... 
+DATE: 2020-04-24 05:49:38 PM ClientID: Event Manager | RequestType:  UDP reply receivedlistEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: MTLE101020 3
+DATE: 2020-04-24 05:49:38 PM ClientID: Event Manager | RequestType:  UDP request sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse:  ... 
+DATE: 2020-04-24 05:49:38 PM ClientID: Event Manager | RequestType:  UDP reply receivedlistEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-24 05:49:38 PM ClientID: Event Manager | RequestType:  listEventAvailability  | RequestParameters:  eventType: CONFERENCES  | ServerResponse: QUEBEC Server CONFERENCES:
+No Events of Type CONFERENCES
+
+=====================================
+MTLE101020 3;
+DATE: 2020-04-24 05:49:42 PM ClientID: Event Manager | RequestType:  UDP request sent listEventAvailability  | RequestParameters:  eventID: null eventType: SEMINARS  | ServerResponse:  ... 
+DATE: 2020-04-24 05:49:42 PM ClientID: Event Manager | RequestType:  UDP reply receivedlistEventAvailability  | RequestParameters:  eventID: null eventType: SEMINARS  | ServerResponse: MTLE101020 3
+DATE: 2020-04-24 05:49:42 PM ClientID: Event Manager | RequestType:  UDP request sent listEventAvailability  | RequestParameters:  eventID: null eventType: SEMINARS  | ServerResponse:  ... 
+DATE: 2020-04-24 05:49:42 PM ClientID: Event Manager | RequestType:  UDP reply receivedlistEventAvailability  | RequestParameters:  eventID: null eventType: SEMINARS  | ServerResponse: SHEA101020 2
+DATE: 2020-04-24 05:49:42 PM ClientID: Event Manager | RequestType:  listEventAvailability  | RequestParameters:  eventType: SEMINARS  | ServerResponse: QUEBEC Server SEMINARS:
+No Events of Type SEMINARS
+
+=====================================
+MTLE101020 3SHEA101020 2
+DATE: 2020-04-24 05:49:46 PM ClientID: Event Manager | RequestType:  UDP request sent listEventAvailability  | RequestParameters:  eventID: null eventType: TRADESHOWS  | ServerResponse:  ... 
+DATE: 2020-04-24 05:49:46 PM ClientID: Event Manager | RequestType:  UDP reply receivedlistEventAvailability  | RequestParameters:  eventID: null eventType: TRADESHOWS  | ServerResponse: ;
+DATE: 2020-04-24 05:49:46 PM ClientID: Event Manager | RequestType:  UDP request sent listEventAvailability  | RequestParameters:  eventID: null eventType: TRADESHOWS  | ServerResponse:  ... 
+DATE: 2020-04-24 05:49:46 PM ClientID: Event Manager | RequestType:  UDP reply receivedlistEventAvailability  | RequestParameters:  eventID: null eventType: TRADESHOWS  | ServerResponse: SHEA111120 2
+DATE: 2020-04-24 05:49:46 PM ClientID: Event Manager | RequestType:  listEventAvailability  | RequestParameters:  eventType: TRADESHOWS  | ServerResponse: QUEBEC Server TRADESHOWS:
+No Events of Type TRADESHOWS
+
+=====================================
+;SHEA111120 2
+DATE: 2020-04-24 05:50:21 PM ClientID: QUEC1234 | RequestType:  UDP request sent bookEvent  | RequestParameters:  eventID: MTLE101020 eventType: CONFERENCES  | ServerResponse:  ... 
+DATE: 2020-04-24 05:50:21 PM ClientID: QUEC1234 | RequestType:  UDP reply receivedbookEvent  | RequestParameters:  eventID: MTLE101020 eventType: CONFERENCES  | ServerResponse: Success:bookEvent > successful
+DATE: 2020-04-24 05:50:21 PM ClientID: QUEC1234 | RequestType:  bookEvent  | RequestParameters:  eventID: MTLE101020 eventType: CONFERENCES  | ServerResponse: Success:bookEvent > successful
+DATE: 2020-04-24 05:50:53 PM ClientID: QUEC1234 | RequestType:  UDP request sent bookEvent  | RequestParameters:  eventID: SHEA101020 eventType: SEMINARS  | ServerResponse:  ... 
+DATE: 2020-04-24 05:50:53 PM ClientID: QUEC1234 | RequestType:  UDP reply receivedbookEvent  | RequestParameters:  eventID: SHEA101020 eventType: SEMINARS  | ServerResponse: Success:bookEvent > successful
+DATE: 2020-04-24 05:50:53 PM ClientID: QUEC1234 | RequestType:  bookEvent  | RequestParameters:  eventID: SHEA101020 eventType: SEMINARS  | ServerResponse: Success:bookEvent > successful
+DATE: 2020-04-24 05:51:21 PM ClientID: QUEC1234 | RequestType:  UDP request sent bookEvent  | RequestParameters:  eventID: SHEA111120 eventType: TRADESHOWS  | ServerResponse:  ... 
+DATE: 2020-04-24 05:51:21 PM ClientID: QUEC1234 | RequestType:  UDP reply receivedbookEvent  | RequestParameters:  eventID: SHEA111120 eventType: TRADESHOWS  | ServerResponse: Success:bookEvent > successful
+DATE: 2020-04-24 05:51:21 PM ClientID: QUEC1234 | RequestType:  bookEvent  | RequestParameters:  eventID: SHEA111120 eventType: TRADESHOWS  | ServerResponse: Success:bookEvent > successful
+DATE: 2020-04-24 05:51:29 PM ClientID: QUEC1234 | RequestType:  getBookingSchedule  | RequestParameters: null | ServerResponse: TRADESHOWS:
+SHEA111120 ||
+=====================================
+CONFERENCES:
+MTLE101020 ||
+=====================================
+SEMINARS:
+SHEA101020 ||
+=====================================
+
+DATE: 2020-04-24 05:52:56 PM ClientID: QUEC1234 | RequestType:  UDP request sent bookEvent  | RequestParameters:  eventID: MTLA111122 eventType: TRADESHOWS  | ServerResponse:  ... 
+DATE: 2020-04-24 05:52:56 PM ClientID: QUEC1234 | RequestType:  UDP reply receivedbookEvent  | RequestParameters:  eventID: MTLA111122 eventType: TRADESHOWS  | ServerResponse: Success:bookEvent > successful
+DATE: 2020-04-24 05:52:56 PM ClientID: QUEC1234 | RequestType:  bookEvent  | RequestParameters:  eventID: MTLA111122 eventType: TRADESHOWS  | ServerResponse: Success:bookEvent > successful
+DATE: 2020-04-24 05:53:09 PM ClientID: QUEC1234 | RequestType:  getBookingSchedule  | RequestParameters: null | ServerResponse: TRADESHOWS:
+SHEA111120 ||MTLA111122 ||
+=====================================
+CONFERENCES:
+MTLE101020 ||
+=====================================
+SEMINARS:
+SHEA101020 ||
+=====================================
+
+DATE: 2020-04-24 05:56:01 PM ClientID: Event Manager | RequestType:  UDP request received listEventAvailability  | RequestParameters:  eventType: TRADESHOWS  | ServerResponse:  ...
+DATE: 2020-04-24 05:56:01 PM ClientID: Event Manager | RequestType:  UDP reply sent listEventAvailability  | RequestParameters:  eventID: null eventType: TRADESHOWS  | ServerResponse: ;
+DATE: 2020-04-24 05:58:50 PM  Server is Up & Running
+DATE: 2020-04-24 05:58:50 PM  UDP Server Started at port 8887
+DATE: 2020-04-24 06:00:42 PM ClientID: Event Manager | RequestType:  UDP request received listEventAvailability  | RequestParameters:  eventType: CONFERENCES  | ServerResponse:  ...
+DATE: 2020-04-24 06:00:42 PM ClientID: Event Manager | RequestType:  UDP reply sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-24 06:01:03 PM ClientID: Event Manager | RequestType:  UDP request received listEventAvailability  | RequestParameters:  eventType: CONFERENCES  | ServerResponse:  ...
+DATE: 2020-04-24 06:01:03 PM ClientID: Event Manager | RequestType:  UDP reply sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-24 06:03:07 PM ClientID: Event Manager | RequestType:  UDP request received listEventAvailability  | RequestParameters:  eventType: CONFERENCES  | ServerResponse:  ...
+DATE: 2020-04-24 06:03:07 PM ClientID: Event Manager | RequestType:  UDP reply sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-24 06:08:12 PM ClientID: Event Manager | RequestType:  UDP request received listEventAvailability  | RequestParameters:  eventType: SEMINARS  | ServerResponse:  ...
+DATE: 2020-04-24 06:08:12 PM ClientID: Event Manager | RequestType:  UDP reply sent listEventAvailability  | RequestParameters:  eventID: null eventType: SEMINARS  | ServerResponse: ;
+DATE: 2020-04-24 06:08:15 PM ClientID: Event Manager | RequestType:  UDP request received listEventAvailability  | RequestParameters:  eventType: CONFERENCES  | ServerResponse:  ...
+DATE: 2020-04-24 06:08:15 PM ClientID: Event Manager | RequestType:  UDP reply sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-24 06:10:54 PM ClientID: Event Manager | RequestType:  UDP request received listEventAvailability  | RequestParameters:  eventType: CONFERENCES  | ServerResponse:  ...
+DATE: 2020-04-24 06:10:54 PM ClientID: Event Manager | RequestType:  UDP reply sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-24 06:11:44 PM ClientID: Event Manager | RequestType:  UDP request received listEventAvailability  | RequestParameters:  eventType: CONFERENCES  | ServerResponse:  ...
+DATE: 2020-04-24 06:11:44 PM ClientID: Event Manager | RequestType:  UDP reply sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-24 06:13:29 PM ClientID: Event Manager | RequestType:  UDP request received listEventAvailability  | RequestParameters:  eventType: CONFERENCES  | ServerResponse:  ...
+DATE: 2020-04-24 06:13:29 PM ClientID: Event Manager | RequestType:  UDP reply sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-24 06:26:18 PM  Server is Up & Running
+DATE: 2020-04-24 06:26:18 PM  UDP Server Started at port 8887
+DATE: 2020-04-24 06:27:25 PM ClientID: Event Manager | RequestType:  UDP request received listEventAvailability  | RequestParameters:  eventType: CONFERENCES  | ServerResponse:  ...
+DATE: 2020-04-24 06:27:25 PM ClientID: Event Manager | RequestType:  UDP reply sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-24 06:32:55 PM  Server is Up & Running
+DATE: 2020-04-24 06:32:55 PM  UDP Server Started at port 8887
+DATE: 2020-04-24 06:35:37 PM ClientID: Event Manager | RequestType:  UDP request received listEventAvailability  | RequestParameters:  eventType: CONFERENCES  | ServerResponse:  ...
+DATE: 2020-04-24 06:35:37 PM ClientID: Event Manager | RequestType:  UDP reply sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-24 06:36:17 PM ClientID: Event Manager | RequestType:  UDP request received listEventAvailability  | RequestParameters:  eventType: CONFERENCES  | ServerResponse:  ...
+DATE: 2020-04-24 06:36:17 PM ClientID: Event Manager | RequestType:  UDP reply sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-24 06:51:28 PM  Server is Up & Running
+DATE: 2020-04-24 06:51:28 PM  UDP Server Started at port 8887
+DATE: 2020-04-24 06:53:04 PM ClientID: Event Manager | RequestType:  UDP request received listEventAvailability  | RequestParameters:  eventType: CONFERENCES  | ServerResponse:  ...
+DATE: 2020-04-24 06:53:04 PM ClientID: Event Manager | RequestType:  UDP reply sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-24 07:02:31 PM ClientID: Event Manager | RequestType:  UDP request received listEventAvailability  | RequestParameters:  eventType: CONFERENCES  | ServerResponse:  ...
+DATE: 2020-04-24 07:02:31 PM ClientID: Event Manager | RequestType:  UDP reply sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-24 07:03:00 PM ClientID: Event Manager | RequestType:  UDP request received listEventAvailability  | RequestParameters:  eventType: CONFERENCES  | ServerResponse:  ...
+DATE: 2020-04-24 07:03:00 PM ClientID: Event Manager | RequestType:  UDP reply sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-24 07:05:20 PM  Server is Up & Running
+DATE: 2020-04-24 07:05:20 PM  UDP Server Started at port 8887
+DATE: 2020-04-24 07:06:11 PM ClientID: Event Manager | RequestType:  UDP request received listEventAvailability  | RequestParameters:  eventType: CONFERENCES  | ServerResponse:  ...
+DATE: 2020-04-24 07:06:11 PM ClientID: Event Manager | RequestType:  UDP reply sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-24 07:06:20 PM ClientID: Event Manager | RequestType:  UDP request received listEventAvailability  | RequestParameters:  eventType: CONFERENCES  | ServerResponse:  ...
+DATE: 2020-04-24 07:06:20 PM ClientID: Event Manager | RequestType:  UDP reply sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-24 07:11:32 PM ClientID: Event Manager | RequestType:  UDP request received listEventAvailability  | RequestParameters:  eventType: CONFERENCES  | ServerResponse:  ...
+DATE: 2020-04-24 07:11:32 PM ClientID: Event Manager | RequestType:  UDP reply sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-24 07:13:36 PM  Server is Up & Running
+DATE: 2020-04-24 07:13:37 PM  UDP Server Started at port 8887
+DATE: 2020-04-24 07:14:33 PM ClientID: Event Manager | RequestType:  UDP request received listEventAvailability  | RequestParameters:  eventType: CONFERENCES  | ServerResponse:  ...
+DATE: 2020-04-24 07:14:33 PM ClientID: Event Manager | RequestType:  UDP reply sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-24 07:14:53 PM ClientID: Event Manager | RequestType:  UDP request received listEventAvailability  | RequestParameters:  eventType: CONFERENCES  | ServerResponse:  ...
+DATE: 2020-04-24 07:14:53 PM ClientID: Event Manager | RequestType:  UDP reply sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-24 07:15:20 PM ClientID: Event Manager | RequestType:  UDP request received listEventAvailability  | RequestParameters:  eventType: CONFERENCES  | ServerResponse:  ...
+DATE: 2020-04-24 07:15:20 PM ClientID: Event Manager | RequestType:  UDP reply sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;

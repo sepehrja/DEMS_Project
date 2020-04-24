@@ -1,0 +1,15 @@
+DATE: 2020-04-24 06:05:44 PM  login attempt
+DATE: 2020-04-24 06:05:44 PM  Customer Login successful
+DATE: 2020-04-24 06:05:48 PM  attempting to getBookingSchedule
+DATE: 2020-04-24 06:05:48 PM Client Action:  bookEvent | RequestParameters:  null  | Server Response: Success:getBookingSchedule > successful
+DATE: 2020-04-24 06:06:06 PM  attempting to bookEvent
+DATE: 2020-04-24 06:06:07 PM Client Action:  bookEvent | RequestParameters:  eventID: MTLE091020 eventType: Conferences  | Server Response: Success:bookEvent > successful
+DATE: 2020-04-24 06:06:20 PM  attempting to bookEvent
+DATE: 2020-04-24 06:06:20 PM Client Action:  bookEvent | RequestParameters:  eventID: MTLA121020 eventType: Conferences  | Server Response: Success:bookEvent > successful
+DATE: 2020-04-24 06:06:32 PM  attempting to bookEvent
+DATE: 2020-04-24 06:06:32 PM Client Action:  bookEvent | RequestParameters:  eventID: MTLA111020 eventType: Conferences  | Server Response: Success:bookEvent > successful
+DATE: 2020-04-24 06:06:43 PM  attempting to bookEvent
+DATE: 2020-04-24 06:06:43 PM Client Action:  bookEvent | RequestParameters:  eventID: MTLA101020 eventType: Conferences  | Server Response: Success:bookEvent > successful
+DATE: 2020-04-24 06:06:51 PM  attempting to getBookingSchedule
+DATE: 2020-04-24 06:06:51 PM Client Action:  bookEvent | RequestParameters:  null  | Server Response: Success:getBookingSchedule > CONFERENCES MTLE091020@CONFERENCES MTLA121020@CONFERENCES MTLA111020@CONFERENCES MTLA101020
+DATE: 2020-04-24 06:08:04 PM  attempting to Logout
