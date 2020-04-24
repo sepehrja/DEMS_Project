@@ -244,12 +244,11 @@ public class RM1 {
                 Iterator<Message> itr = message_q.iterator();
                 while (itr.hasNext()) {
                     Message data = itr.next();
-                    System.out.println("RM1 is executing message request. Detail:" + data);
                     //when the servers are down serversFlag is False therefore, no execution untill all servers are up.
                     if (data.sequenceId == lastSequenceID && serversFlag) {
-                        System.out.println("RM1 is executing message request. Detail:" + data);
                         if (data.userID.equalsIgnoreCase(Bug_ID) && BugFlag == true) {
 //                            if (bug_counter == 0)
+                            System.out.println("RM1 is executing message request. Detail:" + data);
                             requestToServers(data);
                             Message bug_message = new Message(data.sequenceId, "Null", "RM1",
                                     data.Function, data.userID, data.newEventID,
@@ -259,6 +258,7 @@ public class RM1 {
                             messsageToFront(bug_message.toString(), data.FrontIpAddress);
                             message_q.poll();
                         } else {
+                            System.out.println("RM1 is executing message request. Detail:" + data);
                             String response = requestToServers(data);
                             Message message = new Message(data.sequenceId, response, "RM1",
                                     data.Function, data.userID, data.newEventID,
