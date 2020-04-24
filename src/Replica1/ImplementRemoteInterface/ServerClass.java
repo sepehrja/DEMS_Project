@@ -255,21 +255,21 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 		{
 			if(entry.getValue().eventID.substring(3,4).equals("M") && !removedEventID.substring(3,4).equals("A")&& !removedEventID.substring(3,4).equals("E"))
 			{
-				if(Integer.parseInt(entry.getValue().eventID.substring(8))>Integer.parseInt(removedEventID.substring(8))&& Integer.parseInt(entry.getValue().eventID.substring(6,8))>Integer.parseInt(removedEventID.substring(6,8))&& Integer.parseInt(entry.getValue().eventID.substring(4,6))>=Integer.parseInt(removedEventID.substring(4,6)))
+				if(Integer.parseInt(entry.getValue().eventID.substring(8))>=Integer.parseInt(removedEventID.substring(8))&& Integer.parseInt(entry.getValue().eventID.substring(6,8))>=Integer.parseInt(removedEventID.substring(6,8))&& Integer.parseInt(entry.getValue().eventID.substring(4,6))>=Integer.parseInt(removedEventID.substring(4,6)))
 				{
 					morningEventIDs.add(entry.getValue().eventID);
 				}
 			}
 			else if(entry.getValue().eventID.substring(3,4).equals("A") && !removedEventID.substring(3,4).equals("E"))
 			{
-				if(Integer.parseInt(entry.getValue().eventID.substring(8))>Integer.parseInt(removedEventID.substring(8))&& Integer.parseInt(entry.getValue().eventID.substring(6,8))>Integer.parseInt(removedEventID.substring(6,8))&& Integer.parseInt(entry.getValue().eventID.substring(4,6))>=Integer.parseInt(removedEventID.substring(4,6)))
+				if(Integer.parseInt(entry.getValue().eventID.substring(8))>=Integer.parseInt(removedEventID.substring(8))&& Integer.parseInt(entry.getValue().eventID.substring(6,8))>=Integer.parseInt(removedEventID.substring(6,8))&& Integer.parseInt(entry.getValue().eventID.substring(4,6))>=Integer.parseInt(removedEventID.substring(4,6)))
 				{
 					afternoonEventIDs.add(entry.getValue().eventID);
 				}
 			}
 			else if(entry.getValue().eventID.substring(3,4).equals("E"))
 			{
-				if(Integer.parseInt(entry.getValue().eventID.substring(8))>Integer.parseInt(removedEventID.substring(8))&& Integer.parseInt(entry.getValue().eventID.substring(6,8))>Integer.parseInt(removedEventID.substring(6,8))&& Integer.parseInt(entry.getValue().eventID.substring(4,6))>=Integer.parseInt(removedEventID.substring(4,6)))
+				if(Integer.parseInt(entry.getValue().eventID.substring(8))>=Integer.parseInt(removedEventID.substring(8))&& Integer.parseInt(entry.getValue().eventID.substring(6,8))>=Integer.parseInt(removedEventID.substring(6,8))&& Integer.parseInt(entry.getValue().eventID.substring(4,6))>=Integer.parseInt(removedEventID.substring(4,6)))
 				{
 					eveningEventIDs.add(entry.getValue().eventID);
 				}
