@@ -180,7 +180,7 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
                 if (!res1.equals(res3)) {
                     rmBugFound(3);
                 }
-                return res1.getResponse();
+                return res2.getResponse();
             } else if (res1.equals(res3)) {
                 if (!res1.equals(res2)) {
                     rmBugFound(2);
@@ -188,7 +188,11 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
                 return res1.getResponse();
             } else {
 //                if (res2 != null && res2.equals(res3)) {
-                rmBugFound(1);
+                if (res2 == null && res3 == null) {
+                    return res1.getResponse();
+                } else {
+                    rmBugFound(1);
+                }
 //                    return res2.getResponse();
 //                }
             }
@@ -209,7 +213,11 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
                 return res2.getResponse();
             } else {
 //                if (!res1.equals("null") && res1.equals(res3)) {
-                rmBugFound(2);
+                if (res1 == null && res3 == null) {
+                    return res2.getResponse();
+                } else {
+                    rmBugFound(2);
+                }
 //                }
 //                return res1;
             }
@@ -222,7 +230,7 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
                 if (!res3.equals(res1)) {
                     rmBugFound(1);
                 }
-                return res3.getResponse();
+                return res2.getResponse();
             } else if (res3.equals(res1)) {
                 if (!res3.equals(res2)) {
                     rmBugFound(2);
@@ -230,7 +238,11 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
                 return res3.getResponse();
             } else {
 //                if (!res2.equals("null") && res2.equals(res1)) {
-                rmBugFound(3);
+                if (res1 == null && res2 == null) {
+                    return res3.getResponse();
+                } else {
+                    rmBugFound(3);
+                }
 //                }
 //                return res1;
             }
