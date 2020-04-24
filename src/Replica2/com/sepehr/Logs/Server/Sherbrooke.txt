@@ -19,3 +19,43 @@ DATE: 2020-04-14 04:23:03 PM ClientID: Event Manager | RequestType:  UDP request
 DATE: 2020-04-14 04:23:03 PM ClientID: Event Manager | RequestType:  UDP reply sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
 DATE: 2020-04-14 04:24:01 PM ClientID: Event Manager | RequestType:  UDP request received listEventAvailability  | RequestParameters:  eventType: SEMINARS  | ServerResponse:  ...
 DATE: 2020-04-14 04:24:01 PM ClientID: Event Manager | RequestType:  UDP reply sent listEventAvailability  | RequestParameters:  eventID: null eventType: SEMINARS  | ServerResponse: ;
+DATE: 2020-04-23 04:09:37 PM  Server is Up & Running
+DATE: 2020-04-23 04:09:37 PM  UDP Server Started at port 8886
+DATE: 2020-04-23 04:14:13 PM ClientID: Event Manager | RequestType:  UDP request received listEventAvailability  | RequestParameters:  eventType: SEMINARS  | ServerResponse:  ...
+DATE: 2020-04-23 04:14:13 PM ClientID: Event Manager | RequestType:  UDP reply sent listEventAvailability  | RequestParameters:  eventID: null eventType: SEMINARS  | ServerResponse: ;
+DATE: 2020-04-23 07:42:32 PM  Server is Up & Running
+DATE: 2020-04-23 07:42:32 PM  UDP Server Started at port 8886
+DATE: 2020-04-23 08:00:10 PM  Server is Up & Running
+DATE: 2020-04-23 08:00:10 PM  UDP Server Started at port 8886
+DATE: 2020-04-23 08:17:00 PM  Server is Up & Running
+DATE: 2020-04-23 08:17:00 PM  UDP Server Started at port 8886
+DATE: 2020-04-23 08:23:58 PM  Server is Up & Running
+DATE: 2020-04-23 08:23:58 PM  UDP Server Started at port 8886
+DATE: 2020-04-23 08:26:21 PM ClientID: Event Manager | RequestType:  UDP request received listEventAvailability  | RequestParameters:  eventType: SEMINARS  | ServerResponse:  ...
+DATE: 2020-04-23 08:26:21 PM ClientID: Event Manager | RequestType:  UDP reply sent listEventAvailability  | RequestParameters:  eventID: null eventType: SEMINARS  | ServerResponse: ;
+DATE: 2020-04-23 08:29:49 PM ClientID: Event Manager | RequestType:  UDP request received listEventAvailability  | RequestParameters:  eventType: SEMINARS  | ServerResponse:  ...
+DATE: 2020-04-23 08:29:49 PM ClientID: Event Manager | RequestType:  UDP reply sent listEventAvailability  | RequestParameters:  eventID: null eventType: SEMINARS  | ServerResponse: ;
+DATE: 2020-04-23 08:54:12 PM  Server is Up & Running
+DATE: 2020-04-23 08:54:12 PM  UDP Server Started at port 8886
+DATE: 2020-04-23 09:00:28 PM  Server is Up & Running
+DATE: 2020-04-23 09:00:28 PM  UDP Server Started at port 8886
+DATE: 2020-04-23 09:09:06 PM  Server is Up & Running
+DATE: 2020-04-23 09:09:06 PM  UDP Server Started at port 8886
+DATE: 2020-04-23 09:21:56 PM  Server is Up & Running
+DATE: 2020-04-23 09:21:56 PM  UDP Server Started at port 8886
+DATE: 2020-04-23 09:25:59 PM  Server is Up & Running
+DATE: 2020-04-23 09:25:59 PM  UDP Server Started at port 8886
+DATE: 2020-04-23 09:28:57 PM  Server is Up & Running
+DATE: 2020-04-23 09:28:57 PM  UDP Server Started at port 8886
+DATE: 2020-04-23 09:31:09 PM  Server is Up & Running
+DATE: 2020-04-23 09:31:09 PM  UDP Server Started at port 8886
+DATE: 2020-04-23 09:54:15 PM  Server is Up & Running
+DATE: 2020-04-23 09:54:15 PM  UDP Server Started at port 8886
+DATE: 2020-04-23 10:02:42 PM  Server is Up & Running
+DATE: 2020-04-23 10:02:42 PM  UDP Server Started at port 8886
+DATE: 2020-04-23 10:11:56 PM  Server is Up & Running
+DATE: 2020-04-23 10:11:56 PM  UDP Server Started at port 8886
+DATE: 2020-04-23 10:14:53 PM  Server is Up & Running
+DATE: 2020-04-23 10:14:53 PM  UDP Server Started at port 8886
+DATE: 2020-04-23 10:18:50 PM ClientID: Event Manager | RequestType:  UDP request received listEventAvailability  | RequestParameters:  eventType: SEMINARS  | ServerResponse:  ...
+DATE: 2020-04-23 10:18:50 PM ClientID: Event Manager | RequestType:  UDP reply sent listEventAvailability  | RequestParameters:  eventID: null eventType: SEMINARS  | ServerResponse: ;
