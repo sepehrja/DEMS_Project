@@ -18,9 +18,9 @@ import static Replica2.com.sepehr.Server.ServerInstance.*;
 
 public class RM2 {
     public static int lastSequenceID = 1;
-    private static boolean serversFlag = true;
     public static ConcurrentHashMap<Integer, Message> message_list = new ConcurrentHashMap<>();
     public static Queue<Message> message_q = new ConcurrentLinkedQueue<Message>();
+    private static boolean serversFlag = true;
 
     public static void main(String[] args) throws Exception {
         Run();
@@ -34,21 +34,22 @@ public class RM2 {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-		};
-		Thread thread = new Thread(task);
-		thread.start();
+        };
+        Thread thread = new Thread(task);
+        thread.start();
     }
-    private static void receive() throws Exception{
+
+    private static void receive() throws Exception {
         MulticastSocket socket = null;
-		try {
+        try {
 
-			socket = new MulticastSocket(1234);
+            socket = new MulticastSocket(1234);
 
-			socket.joinGroup(InetAddress.getByName("230.1.1.10"));
+            socket.joinGroup(InetAddress.getByName("230.1.1.10"));
 
-			byte[] buffer = new byte[1000];
+            byte[] buffer = new byte[1000];
             System.out.println("RM2 UDP Server Started(port=1234)............");
-            
+
             //Run thread for executing all messages in queue
             Runnable task = () -> {
                 try {
@@ -60,11 +61,11 @@ public class RM2 {
             Thread thread = new Thread(task);
             thread.start();
 
-			while (true) {
-				DatagramPacket request = new DatagramPacket(buffer, buffer.length);
-				socket.receive(request);
+            while (true) {
+                DatagramPacket request = new DatagramPacket(buffer, buffer.length);
+                socket.receive(request);
 
-                String data = new String( request.getData(), 0, request.getLength());
+                String data = new String(request.getData(), 0, request.getLength());
                 String[] parts = data.split(";");
 
                 /*
@@ -91,6 +92,7 @@ public class RM2 {
                         // Request all RMs to send back list of messages
                         send_multicast_toRM(initial_message);
                     }
+                    System.out.println("is adding queue:" + message);
                     message_q.add(message);
                     message_list.put(message.sequenceId, message);
                 } else if (parts[2].equalsIgnoreCase("01")) {
@@ -153,21 +155,21 @@ public class RM2 {
                     System.out.println("RM2 handled the crash!");
                     serversFlag = true;
                 }
-			}
+            }
 
-		} catch (SocketException e) {
-			System.out.println("Socket: " + e.getMessage());
-		} catch (IOException e) {
-			System.out.println("IO: " + e.getMessage());
-		} finally {
-			if (socket != null)
+        } catch (SocketException e) {
+            System.out.println("Socket: " + e.getMessage());
+        } catch (IOException e) {
+            System.out.println("IO: " + e.getMessage());
+        } finally {
+            if (socket != null)
                 socket.close();
-		}
+        }
     }
-    private static Message message_obj_create(String data)
-	{
+
+    private static Message message_obj_create(String data) {
         String[] parts = data.split(";");
-        int sequenceId =Integer.parseInt(parts[0]);
+        int sequenceId = Integer.parseInt(parts[0]);
         String FrontIpAddress = parts[1];
         String MessageType = parts[2];
         String Function = parts[3];
@@ -175,51 +177,44 @@ public class RM2 {
         String newEventID = parts[5];
         String newEventType = parts[6];
         String oldEventID = parts[7];
-        String oldEventType = parts[8];   
-        int bookingCapacity =Integer.parseInt(parts[9]);     
+        String oldEventType = parts[8];
+        int bookingCapacity = Integer.parseInt(parts[9]);
         Message message = new Message(sequenceId, FrontIpAddress, MessageType, Function, userID, newEventID, newEventType, oldEventID, oldEventType, bookingCapacity);
         return message;
     }
-    
+
     // Create a list of messsages, seperating them with @ and send it back to RM
-    private static void initial_send_list(Integer begin, Integer end, String RmNumber)
-	{
-        String list="";
-        for (ConcurrentHashMap.Entry<Integer, Message> entry : message_list.entrySet()) 
-        {
-            if(entry.getValue().sequenceId > begin && entry.getValue().sequenceId < end)
-            {
-                list+=entry.getValue().toString()+"@";
+    private static void initial_send_list(Integer begin, Integer end, String RmNumber) {
+        String list = "";
+        for (ConcurrentHashMap.Entry<Integer, Message> entry : message_list.entrySet()) {
+            if (entry.getValue().sequenceId > begin && entry.getValue().sequenceId < end) {
+                list += entry.getValue().toString() + "@";
             }
         }
         // Remove the last @ character
-        if(list.length()>2)
+        if (list.length() > 2)
             list.substring(list.length() - 1);
-        Message message = new Message(0, list , "03", begin.toString(), end.toString(), RmNumber, "Null", "Null", "Null", 0);
+        Message message = new Message(0, list, "03", begin.toString(), end.toString(), RmNumber, "Null", "Null", "Null", 0);
         System.out.println("RM2 sending its list of messages for initialization. list of messages:" + list);
         send_multicast_toRM(message);
     }
 
     //update the hasmap and and new data to queue to be execited
-    private static void update_message_list(String data)
-	{
+    private static void update_message_list(String data) {
         String[] parts = data.split("@");
-        for(int i =0 ;i<parts.length;++i)
-        {
+        for (int i = 0; i < parts.length; ++i) {
             Message message = message_obj_create(parts[i]);
             //we get the list from 2 other RMs and will ensure that there will be no duplication
-            if(!message_list.containsKey(message.sequenceId))
-            {
-                System.out.println("RM2 update its message list"+ message);
+            if (!message_list.containsKey(message.sequenceId)) {
+                System.out.println("RM2 update its message list" + message);
                 message_q.add(message);
                 message_list.put(message.sequenceId, message);
             }
         }
     }
 
-    private static void send_multicast_toRM(Message message)
-	{
-        int port=1234;
+    private static void send_multicast_toRM(Message message) {
+        int port = 1234;
         DatagramSocket socket = null;
         try {
             socket = new DatagramSocket();
@@ -235,8 +230,8 @@ public class RM2 {
     }
 
     //Execute all request from the lastSequenceID, send the response back to Front and update the counter(lastSequenceID)
-    private static void executeAllRequests()throws Exception
-	{
+    private static void executeAllRequests() throws Exception {
+        System.out.println("before while true");
         while (true) {
             synchronized (RM2.class) {
                 Iterator<Message> itr = message_q.iterator();
@@ -253,17 +248,16 @@ public class RM2 {
                                 data.oldEventType, data.bookingCapacity);
                         lastSequenceID += 1;
                         messsageToFront(message.toString(), data.FrontIpAddress);
-//                    itr.remove();
+                        message_q.poll();
                     }
                 }
-                message_q.clear();
+//                message_q.clear();
             }
         }
     }
 
     //Send RMI request to server
-    private static String requestToServers(Message input) throws Exception
-	{
+    private static String requestToServers(Message input) throws Exception {
         int portNumber = serverPort(input.userID.substring(0, 3));
         Registry registry = LocateRegistry.getRegistry(portNumber);
         EventManagementInterface obj = (EventManagementInterface) registry.lookup(EVENT_MANAGEMENT_REGISTERED_NAME);
@@ -303,10 +297,10 @@ public class RM2 {
         }
         return "Null response from server" + input.userID.substring(0, 3);
     }
-    private static int serverPort(String input)
-	{
-		String branch = input.substring(0,3);
-		int portNumber = -1;
+
+    private static int serverPort(String input) {
+        String branch = input.substring(0, 3);
+        int portNumber = -1;
 
         if (branch.equalsIgnoreCase("que"))
             portNumber = SERVER_QUEBEC;
@@ -314,13 +308,13 @@ public class RM2 {
             portNumber = SERVER_MONTREAL;
         else if (branch.equalsIgnoreCase("she"))
             portNumber = SERVER_SHERBROOKE;
-			
-		return portNumber;
+
+        return portNumber;
     }
 
     public static void messsageToFront(String message, String FrontIpAddress) {
-		System.out.println("Message to front:"+message);
-		DatagramSocket socket = null;
+        System.out.println("Message to front:" + message);
+        DatagramSocket socket = null;
         try {
             socket = new DatagramSocket(4323);
             byte[] bytes = message.getBytes();
@@ -336,12 +330,12 @@ public class RM2 {
 //                socket.close();
 //            }
         }
-		
+
     }
+
     public static void reloadServers() throws Exception {
-        for (ConcurrentHashMap.Entry<Integer, Message> entry : message_list.entrySet()) 
-        {
-            if(entry.getValue().sequenceId<lastSequenceID)
+        for (ConcurrentHashMap.Entry<Integer, Message> entry : message_list.entrySet()) {
+            if (entry.getValue().sequenceId < lastSequenceID)
                 requestToServers(entry.getValue());
         }
     }

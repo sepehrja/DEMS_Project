@@ -49,3 +49,138 @@ MTLM030330 ||
 
 DATE: 2020-04-14 04:26:59 PM ClientID: MTLC1234 | RequestType:  bookEvent  | RequestParameters:  eventID: MTLA030321 eventType: SEMINARS  | ServerResponse: SUCCESS:bookEvent > successful
 DATE: 2020-04-14 04:26:59 PM ClientID: MTLC1234 | RequestType:  swapEvent  | RequestParameters:  oldEventID: MTLM030330 oldEventType: CONFERENCES newEventID: MTLA030321 newEventType: SEMINARS  | ServerResponse: FAIL:swapEvent > failed
+DATE: 2020-04-23 04:09:37 PM  Server is Up & Running
+DATE: 2020-04-23 04:09:37 PM  UDP Server Started at port 8888
+DATE: 2020-04-23 04:12:30 PM ClientID: Event Manager | RequestType:  addEvent  | RequestParameters:  eventID: MTLA101020 eventType: SEMINARS bookingCapacity 3  | ServerResponse: Success: Event MTLA101020 added successfully
+DATE: 2020-04-23 04:12:47 PM ClientID: Event Manager | RequestType:  addEvent  | RequestParameters:  eventID: MTLE101020 eventType: SEMINARS bookingCapacity 4  | ServerResponse: Success: Event MTLE101020 added successfully
+DATE: 2020-04-23 04:13:11 PM ClientID: MTLC1234 | RequestType:  bookEvent  | RequestParameters:  eventID: MTLE101020 eventType: SEMINARS  | ServerResponse: Success:bookEvent > successful
+DATE: 2020-04-23 04:13:54 PM ClientID: MTLC1234 | RequestType:  bookEvent  | RequestParameters:  eventID: MTLA101020 eventType: SEMINARS  | ServerResponse: Success:bookEvent > successful
+DATE: 2020-04-23 04:13:54 PM ClientID: MTLC1234 | RequestType:  cancelEvent  | RequestParameters:  eventID: MTLE101020 eventType: SEMINARS  | ServerResponse: Success: Event MTLE101020 Canceled for MTLC1234
+DATE: 2020-04-23 04:13:54 PM ClientID: MTLC1234 | RequestType:  swapEvent  | RequestParameters:  oldEventID: MTLE101020 oldEventType: SEMINARS newEventID: MTLA101020 newEventType: SEMINARS  | ServerResponse: Success:swapEvent > successful
+DATE: 2020-04-23 04:14:13 PM ClientID: Event Manager | RequestType:  UDP request sent listEventAvailability  | RequestParameters:  eventID: null eventType: SEMINARS  | ServerResponse:  ... 
+DATE: 2020-04-23 04:14:13 PM ClientID: Event Manager | RequestType:  UDP reply receivedlistEventAvailability  | RequestParameters:  eventID: null eventType: SEMINARS  | ServerResponse: ;
+DATE: 2020-04-23 04:14:13 PM ClientID: Event Manager | RequestType:  UDP request sent listEventAvailability  | RequestParameters:  eventID: null eventType: SEMINARS  | ServerResponse:  ... 
+DATE: 2020-04-23 04:14:13 PM ClientID: Event Manager | RequestType:  UDP reply receivedlistEventAvailability  | RequestParameters:  eventID: null eventType: SEMINARS  | ServerResponse: ;
+DATE: 2020-04-23 04:14:13 PM ClientID: Event Manager | RequestType:  listEventAvailability  | RequestParameters:  eventType: SEMINARS  | ServerResponse: MONTREAL Server SEMINARS:
+ (MTLE101020) in the Evening of 10/10/2020 Total[Remaining] Capacity: 4[4] ||  (MTLA101020) in the Afternoon of 10/10/2020 Total[Remaining] Capacity: 3[2] || 
+=====================================
+;;
+DATE: 2020-04-23 04:14:30 PM ClientID: MTLC1234 | RequestType:  getBookingSchedule  | RequestParameters: null | ServerResponse: SEMINARS:
+MTLA101020 ||
+=====================================
+
+DATE: 2020-04-23 04:16:32 PM ClientID: MTLC1234 | RequestType:  bookEvent  | RequestParameters:  eventID: MTLE101020 eventType: SEMINARS  | ServerResponse: Success:bookEvent > successful
+DATE: 2020-04-23 04:16:32 PM ClientID: Event Manager | RequestType:  removeEvent  | RequestParameters:  eventID: MTLA101020 eventType: SEMINARS  | ServerResponse: Success: Event MTLA101020 Removed Successfully
+DATE: 2020-04-23 04:17:18 PM ClientID: MTLC1234 | RequestType:  getBookingSchedule  | RequestParameters: null | ServerResponse: SEMINARS:
+MTLE101020 ||
+=====================================
+
+DATE: 2020-04-23 07:42:32 PM  Server is Up & Running
+DATE: 2020-04-23 07:42:32 PM  UDP Server Started at port 8888
+DATE: 2020-04-23 07:43:56 PM ClientID: Event Manager | RequestType:  addEvent  | RequestParameters:  eventID: MTLA101020 eventType: SEMINARS bookingCapacity 3  | ServerResponse: Success: Event MTLA101020 added successfully
+DATE: 2020-04-23 07:44:08 PM ClientID: Event Manager | RequestType:  addEvent  | RequestParameters:  eventID: MTLE101020 eventType: SEMINARS bookingCapacity 4  | ServerResponse: Success: Event MTLE101020 added successfully
+DATE: 2020-04-23 07:44:34 PM ClientID: MTLC1234 | RequestType:  bookEvent  | RequestParameters:  eventID: MTLE101020 eventType: SEMINARS  | ServerResponse: Success:bookEvent > successful
+DATE: 2020-04-23 07:45:21 PM ClientID: MTLC1234 | RequestType:  bookEvent  | RequestParameters:  eventID: MTLA101020 eventType: SEMINARS  | ServerResponse: Success:bookEvent > successful
+DATE: 2020-04-23 07:45:21 PM ClientID: MTLC1234 | RequestType:  cancelEvent  | RequestParameters:  eventID: MTLE101020 eventType: SEMINARS  | ServerResponse: Success: Event MTLE101020 Canceled for MTLC1234
+DATE: 2020-04-23 07:45:21 PM ClientID: MTLC1234 | RequestType:  swapEvent  | RequestParameters:  oldEventID: MTLE101020 oldEventType: SEMINARS newEventID: MTLA101020 newEventType: SEMINARS  | ServerResponse: Success:swapEvent > successful
+DATE: 2020-04-23 08:00:10 PM  Server is Up & Running
+DATE: 2020-04-23 08:00:10 PM  UDP Server Started at port 8888
+DATE: 2020-04-23 08:01:10 PM ClientID: Event Manager | RequestType:  addEvent  | RequestParameters:  eventID: MTLE101020 eventType: SEMINARS bookingCapacity 3  | ServerResponse: Success: Event MTLE101020 added successfully
+DATE: 2020-04-23 08:17:00 PM  Server is Up & Running
+DATE: 2020-04-23 08:17:00 PM  UDP Server Started at port 8888
+DATE: 2020-04-23 08:18:22 PM ClientID: Event Manager | RequestType:  addEvent  | RequestParameters:  eventID: MTLA101020 eventType: SEMINARS bookingCapacity 3  | ServerResponse: Success: Event MTLA101020 added successfully
+DATE: 2020-04-23 08:19:11 PM ClientID: Event Manager | RequestType:  addEvent  | RequestParameters:  eventID: MTLE101020 eventType: SEMINARS bookingCapacity 4  | ServerResponse: Success: Event MTLE101020 added successfully
+DATE: 2020-04-23 08:23:58 PM  Server is Up & Running
+DATE: 2020-04-23 08:23:58 PM  UDP Server Started at port 8888
+DATE: 2020-04-23 08:24:53 PM ClientID: Event Manager | RequestType:  addEvent  | RequestParameters:  eventID: MTLA101020 eventType: SEMINARS bookingCapacity 3  | ServerResponse: Success: Event MTLA101020 added successfully
+DATE: 2020-04-23 08:25:03 PM ClientID: Event Manager | RequestType:  addEvent  | RequestParameters:  eventID: MTLE101020 eventType: SEMINARS bookingCapacity 4  | ServerResponse: Success: Event MTLE101020 added successfully
+DATE: 2020-04-23 08:26:02 PM ClientID: MTLC1234 | RequestType:  bookEvent  | RequestParameters:  eventID: MTLE101020 eventType: SEMINARS  | ServerResponse: Success:bookEvent > successful
+DATE: 2020-04-23 08:26:21 PM ClientID: Event Manager | RequestType:  UDP request sent listEventAvailability  | RequestParameters:  eventID: null eventType: SEMINARS  | ServerResponse:  ... 
+DATE: 2020-04-23 08:26:21 PM ClientID: Event Manager | RequestType:  UDP reply receivedlistEventAvailability  | RequestParameters:  eventID: null eventType: SEMINARS  | ServerResponse: ;
+DATE: 2020-04-23 08:26:21 PM ClientID: Event Manager | RequestType:  UDP request sent listEventAvailability  | RequestParameters:  eventID: null eventType: SEMINARS  | ServerResponse:  ... 
+DATE: 2020-04-23 08:26:21 PM ClientID: Event Manager | RequestType:  UDP reply receivedlistEventAvailability  | RequestParameters:  eventID: null eventType: SEMINARS  | ServerResponse: ;
+DATE: 2020-04-23 08:26:21 PM ClientID: Event Manager | RequestType:  listEventAvailability  | RequestParameters:  eventType: SEMINARS  | ServerResponse: MONTREAL Server SEMINARS:
+ (MTLE101020) in the Evening of 10/10/2020 Total[Remaining] Capacity: 4[3] ||  (MTLA101020) in the Afternoon of 10/10/2020 Total[Remaining] Capacity: 3[3] || 
+=====================================
+;;
+DATE: 2020-04-23 08:27:04 PM ClientID: MTLC1234 | RequestType:  bookEvent  | RequestParameters:  eventID: MTLA101020 eventType: SEMINARS  | ServerResponse: Success:bookEvent > successful
+DATE: 2020-04-23 08:27:04 PM ClientID: MTLC1234 | RequestType:  cancelEvent  | RequestParameters:  eventID: MTLE101020 eventType: SEMINARS  | ServerResponse: Success: Event MTLE101020 Canceled for MTLC1234
+DATE: 2020-04-23 08:27:04 PM ClientID: MTLC1234 | RequestType:  swapEvent  | RequestParameters:  oldEventID: MTLE101020 oldEventType: SEMINARS newEventID: MTLA101020 newEventType: SEMINARS  | ServerResponse: Success:swapEvent > successful
+DATE: 2020-04-23 08:27:32 PM ClientID: MTLC1234 | RequestType:  getBookingSchedule  | RequestParameters: null | ServerResponse: SEMINARS:
+MTLA101020 ||
+=====================================
+
+DATE: 2020-04-23 08:28:02 PM ClientID: MTLC1234 | RequestType:  bookEvent  | RequestParameters:  eventID: MTLE101020 eventType: SEMINARS  | ServerResponse: Success:bookEvent > successful
+DATE: 2020-04-23 08:28:02 PM ClientID: Event Manager | RequestType:  removeEvent  | RequestParameters:  eventID: MTLA101020 eventType: SEMINARS  | ServerResponse: Success: Event MTLA101020 Removed Successfully
+DATE: 2020-04-23 08:28:19 PM ClientID: MTLC1234 | RequestType:  getBookingSchedule  | RequestParameters: null | ServerResponse: SEMINARS:
+MTLE101020 ||
+=====================================
+
+DATE: 2020-04-23 08:29:49 PM ClientID: Event Manager | RequestType:  UDP request sent listEventAvailability  | RequestParameters:  eventID: null eventType: SEMINARS  | ServerResponse:  ... 
+DATE: 2020-04-23 08:29:49 PM ClientID: Event Manager | RequestType:  UDP reply receivedlistEventAvailability  | RequestParameters:  eventID: null eventType: SEMINARS  | ServerResponse: ;
+DATE: 2020-04-23 08:29:49 PM ClientID: Event Manager | RequestType:  UDP request sent listEventAvailability  | RequestParameters:  eventID: null eventType: SEMINARS  | ServerResponse:  ... 
+DATE: 2020-04-23 08:29:49 PM ClientID: Event Manager | RequestType:  UDP reply receivedlistEventAvailability  | RequestParameters:  eventID: null eventType: SEMINARS  | ServerResponse: ;
+DATE: 2020-04-23 08:29:49 PM ClientID: Event Manager | RequestType:  listEventAvailability  | RequestParameters:  eventType: SEMINARS  | ServerResponse: MONTREAL Server SEMINARS:
+ (MTLE101020) in the Evening of 10/10/2020 Total[Remaining] Capacity: 4[3] || 
+=====================================
+;;
+DATE: 2020-04-23 08:54:12 PM  Server is Up & Running
+DATE: 2020-04-23 08:54:12 PM  UDP Server Started at port 8888
+DATE: 2020-04-23 08:54:28 PM ClientID: Event Manager | RequestType:  addEvent  | RequestParameters:  eventID: MTLA101020 eventType: SEMINARS bookingCapacity 3  | ServerResponse: Success: Event MTLA101020 added successfully
+DATE: 2020-04-23 09:00:28 PM  Server is Up & Running
+DATE: 2020-04-23 09:00:28 PM  UDP Server Started at port 8888
+DATE: 2020-04-23 09:09:06 PM  Server is Up & Running
+DATE: 2020-04-23 09:09:06 PM  UDP Server Started at port 8888
+DATE: 2020-04-23 09:21:56 PM  Server is Up & Running
+DATE: 2020-04-23 09:21:56 PM  UDP Server Started at port 8888
+DATE: 2020-04-23 09:25:59 PM  Server is Up & Running
+DATE: 2020-04-23 09:25:59 PM  UDP Server Started at port 8888
+DATE: 2020-04-23 09:28:57 PM  Server is Up & Running
+DATE: 2020-04-23 09:28:57 PM  UDP Server Started at port 8888
+DATE: 2020-04-23 09:31:09 PM  Server is Up & Running
+DATE: 2020-04-23 09:31:09 PM  UDP Server Started at port 8888
+DATE: 2020-04-23 09:33:18 PM ClientID: Event Manager | RequestType:  addEvent  | RequestParameters:  eventID: MTLA101020 eventType: SEMINARS bookingCapacity 4  | ServerResponse: Success: Event MTLA101020 added successfully
+DATE: 2020-04-23 09:33:38 PM ClientID: Event Manager | RequestType:  addEvent  | RequestParameters:  eventID: MTLE101020 eventType: SEMINARS bookingCapacity 4  | ServerResponse: Success: Event MTLE101020 added successfully
+DATE: 2020-04-23 09:54:15 PM  Server is Up & Running
+DATE: 2020-04-23 09:54:15 PM  UDP Server Started at port 8888
+DATE: 2020-04-23 09:55:12 PM ClientID: Event Manager | RequestType:  addEvent  | RequestParameters:  eventID: MTLA101020 eventType: SEMINARS bookingCapacity 3  | ServerResponse: Success: Event MTLA101020 added successfully
+DATE: 2020-04-23 09:55:31 PM ClientID: Event Manager | RequestType:  addEvent  | RequestParameters:  eventID: MTLE101020 eventType: SEMINARS bookingCapacity 3  | ServerResponse: Success: Event MTLE101020 added successfully
+DATE: 2020-04-23 09:56:23 PM ClientID: Event Manager | RequestType:  addEvent  | RequestParameters:  eventID: MTLM101020 eventType: SEMINARS bookingCapacity 2  | ServerResponse: Success: Event MTLM101020 added successfully
+DATE: 2020-04-23 10:02:42 PM  Server is Up & Running
+DATE: 2020-04-23 10:02:42 PM  UDP Server Started at port 8888
+DATE: 2020-04-23 10:03:35 PM ClientID: Event Manager | RequestType:  addEvent  | RequestParameters:  eventID: MTLA101020 eventType: CONFERENCES bookingCapacity 3  | ServerResponse: Success: Event MTLA101020 added successfully
+DATE: 2020-04-23 10:03:50 PM ClientID: Event Manager | RequestType:  addEvent  | RequestParameters:  eventID: MTLE101020 eventType: CONFERENCES bookingCapacity 3  | ServerResponse: Success: Event MTLE101020 added successfully
+DATE: 2020-04-23 10:04:37 PM ClientID: Event Manager | RequestType:  addEvent  | RequestParameters:  eventID: MTLM101020 eventType: CONFERENCES bookingCapacity 2  | ServerResponse: Success: Event MTLM101020 added successfully
+DATE: 2020-04-23 10:07:12 PM ClientID: Event Manager | RequestType:  addEvent  | RequestParameters:  eventID: MTLA111120 eventType: CONFERENCES bookingCapacity 3  | ServerResponse: Success: Event MTLA111120 added successfully
+DATE: 2020-04-23 10:10:29 PM ClientID: Event Manager | RequestType:  addEvent  | RequestParameters:  eventID: MTLA101020 eventType: TRADESHOWS bookingCapacity 2  | ServerResponse: Success: Event MTLA101020 added successfully
+DATE: 2020-04-23 10:11:56 PM  Server is Up & Running
+DATE: 2020-04-23 10:11:56 PM  UDP Server Started at port 8888
+DATE: 2020-04-23 10:12:47 PM ClientID: Event Manager | RequestType:  addEvent  | RequestParameters:  eventID: MTLA101020 eventType: CONFERENCES bookingCapacity 2  | ServerResponse: Success: Event MTLA101020 added successfully
+DATE: 2020-04-23 10:13:02 PM ClientID: Event Manager | RequestType:  addEvent  | RequestParameters:  eventID: MTLE101020 eventType: CONFERENCES bookingCapacity 2  | ServerResponse: Success: Event MTLE101020 added successfully
+DATE: 2020-04-23 10:13:21 PM ClientID: Event Manager | RequestType:  addEvent  | RequestParameters:  eventID: MTLM101020 eventType: CONFERENCES bookingCapacity 3  | ServerResponse: Success: Event MTLM101020 added successfully
+DATE: 2020-04-23 10:14:53 PM  Server is Up & Running
+DATE: 2020-04-23 10:14:53 PM  UDP Server Started at port 8888
+DATE: 2020-04-23 10:15:37 PM ClientID: Event Manager | RequestType:  addEvent  | RequestParameters:  eventID: MTLA101020 eventType: SEMINARS bookingCapacity 3  | ServerResponse: Success: Event MTLA101020 added successfully
+DATE: 2020-04-23 10:15:56 PM ClientID: Event Manager | RequestType:  addEvent  | RequestParameters:  eventID: MTLE101020 eventType: SEMINARS bookingCapacity 4  | ServerResponse: Success: Event MTLE101020 added successfully
+DATE: 2020-04-23 10:16:40 PM ClientID: MTLC1234 | RequestType:  bookEvent  | RequestParameters:  eventID: MTLE101020 eventType: SEMINARS  | ServerResponse: Success:bookEvent > successful
+DATE: 2020-04-23 10:17:10 PM ClientID: MTLC1234 | RequestType:  bookEvent  | RequestParameters:  eventID: MTLA101020 eventType: SEMINARS  | ServerResponse: Success:bookEvent > successful
+DATE: 2020-04-23 10:17:10 PM ClientID: MTLC1234 | RequestType:  cancelEvent  | RequestParameters:  eventID: MTLE101020 eventType: SEMINARS  | ServerResponse: Success: Event MTLE101020 Canceled for MTLC1234
+DATE: 2020-04-23 10:17:10 PM ClientID: MTLC1234 | RequestType:  swapEvent  | RequestParameters:  oldEventID: MTLE101020 oldEventType: SEMINARS newEventID: MTLA101020 newEventType: SEMINARS  | ServerResponse: Success:swapEvent > successful
+DATE: 2020-04-23 10:17:25 PM ClientID: MTLC1234 | RequestType:  getBookingSchedule  | RequestParameters: null | ServerResponse: SEMINARS:
+MTLA101020 ||
+=====================================
+
+DATE: 2020-04-23 10:17:40 PM ClientID: MTLC1234 | RequestType:  bookEvent  | RequestParameters:  eventID: MTLE101020 eventType: SEMINARS  | ServerResponse: Success:bookEvent > successful
+DATE: 2020-04-23 10:17:40 PM ClientID: Event Manager | RequestType:  removeEvent  | RequestParameters:  eventID: MTLA101020 eventType: SEMINARS  | ServerResponse: Success: Event MTLA101020 Removed Successfully
+DATE: 2020-04-23 10:17:53 PM ClientID: MTLC1234 | RequestType:  getBookingSchedule  | RequestParameters: null | ServerResponse: SEMINARS:
+MTLE101020 ||
+=====================================
+
+DATE: 2020-04-23 10:18:50 PM ClientID: Event Manager | RequestType:  UDP request sent listEventAvailability  | RequestParameters:  eventID: null eventType: SEMINARS  | ServerResponse:  ... 
+DATE: 2020-04-23 10:18:50 PM ClientID: Event Manager | RequestType:  UDP reply receivedlistEventAvailability  | RequestParameters:  eventID: null eventType: SEMINARS  | ServerResponse: ;
+DATE: 2020-04-23 10:18:50 PM ClientID: Event Manager | RequestType:  UDP request sent listEventAvailability  | RequestParameters:  eventID: null eventType: SEMINARS  | ServerResponse:  ... 
+DATE: 2020-04-23 10:18:50 PM ClientID: Event Manager | RequestType:  UDP reply receivedlistEventAvailability  | RequestParameters:  eventID: null eventType: SEMINARS  | ServerResponse: ;
+DATE: 2020-04-23 10:18:50 PM ClientID: Event Manager | RequestType:  listEventAvailability  | RequestParameters:  eventType: SEMINARS  | ServerResponse: MONTREAL Server SEMINARS:
+ (MTLE101020) in the Evening of 10/10/2020 Total[Remaining] Capacity: 4[3] || 
+=====================================
+;;
