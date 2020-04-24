@@ -9,7 +9,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 public class FrontEndImplementation extends ServerObjectInterfacePOA {
-    private static final long DYNAMIC_TIMEOUT = 10000;
+    private static long DYNAMIC_TIMEOUT = 10000;
     private static int Rm1BugCount = 0;
     private static int Rm2BugCount = 0;
     private static int Rm3BugCount = 0;
@@ -281,6 +281,7 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
     }
 
     private void rmDown(int rmNumber) {
+        DYNAMIC_TIMEOUT = 10000;
         switch (rmNumber) {
             case 1:
                 Rm1NoResponseCount++;
@@ -311,12 +312,13 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
     }
 
     private void setDynamicTimout() {
-        if (responseTime < 10000) {
-//            DYNAMIC_TIMEOUT = responseTime * 2;
-            System.out.println("FE Implementation:setDynamicTimout>>>" + responseTime * 2);
+        if (responseTime < 4000) {
+            DYNAMIC_TIMEOUT = (DYNAMIC_TIMEOUT + (responseTime * 3)) / 2;
+//            System.out.println("FE Implementation:setDynamicTimout>>>" + responseTime * 2);
         } else {
-            System.out.println("FE Implementation:setDynamicTimout>>>" + DYNAMIC_TIMEOUT);
+            DYNAMIC_TIMEOUT = 10000;
         }
+        System.out.println("FE Implementation:setDynamicTimout>>>" + DYNAMIC_TIMEOUT);
     }
 
     private void notifyOKCommandReceived() {
