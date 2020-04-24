@@ -249,13 +249,13 @@ public class RM1 {
                     if (data.sequenceId == lastSequenceID && serversFlag) {
                         System.out.println("RM1 is executing message request. Detail:" + data);
                         if (data.userID.equalsIgnoreCase(Bug_ID) && BugFlag == true) {
-                            if (bug_counter == 0)
-                                requestToServers(data);
+//                            if (bug_counter == 0)
+                            requestToServers(data);
                             Message bug_message = new Message(data.sequenceId, "Null", "RM1",
                                     data.Function, data.userID, data.newEventID,
                                     data.newEventType, data.oldEventID,
                                     data.oldEventType, data.bookingCapacity);
-                            bug_counter += 1;
+//                            bug_counter += 1;
                             messsageToFront(bug_message.toString(), data.FrontIpAddress);
                             message_q.poll();
                         } else {
