@@ -357,8 +357,11 @@ public class RM1 {
 
     public static void reloadServers() throws Exception {
         for (ConcurrentHashMap.Entry<Integer, Message> entry : message_list.entrySet()) {
-            if (entry.getValue().sequenceId < lastSequenceID)
+            if (entry.getValue().sequenceId <= lastSequenceID)
+            {
+                System.out.println("Recovery Mood-RM1 is executing message request. Detail:" + entry.getValue().toString());
                 requestToServers(entry.getValue());
+            }
         }
     }
 }
