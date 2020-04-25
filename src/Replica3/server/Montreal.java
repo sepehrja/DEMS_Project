@@ -779,128 +779,29 @@ public class Montreal {
 		int date=Integer.parseInt(EventId.substring(4,6));
 		ArrayList<String> ar=new ArrayList<String>();
 		
-		if(date>=4 && date <=27)
-		{
-			for(int i=-3;i<=3;i++) {
-				int c;
-				c = date;
-				c = c + i;
-				String newEvent = "";
-				if (c >= 1 && c < 10) {
-					newEvent = "MTL" + EventId.substring(3, 4) + "0" + c + EventId.substring(6, 10);
-				} else if (c >= 10) {
-					newEvent = "MTL" + EventId.substring(3, 4) + c + EventId.substring(6, 10);
-				}
-				 if(EventId.substring(3,4).equalsIgnoreCase("M")){
-                	 ar.add(newEvent);
-                	 ar.add(newEvent.substring(0, 3)+"A"+newEvent.substring(4));
-                	 ar.add(newEvent.substring(0, 3)+"E"+newEvent.substring(4));
-                }else if(EventId.substring(3,4).equalsIgnoreCase("A")){
-                	 ar.add(newEvent);
-                	 ar.add(newEvent.substring(0, 3)+"M"+newEvent.substring(4));
-                	 ar.add(newEvent.substring(0, 3)+"E"+newEvent.substring(4));
-                }else if(EventId.substring(3,4).equalsIgnoreCase("E")){
-                	 ar.add(newEvent);
-                	 ar.add(newEvent.substring(0, 3)+"A"+newEvent.substring(4));
-                	 ar.add(newEvent.substring(0, 3)+"M"+newEvent.substring(4));
-                }
+		int w=date/7;
+		
+		for(int i=7*w;i<7*w+7;i++){
+			int c=i+1;
+			String newEvent = "";
+			if (c >= 1 && c < 10) {
+				newEvent = "MTL" + EventId.substring(3, 4) + "0" + c + EventId.substring(6, 10);
+			} else if (c >= 10) {
+				newEvent = "MTL" + EventId.substring(3, 4) + c + EventId.substring(6, 10);
 			}
-		} else if(date>27 && date <=30){
-			
-			for(int i=-3;i<=3;i++) {
-				int month = Integer.parseInt(EventId.substring(6, 8));
-				int c;
-				c = date;
-				c = c + i;
-				if (c > 30) {
-					month = Integer.parseInt(EventId.substring(6, 8)) + 1;
-					c = c - 30;
-				}
-
-				String newEvent = "";
-				if (c >= 1 && c < 10) {
-					if (month >= 1 && month < 10) {
-						newEvent = "MTL" + EventId.substring(3, 4) + "0" + c + "0" + month + EventId.substring(8, 10);
-					} else if (month >= 10) {
-						newEvent = "MTL" + EventId.substring(3, 4) + "0" + c + "0" + month + EventId.substring(8, 10);
-					} else if (month == 0) {
-						newEvent = "MTL" + EventId.substring(3, 4) + "0" + c + "12" + (Integer.parseInt(EventId.substring(8, 10)) - 1);
-					} else if (month == 13) {
-						newEvent = "MTL" + EventId.substring(3, 4) + c + "01" + (Integer.parseInt(EventId.substring(8, 10)) + 1);
-					}
-				}else if(c>=10){
-					if(month>=1 && month<10){
-					newEvent="MTL"+EventId.substring(3,4)+c+"0"+month+EventId.substring(8,10);
-				}else if(month>=10){
-					newEvent="MTL"+EventId.substring(3,4)+c+"0"+month+EventId.substring(8,10);
-				}else if(month==0){
-					newEvent="MTL"+EventId.substring(3,4)+c+"12"+(Integer.parseInt(EventId.substring(8,10))-1);
-				}else if(month==13){
-					newEvent="MTL"+EventId.substring(3,4)+c+"01"+(Integer.parseInt(EventId.substring(8,10))+1);
-				}
-				}
-				 if(EventId.substring(3,4).equalsIgnoreCase("M")){
-                	 ar.add(newEvent);
-                	 ar.add(newEvent.substring(0, 3)+"A"+newEvent.substring(4));
-                	 ar.add(newEvent.substring(0, 3)+"E"+newEvent.substring(4));
-                }else if(EventId.substring(3,4).equalsIgnoreCase("A")){
-                	 ar.add(newEvent);
-                	 ar.add(newEvent.substring(0, 3)+"M"+newEvent.substring(4));
-                	 ar.add(newEvent.substring(0, 3)+"E"+newEvent.substring(4));
-                }else if(EventId.substring(3,4).equalsIgnoreCase("E")){
-                	 ar.add(newEvent);
-                	 ar.add(newEvent.substring(0, 3)+"A"+newEvent.substring(4));
-                	 ar.add(newEvent.substring(0, 3)+"M"+newEvent.substring(4));
-                }
-			}
-		}else if(date>=1 && date <=3){
-			
-			for(int i=-3;i<=3;i++) {
-				int month = Integer.parseInt(EventId.substring(6, 8));
-				int c;
-				c = date;
-				c = c + i;
-				if (c < 1) {
-					month = Integer.parseInt(EventId.substring(6, 8)) - 1;
-					c = c + 30;
-				}
-
-				String newEvent = "";
-				if (c >= 1 && c < 10) {
-					if (month >= 1 && month < 10) {
-						newEvent = "MTL" + EventId.substring(3, 4) + "0" + c + "0" + month + EventId.substring(8, 10);
-					} else if (month >= 10) {
-						newEvent = "MTL" + EventId.substring(3, 4) + "0" + c + "0" + month + EventId.substring(8, 10);
-					} else if (month == 0) {
-						newEvent = "MTL" + EventId.substring(3, 4) + "0" + c + "12" + (Integer.parseInt(EventId.substring(8, 10)) - 1);
-					} else if (month == 13) {
-						newEvent = "MTL" + EventId.substring(3, 4) + c + "01" + (Integer.parseInt(EventId.substring(8, 10)) + 1);
-					}
-				}else if(c>=10){
-					if(month>=1 && month<10){
-					newEvent="MTL"+EventId.substring(3,4)+c+"0"+month+EventId.substring(8,10);
-				}else if(month>=10){
-					newEvent="MTL"+EventId.substring(3,4)+c+"0"+month+EventId.substring(8,10);
-				}else if(month==0){
-					newEvent="MTL"+EventId.substring(3,4)+c+"12"+(Integer.parseInt(EventId.substring(8,10))-1);
-				}else if(month==13){
-					newEvent="MTL"+EventId.substring(3,4)+c+"01"+(Integer.parseInt(EventId.substring(8,10))+1);
-				}
-				}
-				 if(EventId.substring(3,4).equalsIgnoreCase("M")){
-                	 ar.add(newEvent);
-                	 ar.add(newEvent.substring(0, 3)+"A"+newEvent.substring(4));
-                	 ar.add(newEvent.substring(0, 3)+"E"+newEvent.substring(4));
-                }else if(EventId.substring(3,4).equalsIgnoreCase("A")){
-                	 ar.add(newEvent);
-                	 ar.add(newEvent.substring(0, 3)+"M"+newEvent.substring(4));
-                	 ar.add(newEvent.substring(0, 3)+"E"+newEvent.substring(4));
-                }else if(EventId.substring(3,4).equalsIgnoreCase("E")){
-                	 ar.add(newEvent);
-                	 ar.add(newEvent.substring(0, 3)+"A"+newEvent.substring(4));
-                	 ar.add(newEvent.substring(0, 3)+"M"+newEvent.substring(4));
-                }
-			}
+			 if(EventId.substring(3,4).equalsIgnoreCase("M")){
+            	 ar.add(newEvent);
+            	 ar.add(newEvent.substring(0, 3)+"A"+newEvent.substring(4));
+            	 ar.add(newEvent.substring(0, 3)+"E"+newEvent.substring(4));
+            }else if(EventId.substring(3,4).equalsIgnoreCase("A")){
+            	 ar.add(newEvent);
+            	 ar.add(newEvent.substring(0, 3)+"M"+newEvent.substring(4));
+            	 ar.add(newEvent.substring(0, 3)+"E"+newEvent.substring(4));
+            }else if(EventId.substring(3,4).equalsIgnoreCase("E")){
+            	 ar.add(newEvent);
+            	 ar.add(newEvent.substring(0, 3)+"A"+newEvent.substring(4));
+            	 ar.add(newEvent.substring(0, 3)+"M"+newEvent.substring(4));
+            }
 		}
 		
 		
