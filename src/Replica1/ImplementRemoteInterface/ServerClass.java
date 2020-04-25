@@ -22,8 +22,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class ServerClass extends UnicastRemoteObject implements EventManagementInterface {
 
-	private final ConcurrentHashMap<String, ConcurrentHashMap<String, EventDetail>> EventMap;
-	private final ConcurrentHashMap<String, ConcurrentHashMap<String, ClientDetail>> ClientMap;
+	private ConcurrentHashMap<String, ConcurrentHashMap<String, EventDetail>> EventMap;
+	private ConcurrentHashMap<String, ConcurrentHashMap<String, ClientDetail>> ClientMap;
 	private final int quebec_port;
 	private final int montreal_port;
 	private final int sherbrooke_port;
@@ -873,6 +873,8 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 	@Override
 	public String shutDown() throws RemoteException 
 	{
+		EventMap = new ConcurrentHashMap<>();
+		ClientMap = new ConcurrentHashMap<>();
 		new Thread(new Runnable() {
 			public void run() {
 				try {
