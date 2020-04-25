@@ -28,7 +28,8 @@ public class Montreal {
 	public static HashMap<String, Integer> a = new HashMap<String, Integer>();
 	public static HashMap<String, Integer> b = new HashMap<String, Integer>();
 	public static HashMap<String, Integer> c = new HashMap<String, Integer>();
-	public static HashMap<String, ArrayList<String>> Muser = new HashMap<String, ArrayList<String>>();
+	//public static HashMap<String, ArrayList<String>> Muser = new HashMap<String, ArrayList<String>>();
+	public static HashMap<String, HashMap<String, ArrayList<String>>> Muser = new HashMap<String, HashMap<String, ArrayList<String>>>();
 
 	public static void main(String[] args) throws FileNotFoundException, RemoteException, AlreadyBoundException {
 
@@ -84,7 +85,8 @@ public class Montreal {
 				}
 				if(fullid.substring(0, 8).equalsIgnoreCase("isBooked")){
                     String customerID=(fullid.substring(8, 16));
-                    String bookingexistence=m.isbooked(customerID);
+                    String eventType=(fullid.substring(16, 26));
+                    String bookingexistence=m.isbooked(customerID,eventType);
                     byte[] msg = bookingexistence.getBytes();
                     DatagramPacket reply = new DatagramPacket(msg, msg.length,
                             request.getAddress(), request.getPort());
@@ -113,6 +115,7 @@ public class Montreal {
 				String var2 = fullid.substring(1, 8);
 				
 				if (var.equalsIgnoreCase("a")  ) {
+					String eventType="CONFERENCES";
 					if(var2.equalsIgnoreCase("display")){
 					String done = m.display(var);
 					byte[] msg = done.getBytes();
@@ -125,8 +128,12 @@ public class Montreal {
 						String eventID = fullid.substring(16, 26);
 						if (m.checkAvailabilityOfEvent(var, eventID).equalsIgnoreCase(
 								"Available ")) {
-							String s = m.bookedEvent(var,eventID, customerID);
-							String r=CommonOutput.bookEventOutput(true, null);
+							String s = m.bookedEvent(var,eventID, customerID,eventType);
+							String r=new String();
+							if(s.contains("SecondBooking")){
+								 r= CommonOutput.bookEventOutput(false, null);
+							}else
+							 r=CommonOutput.bookEventOutput(true, null);
 							byte[] msg = r.getBytes();
 							DatagramPacket reply = new DatagramPacket(msg, msg.length,
 									request.getAddress(), request.getPort());
@@ -153,8 +160,8 @@ public class Montreal {
 						String eventID = fullid.substring(16, 26);
 						if (m.checkAvailabilityOfEvent1(var, eventID).equalsIgnoreCase(
 								"available ")) {
-							if (m.checkUserBooking(eventID, customerID)) {
-								String s = m.canceledEvent(var,eventID, customerID);
+							if (m.checkUserBooking(eventID, customerID,eventType)) {
+								String s = m.canceledEvent(var,eventID, customerID,eventType);
 								String c=CommonOutput.cancelEventOutput(true, null);
 								byte[] msg = c.getBytes();
 								DatagramPacket reply = new DatagramPacket(msg, msg.length,
@@ -179,6 +186,9 @@ public class Montreal {
 					}
 				
 				} else if (var.equalsIgnoreCase("b")  ) {
+					String eventType="TRADESHOWS";	
+							
+
 					if(var2.equalsIgnoreCase("display")){
 						String done = m.display(var);
 						byte[] msg = done.getBytes();
@@ -191,8 +201,12 @@ public class Montreal {
 						String eventID = fullid.substring(16, 26);
 						if (m.checkAvailabilityOfEvent(var, eventID).equalsIgnoreCase(
 								"Available ")) {
-							String s = m.bookedEvent(var,eventID, customerID);
-							String r=CommonOutput.bookEventOutput(true, null);
+							String s = m.bookedEvent(var,eventID, customerID,eventType);
+							String r=new String();
+							if(s.contains("SecondBooking")){
+								 r= CommonOutput.bookEventOutput(false, null);
+							}else
+							 r=CommonOutput.bookEventOutput(true, null);
 							byte[] msg = r.getBytes();
 							DatagramPacket reply = new DatagramPacket(msg, msg.length,
 									request.getAddress(), request.getPort());
@@ -218,8 +232,8 @@ public class Montreal {
 						String eventID = fullid.substring(16, 26);
 						if (m.checkAvailabilityOfEvent1(var, eventID).equalsIgnoreCase(
 								"available ")) {
-							if (m.checkUserBooking(eventID, customerID)) {
-								String s = m.canceledEvent(var,eventID, customerID);
+							if (m.checkUserBooking(eventID, customerID,eventType)) {
+								String s = m.canceledEvent(var,eventID, customerID,eventType);
 								String c=CommonOutput.cancelEventOutput(true, null);
 								byte[] msg = c.getBytes();
 								DatagramPacket reply = new DatagramPacket(msg, msg.length,
@@ -242,6 +256,9 @@ public class Montreal {
 						}
 					}
 				} else if (var.equalsIgnoreCase("c") ) {
+					String eventType="SEMINARS";
+							
+
 					if(var2.equalsIgnoreCase("display")){
 						String done = m.display(var);
 						byte[] msg = done.getBytes();
@@ -254,8 +271,12 @@ public class Montreal {
 						String eventID = fullid.substring(16, 26);
 						if (m.checkAvailabilityOfEvent(var, eventID).equalsIgnoreCase(
 								"Available ")) {
-							String s = m.bookedEvent(var,eventID, customerID);
-							String r=CommonOutput.bookEventOutput(true, null);
+							String s = m.bookedEvent(var,eventID, customerID,eventType);
+							String r=new String();
+							if(s.contains("SecondBooking")){
+								 r= CommonOutput.bookEventOutput(false, null);
+							}else
+							 r=CommonOutput.bookEventOutput(true, null);
 							byte[] msg = r.getBytes();
 							DatagramPacket reply = new DatagramPacket(msg, msg.length,
 									request.getAddress(), request.getPort());
@@ -281,8 +302,8 @@ public class Montreal {
 						String eventID = fullid.substring(16, 26);
 						if (m.checkAvailabilityOfEvent1(var, eventID).equalsIgnoreCase(
 								"available ")) {
-							if (m.checkUserBooking(eventID, customerID)) {
-								String s = m.canceledEvent(var,eventID, customerID);
+							if (m.checkUserBooking(eventID, customerID,eventType)) {
+								String s = m.canceledEvent(var,eventID, customerID,eventType);
 								String c=CommonOutput.cancelEventOutput(true, null);
 								byte[] msg = c.getBytes();
 								DatagramPacket reply = new DatagramPacket(msg, msg.length,
@@ -691,19 +712,38 @@ public class Montreal {
 		return null;
 	}
 
-	public synchronized String bookedEvent(String var,String eventID, String customerID) {
+	public synchronized String bookedEvent(String var,String eventID, String customerID,String eventType) {
 		// TODO Auto-generated method stub
 		char[] ch = customerID.toCharArray();
 		char[] ch1 = {ch[0], ch[1], ch[2]};
 		String server = new String(ch1);
 		ArrayList<String> users = new ArrayList<String>();
 		if (Muser.containsKey(eventID)) {
-			users = Muser.get(eventID);
+			Montreal m = new Montreal();
+			if(m.secondBook(eventID,customerID,eventType)){
+				return "SecondBooking";
+			}
+			HashMap<String, ArrayList<String>> h=new HashMap<String, ArrayList<String>>();
+			h= Muser.get(eventID);
+			
+			if(h.containsKey(eventType)){
+			users = h.get(eventType);
 			users.add(customerID);
-			Muser.put(eventID, users);
+			h.replace(eventType, users);
+			Muser.put(eventID, h);
+			}
+			else{
+				//HashMap<String, ArrayList<String>> h1=new HashMap<String, ArrayList<String>>();
+				users.add(customerID);
+				h.put(eventType, users);
+				Muser.put(eventID, h);
+				
+			}
 		} else {
+			HashMap<String, ArrayList<String>> h=new HashMap<String, ArrayList<String>>();
 			users.add(customerID);
-			Muser.put(eventID, users);
+			h.put(eventType, users);
+			Muser.put(eventID, h);
 		}
 		
 		if(var.equalsIgnoreCase("a")){
@@ -721,8 +761,16 @@ public class Montreal {
 		System.out.println(s);
 		return s;
 	}
-	
-	public synchronized String canceledEvent(String var,String eventID, String customerID) {
+	public synchronized boolean secondBook(String eventID,String customerID,String eventType){
+		HashMap<String, ArrayList<String>> h=Muser.get(eventID); 
+		ArrayList<String> users1 = h.get(eventType);
+		if (/*Muser.containsKey(eventID) &&*/users1 != null && users1.contains(customerID)){
+			return true;
+		}
+		return false;
+		
+	}
+	public synchronized String canceledEvent(String var,String eventID, String customerID,String eventType) {
 		// TODO Auto-generated method stub
 
 
@@ -731,38 +779,47 @@ public class Montreal {
 		String server = new String(ch1);
 
 		ArrayList<String> users = new ArrayList<String>();
+		HashMap<String, ArrayList<String>> h=new HashMap<String, ArrayList<String>>();
+		
 		if (Muser.containsKey(eventID)) {
-			users = Muser.get(eventID);
-			if (users.size() > 1) {
+			h = Muser.get(eventID);
+			/*if(h.size()==1){*/
+			users=h.get(eventType);
+			
 				users.remove(customerID);
-				Muser.put(eventID, users);
+				h.replace(eventType, users);
+				Muser.put(eventID, h);
+			
+			
+			if(users.size() == 0){
+			h.remove(eventType);
+			if(h.size()==0)
+				Muser.remove(eventID);
 			}
 			
-			else if(users.size() == 1){
-			Muser.remove(eventID);
+			if(var.equalsIgnoreCase("a")){
+				int Value=a.get(eventID);
+				a.replace(eventID, Value+1);
+			} else if(var.equalsIgnoreCase("b")){
+				int Value=b.get(eventID);
+				b.replace(eventID, Value+1);
+			} else if(var.equalsIgnoreCase("c")){
+				int Value=c.get(eventID);
+				c.replace(eventID, Value+1);
 			}
 		}
 		
-		if(var.equalsIgnoreCase("a")){
-			int Value=a.get(eventID);
-			a.replace(eventID, Value+1);
-		} else if(var.equalsIgnoreCase("b")){
-			int Value=b.get(eventID);
-			b.replace(eventID, Value+1);
-		} else if(var.equalsIgnoreCase("c")){
-			int Value=c.get(eventID);
-			c.replace(eventID, Value+1);
-		}
+		
 		String s = "cancelled event " + eventID + " for " + customerID;
 		return s;
 	}
 
 	public synchronized boolean checkUserBooking(String eventID,
-			String customerID) {
+			String customerID,String eventType) {
 		// TODO Auto-generated method stub
 		//Muser.put(eventID, customerID);
 		return Muser.containsKey(eventID)
-				&& Muser.get(eventID).contains(customerID);
+				&& (Muser.get(eventID)).get(eventType).contains(customerID);
 	}
 	public synchronized int getOccurances(String customerID,String EventId) {
 		// TODO Auto-generated method stub
@@ -807,22 +864,29 @@ public class Montreal {
 		
 		Muser.entrySet().forEach(entry -> {
 			
-			if (ar.contains(entry.getKey()) && entry.getValue().contains(customerID)){
-				count[0]++;
+			if (ar.contains(entry.getKey())){
+				
+				entry.getValue().entrySet().forEach(entry1 -> {
+					//System.out.println(entry1.getKey());
+					if(entry1.getValue().contains(customerID))
+						count[0]++;
+				});
 			}
 				
 		});
 		return count[0];
 	}
-	 public synchronized String isbooked(String customerID) {
+	 public synchronized String isbooked(String customerID,String EventType) {
 		 StringBuffer str = new StringBuffer();
 		 int[] count = {0};
          Muser.entrySet().forEach(entry -> {
-             
+        	 entry.getValue().entrySet().forEach(entry1 -> {
+ 				//System.out.println(entry1.getKey());
+ 				if (entry1.getKey().equalsIgnoreCase(EventType) && entry1.getValue().contains(customerID))
+ 					count[0]++;
+ 			});
                  
-             if (entry.getValue().contains(customerID)){
-                 count[0]++;
-             }
+             
          });
          
          if(count[0]==0)
@@ -833,26 +897,21 @@ public class Montreal {
      }
 	public synchronized String getUserData(String customerID) {
 		HashMap<String, String> temp11 = new HashMap<String, String>();
-
+		StringBuffer str = new StringBuffer(" ");
 		Muser.entrySet().forEach(entry -> {
 			
-				
-			if (entry.getValue().contains(customerID)){
-				if (a.containsKey(entry.getKey()) ) {
-					temp11.put(entry.getKey(), "CONFERENCES");
-				}else if(b.containsKey(entry.getKey()) ) {
-					temp11.put(entry.getKey(), "TRADESHOWS");
-				}else if(c.containsKey(entry.getKey()) ) {
-					temp11.put(entry.getKey(), "SEMINARS");
-				}
-				
-			}
+			
+			entry.getValue().entrySet().forEach(entry1 -> {
+				System.out.println(entry1.getKey());
+				if (entry1.getValue().contains(customerID))
+					str.append(entry1.getKey()+" "+entry.getKey()+",");
+			});
 		});
 		
-		StringBuffer str = new StringBuffer(" ");
-		temp11.entrySet().forEach(entry -> {
-			str.append(entry.getValue() + " " + entry.getKey() + ",");
-		});
+		
+		/*temp11.entrySet().forEach(entry -> {
+			str.append(entry.getKey() + " " + entry.getValue() + ",");
+		});*/
 		return str.toString();
 
 	}
