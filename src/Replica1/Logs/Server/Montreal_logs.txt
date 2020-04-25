@@ -152,3 +152,4 @@ DATE: 2020-04-25 12:40:19 PM| Request type: Cancel an event | Request parameters
 DATE: 2020-04-25 12:40:40 PM| Request type: Remove event | Request parameters:  EventType:CONFERENCES EventID:MTLM111020 | Request result: successfully completed | Server resonse: Event removed from serverMTL
 DATE: 2020-04-25 12:40:40 PM| Request type: Remove event | Request parameters:  EventType:CONFERENCES EventID:MTLM111020 | Request result: successfully completed | Server resonse: Event removed for client:MTLC1234
 DATE: 2020-04-25 02:00:15 PM| Request type: Add event | Request parameters:  EventType:CONFERENCES EventID:MTLM101020bookingCapacity:2 | Request result: successfully completed | Server resonse: Event added toMTL
+DATE: 2020-04-25 03:59:31 PM| Request type: Add event | Request parameters:  EventType:CONFERENCES EventID:MTLE101020bookingCapacity:2 | Request result: successfully completed | Server resonse: Event added toMTL

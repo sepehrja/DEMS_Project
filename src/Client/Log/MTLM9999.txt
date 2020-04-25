@@ -78,3 +78,12 @@ DATE: 2020-04-25 12:05:56 PM Client Action:  addEvent | RequestParameters:  even
 DATE: 2020-04-25 12:06:03 PM  attempting to listEventAvailability
 DATE: 2020-04-25 12:06:13 PM Client Action:  listEventAvailability | RequestParameters:  eventType: Conferences  | Server Response: Success:listEventAvailability > MTLE121220 3@MTLM101020 2
 DATE: 2020-04-25 12:06:48 PM attempting to Logout
+DATE: 2020-04-25 04:06:50 PM  login attempt
+DATE: 2020-04-25 04:06:50 PM  Manager Login successful
+DATE: 2020-04-25 04:06:59 PM  attempting to addEvent
+DATE: 2020-04-25 04:06:59 PM Client Action:  addEvent | RequestParameters:  eventID: MTLA111120 eventType: Conferences eventCapacity: 3  | Server Response: Success:addEvent > Event added successfully
+DATE: 2020-04-25 04:07:33 PM  attempting to removeEvent
+DATE: 2020-04-25 04:07:43 PM Client Action:  removeEvent | RequestParameters:  eventID: MTLA101020 eventType: Conferences  | Server Response: Success:removeEvent > successful
+DATE: 2020-04-25 04:07:56 PM  attempting to listEventAvailability
+DATE: 2020-04-25 04:08:06 PM Client Action:  listEventAvailability | RequestParameters:  eventType: Conferences  | Server Response: Success:listEventAvailability > MTLA111120 3
+DATE: 2020-04-25 04:08:23 PM attempting to Logout

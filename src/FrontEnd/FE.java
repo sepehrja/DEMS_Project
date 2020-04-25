@@ -18,7 +18,7 @@ import java.net.SocketException;
 public class FE {
     private static final int sequencerPort = 1333;
     private static final String sequencerIP = "192.168.2.17";
-    //    private static final String sequencerIP = "localhost";
+//        private static final String sequencerIP = "localhost";
     private static final String RM_Multicast_group_address = "230.1.1.10";
     private static final int FE_SQ_PORT = 1414;
     private static final int FE_PORT = 1999;

@@ -349,9 +349,9 @@ public class RM1 {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-//            if (socket != null) {
-//                socket.close();
-//            }
+            if (socket != null) {
+                socket.close();
+            }
         }
 
     }
