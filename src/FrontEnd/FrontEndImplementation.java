@@ -191,7 +191,7 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
                 if (res2 == null && res3 == null) {
                     return res1.getResponse();
                 } else {
-                    rmBugFound(1);
+//                    rmBugFound(1);
                 }
 //                    return res2.getResponse();
 //                }
@@ -216,7 +216,7 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
                 if (res1 == null && res3 == null) {
                     return res2.getResponse();
                 } else {
-                    rmBugFound(2);
+//                    rmBugFound(2);
                 }
 //                }
 //                return res1;
@@ -241,7 +241,7 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
                 if (res1 == null && res2 == null) {
                     return res3.getResponse();
                 } else {
-                    rmBugFound(3);
+//                    rmBugFound(3);
                 }
 //                }
 //                return res1;
