@@ -166,3 +166,27 @@ DATE: 2020-04-24 07:14:53 PM ClientID: Event Manager | RequestType:  UDP request
 DATE: 2020-04-24 07:14:53 PM ClientID: Event Manager | RequestType:  UDP reply sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
 DATE: 2020-04-24 07:15:20 PM ClientID: Event Manager | RequestType:  UDP request received listEventAvailability  | RequestParameters:  eventType: CONFERENCES  | ServerResponse:  ...
 DATE: 2020-04-24 07:15:20 PM ClientID: Event Manager | RequestType:  UDP reply sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-24 07:26:34 PM ClientID: Event Manager | RequestType:  UDP request received listEventAvailability  | RequestParameters:  eventType: CONFERENCES  | ServerResponse:  ...
+DATE: 2020-04-24 07:26:34 PM ClientID: Event Manager | RequestType:  UDP reply sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-24 07:27:57 PM ClientID: Event Manager | RequestType:  UDP request received listEventAvailability  | RequestParameters:  eventType: CONFERENCES  | ServerResponse:  ...
+DATE: 2020-04-24 07:27:57 PM ClientID: Event Manager | RequestType:  UDP reply sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-24 07:28:33 PM ClientID: Event Manager | RequestType:  UDP request received listEventAvailability  | RequestParameters:  eventType: CONFERENCES  | ServerResponse:  ...
+DATE: 2020-04-24 07:28:33 PM ClientID: Event Manager | RequestType:  UDP reply sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-24 09:23:33 PM  Server is Up & Running
+DATE: 2020-04-24 09:23:33 PM  UDP Server Started at port 8886
+DATE: 2020-04-24 09:26:03 PM ClientID: SHEC1234 | RequestType:  UDP request sent bookEvent  | RequestParameters:  eventID: MTLM101020 eventType: CONFERENCES  | ServerResponse:  ... 
+DATE: 2020-04-24 09:26:03 PM ClientID: SHEC1234 | RequestType:  UDP reply receivedbookEvent  | RequestParameters:  eventID: MTLM101020 eventType: CONFERENCES  | ServerResponse: Fail:bookEvent > No such event
+DATE: 2020-04-24 09:26:03 PM ClientID: SHEC1234 | RequestType:  bookEvent  | RequestParameters:  eventID: MTLM101020 eventType: CONFERENCES  | ServerResponse: Fail:bookEvent > No such event
+DATE: 2020-04-24 09:26:27 PM ClientID: SHEC1234 | RequestType:  UDP request sent bookEvent  | RequestParameters:  eventID: MTLA101020 eventType: CONFERENCES  | ServerResponse:  ... 
+DATE: 2020-04-24 09:26:27 PM ClientID: SHEC1234 | RequestType:  UDP reply receivedbookEvent  | RequestParameters:  eventID: MTLA101020 eventType: CONFERENCES  | ServerResponse: Success:bookEvent > successful
+DATE: 2020-04-24 09:26:27 PM ClientID: SHEC1234 | RequestType:  bookEvent  | RequestParameters:  eventID: MTLA101020 eventType: CONFERENCES  | ServerResponse: Success:bookEvent > successful
+DATE: 2020-04-24 09:26:42 PM ClientID: SHEC1234 | RequestType:  UDP request sent bookEvent  | RequestParameters:  eventID: MTLM111120 eventType: SEMINARS  | ServerResponse:  ... 
+DATE: 2020-04-24 09:26:42 PM ClientID: SHEC1234 | RequestType:  UDP reply receivedbookEvent  | RequestParameters:  eventID: MTLM111120 eventType: SEMINARS  | ServerResponse: Success:bookEvent > successful
+DATE: 2020-04-24 09:26:42 PM ClientID: SHEC1234 | RequestType:  bookEvent  | RequestParameters:  eventID: MTLM111120 eventType: SEMINARS  | ServerResponse: Success:bookEvent > successful
+DATE: 2020-04-24 09:26:49 PM ClientID: SHEC1234 | RequestType:  getBookingSchedule  | RequestParameters: null | ServerResponse: CONFERENCES:
+MTLA101020 ||
+=====================================
+SEMINARS:
+MTLM111120 ||
+=====================================
+

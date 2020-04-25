@@ -54,8 +54,9 @@ public class CommonOutput {
 						reasonBuilder.append(event).append("@");
 					}
 				}
-				reason = reasonBuilder.toString();
-				if (!reason.equals(""))
+				if (reasonBuilder.length() > 0)
+					reason = reasonBuilder.toString();
+				if (reason.endsWith("@"))
 					reason = reason.substring(0, reason.length() - 1);
 			}
 		} else {

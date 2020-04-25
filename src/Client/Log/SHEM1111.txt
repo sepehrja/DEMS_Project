@@ -9,3 +9,13 @@ DATE: 2020-04-24 05:48:31 PM Client Action:  listEventAvailability | RequestPara
 DATE: 2020-04-24 05:48:55 PM  attempting to addEvent
 DATE: 2020-04-24 05:48:55 PM Client Action:  addEvent | RequestParameters:  eventID: SHEA111120 eventType: TradeShows eventCapacity: 2  | Server Response: Success:addEvent > Event added successfully
 DATE: 2020-04-24 05:49:28 PM attempting to Logout
+DATE: 2020-04-24 09:25:46 PM  login attempt
+DATE: 2020-04-24 09:25:46 PM  Manager Login successful
+DATE: 2020-04-24 09:26:03 PM  attempting to bookEvent
+DATE: 2020-04-24 09:26:03 PM Client Action:  bookEvent | RequestParameters:  customerID: SHEC1234 eventID: MTLM101020 eventType: Conferences  | Server Response: Fail:bookEvent > No such event
+DATE: 2020-04-24 09:26:27 PM  attempting to bookEvent
+DATE: 2020-04-24 09:26:27 PM Client Action:  bookEvent | RequestParameters:  customerID: SHEC1234 eventID: MTLA101020 eventType: Conferences  | Server Response: Success:bookEvent > successful
+DATE: 2020-04-24 09:26:42 PM  attempting to bookEvent
+DATE: 2020-04-24 09:26:42 PM Client Action:  bookEvent | RequestParameters:  customerID: SHEC1234 eventID: MTLM111120 eventType: Seminars  | Server Response: Success:bookEvent > successful
+DATE: 2020-04-24 09:26:49 PM  attempting to getBookingSchedule
+DATE: 2020-04-24 09:26:49 PM Client Action:  getBookingSchedule | RequestParameters:  customerID: SHEC1234  | Server Response: Success:getBookingSchedule > CONFERENCES MTLA101020@SEMINARS MTLM111120
