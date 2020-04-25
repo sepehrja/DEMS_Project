@@ -96,7 +96,7 @@ public class RM1 {
                             // Request all RMs to send back list of messages
                             send_multicast_toRM(initial_message);
                         }
-                        System.out.println("is adding queue:" + message);
+                        System.out.println("is adding queue:" + message + "|| lastSequence>>>" + lastSequenceID);
                         message_q.add(message);
                         message_list.put(message.sequenceId, message);
                     }
@@ -159,6 +159,7 @@ public class RM1 {
                     };
                     Thread handleThread = new Thread(crash_task);
                     handleThread.start();
+                    handleThread.join();
                     System.out.println("RM1 handled the crash!");
                     serversFlag = true;
                 }
@@ -359,8 +360,9 @@ public class RM1 {
         for (ConcurrentHashMap.Entry<Integer, Message> entry : message_list.entrySet()) {
             System.out.println("Recovery Mood-RM1 is executing message request. Detail:" + entry.getValue().toString());
             requestToServers(entry.getValue());
-            if (entry.getValue().sequenceId > lastSequenceID)
-                lastSequenceID+=1;
+            if (entry.getValue().sequenceId >= lastSequenceID)
+                lastSequenceID = entry.getValue().sequenceId + 1;
         }
+        message_q.clear();
     }
 }

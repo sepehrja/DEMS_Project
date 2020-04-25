@@ -177,12 +177,12 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
         } else {
             Rm1NoResponseCount = 0;
             if (res1.equals(res2)) {
-                if (!res1.equals(res3)) {
+                if (!res1.equals(res3) && res3 != null) {
                     rmBugFound(3);
                 }
                 return res2.getResponse();
             } else if (res1.equals(res3)) {
-                if (!res1.equals(res2)) {
+                if (!res1.equals(res2) && res2 != null) {
                     rmBugFound(2);
                 }
                 return res1.getResponse();
@@ -202,12 +202,12 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
         } else {
             Rm2NoResponseCount = 0;
             if (res2.equals(res3)) {
-                if (!res2.equals(res1)) {
+                if (!res2.equals(res1) && res1 != null) {
                     rmBugFound(1);
                 }
                 return res2.getResponse();
             } else if (res2.equals(res1)) {
-                if (!res2.equals(res3)) {
+                if (!res2.equals(res3) && res3 != null) {
                     rmBugFound(3);
                 }
                 return res2.getResponse();
@@ -227,11 +227,11 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
         } else {
             Rm3NoResponseCount = 0;
             if (res3.equals(res2)) {
-                if (!res3.equals(res1)) {
+                if (!res3.equals(res1) && res1 != null) {
                     rmBugFound(1);
                 }
                 return res2.getResponse();
-            } else if (res3.equals(res1)) {
+            } else if (res3.equals(res1) && res2 != null) {
                 if (!res3.equals(res2)) {
                     rmBugFound(2);
                 }

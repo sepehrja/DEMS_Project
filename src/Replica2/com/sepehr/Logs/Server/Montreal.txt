@@ -532,3 +532,178 @@ DATE: 2020-04-24 09:26:27 PM ClientID: SHEC1234 | RequestType:  UDP reply sent b
 DATE: 2020-04-24 09:26:42 PM ClientID: SHEC1234 | RequestType:  UDP request received bookEvent  | RequestParameters:  eventID: MTLM111120 eventType: SEMINARS  | ServerResponse:  ...
 DATE: 2020-04-24 09:26:42 PM ClientID: SHEC1234 | RequestType:  bookEvent  | RequestParameters:  eventID: MTLM111120 eventType: SEMINARS  | ServerResponse: Success:bookEvent > successful
 DATE: 2020-04-24 09:26:42 PM ClientID: SHEC1234 | RequestType:  UDP reply sent bookEvent  | RequestParameters:  eventID: MTLM111120 eventType: SEMINARS  | ServerResponse: Success:bookEvent > successful;
+DATE: 2020-04-25 11:23:43 AM  Server is Up & Running
+DATE: 2020-04-25 11:23:44 AM  UDP Server Started at port 8888
+DATE: 2020-04-25 11:24:37 AM ClientID: Event Manager | RequestType:  addEvent  | RequestParameters:  eventID: MTLM101020 eventType: CONFERENCES bookingCapacity 2  | ServerResponse: Success: Event MTLM101020 added successfully
+DATE: 2020-04-25 11:25:22 AM ClientID: Event Manager | RequestType:  UDP request sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse:  ... 
+DATE: 2020-04-25 11:25:22 AM ClientID: Event Manager | RequestType:  UDP reply receivedlistEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-25 11:25:22 AM ClientID: Event Manager | RequestType:  UDP request sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse:  ... 
+DATE: 2020-04-25 11:25:22 AM ClientID: Event Manager | RequestType:  UDP reply receivedlistEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-25 11:25:22 AM ClientID: Event Manager | RequestType:  listEventAvailability  | RequestParameters:  eventType: CONFERENCES  | ServerResponse: MONTREAL Server CONFERENCES:
+ (MTLM101020) in the Morning of 10/10/2020 Total[Remaining] Capacity: 2[2] || 
+=====================================
+;;
+DATE: 2020-04-25 11:25:50 AM ClientID: Event Manager | RequestType:  UDP request sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse:  ... 
+DATE: 2020-04-25 11:25:50 AM ClientID: Event Manager | RequestType:  UDP reply receivedlistEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-25 11:25:50 AM ClientID: Event Manager | RequestType:  UDP request sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse:  ... 
+DATE: 2020-04-25 11:25:50 AM ClientID: Event Manager | RequestType:  UDP reply receivedlistEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-25 11:25:50 AM ClientID: Event Manager | RequestType:  listEventAvailability  | RequestParameters:  eventType: CONFERENCES  | ServerResponse: MONTREAL Server CONFERENCES:
+ (MTLM101020) in the Morning of 10/10/2020 Total[Remaining] Capacity: 2[2] || 
+=====================================
+;;
+DATE: 2020-04-25 11:26:41 AM ClientID: Event Manager | RequestType:  UDP request sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse:  ... 
+DATE: 2020-04-25 11:26:41 AM ClientID: Event Manager | RequestType:  UDP reply receivedlistEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-25 11:26:41 AM ClientID: Event Manager | RequestType:  UDP request sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse:  ... 
+DATE: 2020-04-25 11:26:41 AM ClientID: Event Manager | RequestType:  UDP reply receivedlistEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-25 11:26:41 AM ClientID: Event Manager | RequestType:  listEventAvailability  | RequestParameters:  eventType: CONFERENCES  | ServerResponse: MONTREAL Server CONFERENCES:
+ (MTLM101020) in the Morning of 10/10/2020 Total[Remaining] Capacity: 2[2] || 
+=====================================
+;;
+DATE: 2020-04-25 11:29:42 AM ClientID: Event Manager | RequestType:  UDP request sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse:  ... 
+DATE: 2020-04-25 11:29:42 AM ClientID: Event Manager | RequestType:  UDP reply receivedlistEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-25 11:29:42 AM ClientID: Event Manager | RequestType:  UDP request sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse:  ... 
+DATE: 2020-04-25 11:29:42 AM ClientID: Event Manager | RequestType:  UDP reply receivedlistEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-25 11:29:42 AM ClientID: Event Manager | RequestType:  listEventAvailability  | RequestParameters:  eventType: CONFERENCES  | ServerResponse: MONTREAL Server CONFERENCES:
+ (MTLM101020) in the Morning of 10/10/2020 Total[Remaining] Capacity: 2[2] || 
+=====================================
+;;
+DATE: 2020-04-25 11:32:18 AM  Server is Up & Running
+DATE: 2020-04-25 11:32:18 AM  UDP Server Started at port 8888
+DATE: 2020-04-25 11:32:44 AM ClientID: Event Manager | RequestType:  addEvent  | RequestParameters:  eventID: MTLM101020 eventType: CONFERENCES bookingCapacity 2  | ServerResponse: Success: Event MTLM101020 added successfully
+DATE: 2020-04-25 11:33:00 AM ClientID: Event Manager | RequestType:  UDP request sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse:  ... 
+DATE: 2020-04-25 11:33:00 AM ClientID: Event Manager | RequestType:  UDP reply receivedlistEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-25 11:33:00 AM ClientID: Event Manager | RequestType:  UDP request sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse:  ... 
+DATE: 2020-04-25 11:33:00 AM ClientID: Event Manager | RequestType:  UDP reply receivedlistEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-25 11:33:00 AM ClientID: Event Manager | RequestType:  listEventAvailability  | RequestParameters:  eventType: CONFERENCES  | ServerResponse: MONTREAL Server CONFERENCES:
+ (MTLM101020) in the Morning of 10/10/2020 Total[Remaining] Capacity: 2[2] || 
+=====================================
+;;
+DATE: 2020-04-25 11:33:14 AM ClientID: Event Manager | RequestType:  UDP request sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse:  ... 
+DATE: 2020-04-25 11:33:14 AM ClientID: Event Manager | RequestType:  UDP reply receivedlistEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-25 11:33:14 AM ClientID: Event Manager | RequestType:  UDP request sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse:  ... 
+DATE: 2020-04-25 11:33:14 AM ClientID: Event Manager | RequestType:  UDP reply receivedlistEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-25 11:33:14 AM ClientID: Event Manager | RequestType:  listEventAvailability  | RequestParameters:  eventType: CONFERENCES  | ServerResponse: MONTREAL Server CONFERENCES:
+ (MTLM101020) in the Morning of 10/10/2020 Total[Remaining] Capacity: 2[2] || 
+=====================================
+;;
+DATE: 2020-04-25 11:33:28 AM ClientID: Event Manager | RequestType:  UDP request sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse:  ... 
+DATE: 2020-04-25 11:33:28 AM ClientID: Event Manager | RequestType:  UDP reply receivedlistEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-25 11:33:28 AM ClientID: Event Manager | RequestType:  UDP request sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse:  ... 
+DATE: 2020-04-25 11:33:28 AM ClientID: Event Manager | RequestType:  UDP reply receivedlistEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-25 11:33:28 AM ClientID: Event Manager | RequestType:  listEventAvailability  | RequestParameters:  eventType: CONFERENCES  | ServerResponse: MONTREAL Server CONFERENCES:
+ (MTLM101020) in the Morning of 10/10/2020 Total[Remaining] Capacity: 2[2] || 
+=====================================
+;;
+DATE: 2020-04-25 11:34:35 AM ClientID: Event Manager | RequestType:  UDP request sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse:  ... 
+DATE: 2020-04-25 11:34:35 AM ClientID: Event Manager | RequestType:  UDP reply receivedlistEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-25 11:34:35 AM ClientID: Event Manager | RequestType:  UDP request sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse:  ... 
+DATE: 2020-04-25 11:34:35 AM ClientID: Event Manager | RequestType:  UDP reply receivedlistEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-25 11:34:35 AM ClientID: Event Manager | RequestType:  listEventAvailability  | RequestParameters:  eventType: CONFERENCES  | ServerResponse: MONTREAL Server CONFERENCES:
+ (MTLM101020) in the Morning of 10/10/2020 Total[Remaining] Capacity: 2[2] || 
+=====================================
+;;
+DATE: 2020-04-25 11:37:33 AM  Server is Up & Running
+DATE: 2020-04-25 11:37:33 AM  UDP Server Started at port 8888
+DATE: 2020-04-25 11:38:08 AM ClientID: Event Manager | RequestType:  addEvent  | RequestParameters:  eventID: MTLM101020 eventType: CONFERENCES bookingCapacity 2  | ServerResponse: Success: Event MTLM101020 added successfully
+DATE: 2020-04-25 11:38:16 AM ClientID: Event Manager | RequestType:  UDP request sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse:  ... 
+DATE: 2020-04-25 11:38:16 AM ClientID: Event Manager | RequestType:  UDP reply receivedlistEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-25 11:38:16 AM ClientID: Event Manager | RequestType:  UDP request sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse:  ... 
+DATE: 2020-04-25 11:38:16 AM ClientID: Event Manager | RequestType:  UDP reply receivedlistEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-25 11:38:16 AM ClientID: Event Manager | RequestType:  listEventAvailability  | RequestParameters:  eventType: CONFERENCES  | ServerResponse: MONTREAL Server CONFERENCES:
+ (MTLM101020) in the Morning of 10/10/2020 Total[Remaining] Capacity: 2[2] || 
+=====================================
+;;
+DATE: 2020-04-25 11:38:27 AM ClientID: Event Manager | RequestType:  UDP request sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse:  ... 
+DATE: 2020-04-25 11:38:27 AM ClientID: Event Manager | RequestType:  UDP reply receivedlistEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-25 11:38:27 AM ClientID: Event Manager | RequestType:  UDP request sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse:  ... 
+DATE: 2020-04-25 11:38:27 AM ClientID: Event Manager | RequestType:  UDP reply receivedlistEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-25 11:38:27 AM ClientID: Event Manager | RequestType:  listEventAvailability  | RequestParameters:  eventType: CONFERENCES  | ServerResponse: MONTREAL Server CONFERENCES:
+ (MTLM101020) in the Morning of 10/10/2020 Total[Remaining] Capacity: 2[2] || 
+=====================================
+;;
+DATE: 2020-04-25 11:38:42 AM ClientID: Event Manager | RequestType:  UDP request sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse:  ... 
+DATE: 2020-04-25 11:38:42 AM ClientID: Event Manager | RequestType:  UDP reply receivedlistEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-25 11:38:42 AM ClientID: Event Manager | RequestType:  UDP request sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse:  ... 
+DATE: 2020-04-25 11:38:42 AM ClientID: Event Manager | RequestType:  UDP reply receivedlistEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-25 11:38:42 AM ClientID: Event Manager | RequestType:  listEventAvailability  | RequestParameters:  eventType: CONFERENCES  | ServerResponse: MONTREAL Server CONFERENCES:
+ (MTLM101020) in the Morning of 10/10/2020 Total[Remaining] Capacity: 2[2] || 
+=====================================
+;;
+DATE: 2020-04-25 11:39:12 AM ClientID: Event Manager | RequestType:  UDP request sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse:  ... 
+DATE: 2020-04-25 11:39:12 AM ClientID: Event Manager | RequestType:  UDP reply receivedlistEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-25 11:39:12 AM ClientID: Event Manager | RequestType:  UDP request sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse:  ... 
+DATE: 2020-04-25 11:39:12 AM ClientID: Event Manager | RequestType:  UDP reply receivedlistEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-25 11:39:12 AM ClientID: Event Manager | RequestType:  listEventAvailability  | RequestParameters:  eventType: CONFERENCES  | ServerResponse: MONTREAL Server CONFERENCES:
+ (MTLM101020) in the Morning of 10/10/2020 Total[Remaining] Capacity: 2[2] || 
+=====================================
+;;
+DATE: 2020-04-25 11:42:36 AM  Server is Up & Running
+DATE: 2020-04-25 11:42:36 AM  UDP Server Started at port 8888
+DATE: 2020-04-25 11:43:06 AM ClientID: Event Manager | RequestType:  addEvent  | RequestParameters:  eventID: MTLA101020 eventType: CONFERENCES bookingCapacity 3  | ServerResponse: Success: Event MTLA101020 added successfully
+DATE: 2020-04-25 11:43:14 AM ClientID: Event Manager | RequestType:  UDP request sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse:  ... 
+DATE: 2020-04-25 11:43:14 AM ClientID: Event Manager | RequestType:  UDP reply receivedlistEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-25 11:43:14 AM ClientID: Event Manager | RequestType:  UDP request sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse:  ... 
+DATE: 2020-04-25 11:43:14 AM ClientID: Event Manager | RequestType:  UDP reply receivedlistEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-25 11:43:14 AM ClientID: Event Manager | RequestType:  listEventAvailability  | RequestParameters:  eventType: CONFERENCES  | ServerResponse: MONTREAL Server CONFERENCES:
+ (MTLA101020) in the Afternoon of 10/10/2020 Total[Remaining] Capacity: 3[3] || 
+=====================================
+;;
+DATE: 2020-04-25 11:43:23 AM ClientID: Event Manager | RequestType:  UDP request sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse:  ... 
+DATE: 2020-04-25 11:43:23 AM ClientID: Event Manager | RequestType:  UDP reply receivedlistEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-25 11:43:23 AM ClientID: Event Manager | RequestType:  UDP request sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse:  ... 
+DATE: 2020-04-25 11:43:23 AM ClientID: Event Manager | RequestType:  UDP reply receivedlistEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-25 11:43:23 AM ClientID: Event Manager | RequestType:  listEventAvailability  | RequestParameters:  eventType: CONFERENCES  | ServerResponse: MONTREAL Server CONFERENCES:
+ (MTLA101020) in the Afternoon of 10/10/2020 Total[Remaining] Capacity: 3[3] || 
+=====================================
+;;
+DATE: 2020-04-25 11:43:36 AM ClientID: Event Manager | RequestType:  UDP request sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse:  ... 
+DATE: 2020-04-25 11:43:36 AM ClientID: Event Manager | RequestType:  UDP reply receivedlistEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-25 11:43:36 AM ClientID: Event Manager | RequestType:  UDP request sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse:  ... 
+DATE: 2020-04-25 11:43:36 AM ClientID: Event Manager | RequestType:  UDP reply receivedlistEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-25 11:43:36 AM ClientID: Event Manager | RequestType:  listEventAvailability  | RequestParameters:  eventType: CONFERENCES  | ServerResponse: MONTREAL Server CONFERENCES:
+ (MTLA101020) in the Afternoon of 10/10/2020 Total[Remaining] Capacity: 3[3] || 
+=====================================
+;;
+DATE: 2020-04-25 11:43:59 AM ClientID: Event Manager | RequestType:  UDP request sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse:  ... 
+DATE: 2020-04-25 11:43:59 AM ClientID: Event Manager | RequestType:  UDP reply receivedlistEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-25 11:43:59 AM ClientID: Event Manager | RequestType:  UDP request sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse:  ... 
+DATE: 2020-04-25 11:43:59 AM ClientID: Event Manager | RequestType:  UDP reply receivedlistEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-25 11:43:59 AM ClientID: Event Manager | RequestType:  listEventAvailability  | RequestParameters:  eventType: CONFERENCES  | ServerResponse: MONTREAL Server CONFERENCES:
+ (MTLA101020) in the Afternoon of 10/10/2020 Total[Remaining] Capacity: 3[3] || 
+=====================================
+;;
+DATE: 2020-04-25 11:50:35 AM  Server is Up & Running
+DATE: 2020-04-25 11:50:35 AM  UDP Server Started at port 8888
+DATE: 2020-04-25 11:51:05 AM ClientID: Event Manager | RequestType:  addEvent  | RequestParameters:  eventID: MTLM101020 eventType: CONFERENCES bookingCapacity 2  | ServerResponse: Success: Event MTLM101020 added successfully
+DATE: 2020-04-25 11:51:15 AM ClientID: Event Manager | RequestType:  UDP request sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse:  ... 
+DATE: 2020-04-25 11:51:15 AM ClientID: Event Manager | RequestType:  UDP reply receivedlistEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-25 11:51:15 AM ClientID: Event Manager | RequestType:  UDP request sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse:  ... 
+DATE: 2020-04-25 11:51:15 AM ClientID: Event Manager | RequestType:  UDP reply receivedlistEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-25 11:51:15 AM ClientID: Event Manager | RequestType:  listEventAvailability  | RequestParameters:  eventType: CONFERENCES  | ServerResponse: MONTREAL Server CONFERENCES:
+ (MTLM101020) in the Morning of 10/10/2020 Total[Remaining] Capacity: 2[2] || 
+=====================================
+;;
+DATE: 2020-04-25 11:51:25 AM ClientID: Event Manager | RequestType:  UDP request sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse:  ... 
+DATE: 2020-04-25 11:51:25 AM ClientID: Event Manager | RequestType:  UDP reply receivedlistEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-25 11:51:25 AM ClientID: Event Manager | RequestType:  UDP request sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse:  ... 
+DATE: 2020-04-25 11:51:25 AM ClientID: Event Manager | RequestType:  UDP reply receivedlistEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-25 11:51:25 AM ClientID: Event Manager | RequestType:  listEventAvailability  | RequestParameters:  eventType: CONFERENCES  | ServerResponse: MONTREAL Server CONFERENCES:
+ (MTLM101020) in the Morning of 10/10/2020 Total[Remaining] Capacity: 2[2] || 
+=====================================
+;;
+DATE: 2020-04-25 11:51:37 AM ClientID: Event Manager | RequestType:  UDP request sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse:  ... 
+DATE: 2020-04-25 11:51:37 AM ClientID: Event Manager | RequestType:  UDP reply receivedlistEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-25 11:51:37 AM ClientID: Event Manager | RequestType:  UDP request sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse:  ... 
+DATE: 2020-04-25 11:51:37 AM ClientID: Event Manager | RequestType:  UDP reply receivedlistEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-25 11:51:37 AM ClientID: Event Manager | RequestType:  listEventAvailability  | RequestParameters:  eventType: CONFERENCES  | ServerResponse: MONTREAL Server CONFERENCES:
+ (MTLM101020) in the Morning of 10/10/2020 Total[Remaining] Capacity: 2[2] || 
+=====================================
+;;
+DATE: 2020-04-25 11:52:15 AM ClientID: Event Manager | RequestType:  UDP request sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse:  ... 
+DATE: 2020-04-25 11:52:15 AM ClientID: Event Manager | RequestType:  UDP reply receivedlistEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-25 11:52:15 AM ClientID: Event Manager | RequestType:  UDP request sent listEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse:  ... 
+DATE: 2020-04-25 11:52:15 AM ClientID: Event Manager | RequestType:  UDP reply receivedlistEventAvailability  | RequestParameters:  eventID: null eventType: CONFERENCES  | ServerResponse: ;
+DATE: 2020-04-25 11:52:15 AM ClientID: Event Manager | RequestType:  listEventAvailability  | RequestParameters:  eventType: CONFERENCES  | ServerResponse: MONTREAL Server CONFERENCES:
+ (MTLM101020) in the Morning of 10/10/2020 Total[Remaining] Capacity: 2[2] || 
+=====================================
+;;

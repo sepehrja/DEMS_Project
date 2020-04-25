@@ -9,3 +9,48 @@ DATE: 2020-04-24 07:27:57 PM  attempting to listEventAvailability
 DATE: 2020-04-24 07:28:07 PM Client Action:  listEventAvailability | RequestParameters:  eventType: Conferences  | Server Response: Success:listEventAvailability > MTLA101020 3
 DATE: 2020-04-24 07:28:32 PM  attempting to listEventAvailability
 DATE: 2020-04-24 07:28:43 PM Client Action:  listEventAvailability | RequestParameters:  eventType: Conferences  | Server Response: Success:listEventAvailability > MTLA101020 3
+DATE: 2020-04-25 11:25:17 AM  login attempt
+DATE: 2020-04-25 11:25:17 AM  Manager Login successful
+DATE: 2020-04-25 11:25:22 AM  attempting to listEventAvailability
+DATE: 2020-04-25 11:25:29 AM Client Action:  listEventAvailability | RequestParameters:  eventType: Conferences  | Server Response: Success:listEventAvailability > MTLM101020 2
+DATE: 2020-04-25 11:25:50 AM  attempting to listEventAvailability
+DATE: 2020-04-25 11:26:00 AM Client Action:  listEventAvailability | RequestParameters:  eventType: Conferences  | Server Response: Success:listEventAvailability > MTLM101020 2
+DATE: 2020-04-25 11:26:41 AM  attempting to listEventAvailability
+DATE: 2020-04-25 11:26:51 AM Client Action:  listEventAvailability | RequestParameters:  eventType: Conferences  | Server Response: Success:listEventAvailability > MTLM101020 2
+DATE: 2020-04-25 11:29:35 AM attempting to Logout
+DATE: 2020-04-25 11:32:58 AM  login attempt
+DATE: 2020-04-25 11:32:58 AM  Manager Login successful
+DATE: 2020-04-25 11:33:00 AM  attempting to listEventAvailability
+DATE: 2020-04-25 11:33:07 AM Client Action:  listEventAvailability | RequestParameters:  eventType: Conferences  | Server Response: Success:listEventAvailability > MTLM101020 2
+DATE: 2020-04-25 11:33:14 AM  attempting to listEventAvailability
+DATE: 2020-04-25 11:33:24 AM Client Action:  listEventAvailability | RequestParameters:  eventType: Conferences  | Server Response: Success:listEventAvailability > MTLM101020 2
+DATE: 2020-04-25 11:33:28 AM  attempting to listEventAvailability
+DATE: 2020-04-25 11:33:38 AM Client Action:  listEventAvailability | RequestParameters:  eventType: Conferences  | Server Response: Success:listEventAvailability > MTLM101020 2
+DATE: 2020-04-25 11:34:28 AM attempting to Logout
+DATE: 2020-04-25 11:38:14 AM  login attempt
+DATE: 2020-04-25 11:38:14 AM  Manager Login successful
+DATE: 2020-04-25 11:38:16 AM  attempting to listEventAvailability
+DATE: 2020-04-25 11:38:23 AM Client Action:  listEventAvailability | RequestParameters:  eventType: Conferences  | Server Response: Success:listEventAvailability > MTLM101020 2
+DATE: 2020-04-25 11:38:27 AM  attempting to listEventAvailability
+DATE: 2020-04-25 11:38:37 AM Client Action:  listEventAvailability | RequestParameters:  eventType: Conferences  | Server Response: Success:listEventAvailability > MTLM101020 2
+DATE: 2020-04-25 11:38:42 AM  attempting to listEventAvailability
+DATE: 2020-04-25 11:38:52 AM Client Action:  listEventAvailability | RequestParameters:  eventType: Conferences  | Server Response: Success:listEventAvailability > MTLM101020 2
+DATE: 2020-04-25 11:39:07 AM attempting to Logout
+DATE: 2020-04-25 11:43:12 AM  login attempt
+DATE: 2020-04-25 11:43:12 AM  Manager Login successful
+DATE: 2020-04-25 11:43:14 AM  attempting to listEventAvailability
+DATE: 2020-04-25 11:43:21 AM Client Action:  listEventAvailability | RequestParameters:  eventType: Conferences  | Server Response: Success:listEventAvailability > MTLA101020 3
+DATE: 2020-04-25 11:43:23 AM  attempting to listEventAvailability
+DATE: 2020-04-25 11:43:33 AM Client Action:  listEventAvailability | RequestParameters:  eventType: Conferences  | Server Response: Success:listEventAvailability > MTLA101020 3
+DATE: 2020-04-25 11:43:36 AM  attempting to listEventAvailability
+DATE: 2020-04-25 11:43:46 AM Client Action:  listEventAvailability | RequestParameters:  eventType: Conferences  | Server Response: Success:listEventAvailability > MTLA101020 3
+DATE: 2020-04-25 11:43:54 AM attempting to Logout
+DATE: 2020-04-25 11:51:11 AM  login attempt
+DATE: 2020-04-25 11:51:11 AM  Manager Login successful
+DATE: 2020-04-25 11:51:15 AM  attempting to listEventAvailability
+DATE: 2020-04-25 11:51:22 AM Client Action:  listEventAvailability | RequestParameters:  eventType: Conferences  | Server Response: Success:listEventAvailability > MTLM101020 2
+DATE: 2020-04-25 11:51:25 AM  attempting to listEventAvailability
+DATE: 2020-04-25 11:51:35 AM Client Action:  listEventAvailability | RequestParameters:  eventType: Conferences  | Server Response: Success:listEventAvailability > MTLM101020 2
+DATE: 2020-04-25 11:51:37 AM  attempting to listEventAvailability
+DATE: 2020-04-25 11:51:47 AM Client Action:  listEventAvailability | RequestParameters:  eventType: Conferences  | Server Response: Success:listEventAvailability > MTLM101020 2
+DATE: 2020-04-25 11:52:10 AM attempting to Logout
