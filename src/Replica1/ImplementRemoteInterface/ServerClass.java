@@ -771,16 +771,15 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 		if(type == "Server")
 		{
 			if (ID.equals("MTL")) {
-				fileName = dir + "/src/Replica1/Logs/Server/Montreal_logs.txt";
+				fileName = dir + "\\src\\Replica1\\Logs\\Server\\Montreal_logs.txt";
 			} else if (ID.equals("SHE")) {
-				fileName = dir + "/src/Replica1/Logs/Server/Sherbrooke_logs.txt";
+				fileName = dir + "\\src\\Replica1\\Logs\\Server\\Sherbrooke_logs.txt";
 			} else if (ID.equals("QUE")) {
-				fileName = dir + "/src/Replica1/Logs/Server/Quebec_logs.txt";
+				fileName = dir + "\\src\\Replica1\\Logs\\Server\\Quebec_logs.txt";
 			}
 		}
-		else
-		{
-			fileName = dir + "/src/Replica1/Logs/Clients/"+ ID +"_logs.txt";
+		else {
+			fileName = dir + "\\src\\Replica1\\Logs\\Clients\\" + ID + "_logs.txt";
 		}
         return fileName;
 	}
