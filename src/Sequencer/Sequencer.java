@@ -8,8 +8,8 @@ import java.net.SocketException;
 
 public class Sequencer {
 	private static int sequencerId = 0;
-	//	private static final String sequencerIP = "192.168.2.17";
-	private static final String sequencerIP = "localhost";
+	private static final String sequencerIP = "192.168.2.17";
+//	private static final String sequencerIP = "localhost";
 
 	public static void main(String[] args) {
 		DatagramSocket aSocket = null;
@@ -45,7 +45,7 @@ public class Sequencer {
 
 //				sequencerId = sequencerId1;
 				System.out.println(sentence1);
-				sendMessage(sentence1, sequencerId1);
+				sendMessage(sentence1, sequencerId1, parts[2].equalsIgnoreCase("00"));
 
 				byte[] SeqId = (Integer.toString(sequencerId)).getBytes();
 				InetAddress aHost1 = request.getAddress();
@@ -67,10 +67,10 @@ public class Sequencer {
 		}
 	}
 
-	public static void sendMessage(String message, int sequencerId1) {
+	public static void sendMessage(String message, int sequencerId1, boolean isRequest) {
 		int port = 1234;
 
-		if (sequencerId1 == 0) {
+		if (sequencerId1 == 0 && isRequest) {
 			sequencerId1 = ++sequencerId;
 		}
 		String finalMessage = sequencerId1 + ";" + message;

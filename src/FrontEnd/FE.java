@@ -17,30 +17,34 @@ import java.net.SocketException;
 
 public class FE {
     private static final int sequencerPort = 1333;
-    //    private static final String sequencerIP = "192.168.2.17";
-    private static final String sequencerIP = "localhost";
+    private static final String sequencerIP = "192.168.2.17";
+    //    private static final String sequencerIP = "localhost";
     private static final String RM_Multicast_group_address = "230.1.1.10";
     private static final int FE_SQ_PORT = 1414;
     private static final int FE_PORT = 1999;
     private static final int RM_Multicast_Port = 1234;
-    //    public static String FE_IP_Address = "192.168.2.11";
-    public static String FE_IP_Address = "localhost";
+    public static String FE_IP_Address = "192.168.2.11";
+//    public static String FE_IP_Address = "localhost";
 
     public static void main(String[] args) {
         try {
             FEInterface inter = new FEInterface() {
                 @Override
                 public void informRmHasBug(int RmNumber) {
-                    String errorMessage = new MyRequest(RmNumber, "1").toString();
+//                    String errorMessage = new MyRequest(RmNumber, "1").toString();
+                    MyRequest errorMessage = new MyRequest(RmNumber, "1");
                     System.out.println("Rm:" + RmNumber + "has bug");
-                    sendMulticastFaultMessageToRms(errorMessage);
+//                    sendMulticastFaultMessageToRms(errorMessage);
+                    sendUnicastToSequencer(errorMessage);
                 }
 
                 @Override
                 public void informRmIsDown(int RmNumber) {
-                    String errorMessage = new MyRequest(RmNumber, "2").toString();
+//                    String errorMessage = new MyRequest(RmNumber, "2").toString();
+                    MyRequest errorMessage = new MyRequest(RmNumber, "2");
                     System.out.println("Rm:" + RmNumber + "is down");
-                    sendMulticastFaultMessageToRms(errorMessage);
+//                    sendMulticastFaultMessageToRms(errorMessage);
+                    sendUnicastToSequencer(errorMessage);
                 }
 
                 @Override
