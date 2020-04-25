@@ -1,5 +1,10 @@
 package Replica1.ImplementRemoteInterface;
 
+import Replica1.CommonOutput;
+import Replica1.DataBase.ClientDetail;
+import Replica1.DataBase.EventDetail;
+import Replica1.ServerInterface.EventManagementInterface;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -11,36 +16,29 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.concurrent.*; 
-import Replica1.CommonOutput;
+import java.util.concurrent.ConcurrentHashMap;
 
-import Replica1.ServerInterface.EventManagementInterface;
-import Replica1.DataBase.*;
+public class ServerClass extends UnicastRemoteObject implements EventManagementInterface {
 
-public class ServerClass extends UnicastRemoteObject implements EventManagementInterface{
-	
-	private  ConcurrentHashMap<String, ConcurrentHashMap<String, EventDetail>> EventMap;
-	private  ConcurrentHashMap<String, ConcurrentHashMap<String, ClientDetail>> ClientMap;
-	private  int quebec_port, montreal_port, sherbrooke_port;
-	private  String serverName;
-	public ServerClass( int quebec_port,  int montreal_port,  int sherbrooke_port,  String serverName) throws RemoteException {
+	private final ConcurrentHashMap<String, ConcurrentHashMap<String, EventDetail>> EventMap;
+	private final ConcurrentHashMap<String, ConcurrentHashMap<String, ClientDetail>> ClientMap;
+	private final int quebec_port;
+	private final int montreal_port;
+	private final int sherbrooke_port;
+	private final String serverName;
+
+	public ServerClass(int quebec_port, int montreal_port, int sherbrooke_port, String serverName) throws RemoteException {
 		super();
-		
+
 		this.quebec_port = quebec_port;
 		this.montreal_port = montreal_port;
 		this.sherbrooke_port = sherbrooke_port;
 		this.serverName = serverName.toUpperCase().trim();
 		EventMap = new ConcurrentHashMap<>();
 		ClientMap = new ConcurrentHashMap<>();
-		
+
 	}
 
 	@Override
@@ -246,31 +244,22 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 	}
 
 	private List<String> getSortedEventID( String eventType,  String removedEventID) {
-         List<String> sortedEventIDs = new ArrayList<String>();
-         List<String> morningEventIDs = new ArrayList<String>();
-         List<String> afternoonEventIDs = new ArrayList<String>();
-         List<String> eveningEventIDs = new ArrayList<String>();
+		List<String> sortedEventIDs = new ArrayList<String>();
+		List<String> morningEventIDs = new ArrayList<String>();
+		List<String> afternoonEventIDs = new ArrayList<String>();
+		List<String> eveningEventIDs = new ArrayList<String>();
 
-		for ( ConcurrentHashMap.Entry<String,EventDetail> entry : EventMap.get(eventType).entrySet()) 
-		{
-			if(entry.getValue().eventID.substring(3,4).equals("M") && !removedEventID.substring(3,4).equals("A")&& !removedEventID.substring(3,4).equals("E"))
-			{
-				if(Integer.parseInt(entry.getValue().eventID.substring(8))>=Integer.parseInt(removedEventID.substring(8))&& Integer.parseInt(entry.getValue().eventID.substring(6,8))>=Integer.parseInt(removedEventID.substring(6,8))&& Integer.parseInt(entry.getValue().eventID.substring(4,6))>=Integer.parseInt(removedEventID.substring(4,6)))
-				{
+		for (ConcurrentHashMap.Entry<String, EventDetail> entry : EventMap.get(eventType).entrySet()) {
+			if (entry.getValue().eventID.startsWith("M", 3) && !removedEventID.startsWith("A", 3) && !removedEventID.startsWith("E", 3)) {
+				if (Integer.parseInt(entry.getValue().eventID.substring(8)) >= Integer.parseInt(removedEventID.substring(8)) && Integer.parseInt(entry.getValue().eventID.substring(6, 8)) >= Integer.parseInt(removedEventID.substring(6, 8)) && Integer.parseInt(entry.getValue().eventID.substring(4, 6)) >= Integer.parseInt(removedEventID.substring(4, 6))) {
 					morningEventIDs.add(entry.getValue().eventID);
 				}
-			}
-			else if(entry.getValue().eventID.substring(3,4).equals("A") && !removedEventID.substring(3,4).equals("E"))
-			{
-				if(Integer.parseInt(entry.getValue().eventID.substring(8))>=Integer.parseInt(removedEventID.substring(8))&& Integer.parseInt(entry.getValue().eventID.substring(6,8))>=Integer.parseInt(removedEventID.substring(6,8))&& Integer.parseInt(entry.getValue().eventID.substring(4,6))>=Integer.parseInt(removedEventID.substring(4,6)))
-				{
+			} else if (entry.getValue().eventID.startsWith("A", 3) && !removedEventID.startsWith("E", 3)) {
+				if (Integer.parseInt(entry.getValue().eventID.substring(8)) >= Integer.parseInt(removedEventID.substring(8)) && Integer.parseInt(entry.getValue().eventID.substring(6, 8)) >= Integer.parseInt(removedEventID.substring(6, 8)) && Integer.parseInt(entry.getValue().eventID.substring(4, 6)) >= Integer.parseInt(removedEventID.substring(4, 6))) {
 					afternoonEventIDs.add(entry.getValue().eventID);
 				}
-			}
-			else if(entry.getValue().eventID.substring(3,4).equals("E"))
-			{
-				if(Integer.parseInt(entry.getValue().eventID.substring(8))>=Integer.parseInt(removedEventID.substring(8))&& Integer.parseInt(entry.getValue().eventID.substring(6,8))>=Integer.parseInt(removedEventID.substring(6,8))&& Integer.parseInt(entry.getValue().eventID.substring(4,6))>=Integer.parseInt(removedEventID.substring(4,6)))
-				{
+			} else if (entry.getValue().eventID.startsWith("E", 3)) {
+				if (Integer.parseInt(entry.getValue().eventID.substring(8)) >= Integer.parseInt(removedEventID.substring(8)) && Integer.parseInt(entry.getValue().eventID.substring(6, 8)) >= Integer.parseInt(removedEventID.substring(6, 8)) && Integer.parseInt(entry.getValue().eventID.substring(4, 6)) >= Integer.parseInt(removedEventID.substring(4, 6))) {
 					eveningEventIDs.add(entry.getValue().eventID);
 				}
 			}
@@ -606,76 +595,59 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 				}
 				else if(response.contains("No"))
 				{
-					try 
-					{
-						serverLog("Book an event", " EventType:"+eventType+ " EventID:"+eventID+" CustomerID:"+ customerID,"failed","There is no such an event");
-					} catch ( IOException e) {
+					try {
+						serverLog("Book an event", " EventType:" + eventType + " EventID:" + eventID + " CustomerID:" + customerID, "failed", "There is no such an event");
+					} catch (IOException e) {
 						e.printStackTrace();
 					}
 				}
 			}
-			
+
 		}
 		return response;
 	}
-	
-	public boolean week_limit_check( String customerID, String eventDate)
-	{
-        int limit = 0;
 
-		for( Entry<String, ClientDetail> events : ClientMap.get(customerID).entrySet())
-		{
-			if(!events.getValue().eventID.substring(0, 3).equals(serverName) && same_week_check(events.getValue().eventID.substring(4), eventDate))
-			{
+	public boolean week_limit_check(String customerID, String eventDate) {
+		int limit = 0;
+
+		for (Entry<String, ClientDetail> events : ClientMap.get(customerID).entrySet()) {
+			if (!events.getValue().eventID.substring(0, 3).equals(serverName) && same_week_check(events.getValue().eventID.substring(4), eventDate)) {
 				limit++;
 			}
 		}
-		if (limit < 3)
-			return true;
-		else
+		return limit < 3;
+	}
+
+	private boolean same_week_check(String newEventDate, String eventID) {
+		if (eventID.substring(2, 4).equals(newEventDate.substring(2, 4)) && eventID.substring(4, 6).equals(newEventDate.substring(4, 6))) {
+			int day1 = Integer.parseInt(eventID.substring(0, 2));
+			int day2 = Integer.parseInt(newEventDate.substring(0, 2));
+			if (day1 % 7 == 0) {
+				day1--;
+			}
+			if (day2 % 7 == 0) {
+				day2--;
+			}
+			int w1 = day1 / 7;
+			int w2 = day2 / 7;
+
+			return w1 == w2;
+		} else
 			return false;
 	}
-	
-	private boolean same_week_check( String newEventDate,  String eventID) 
-	{
-        if (eventID.substring(2, 4).equals(newEventDate.substring(2, 4)) && eventID.substring(4, 6).equals(newEventDate.substring(4, 6))) 
-        {
-        	int day1 = Integer.parseInt(eventID.substring(0, 2));
-        	int day2 = Integer.parseInt(newEventDate.substring(0, 2));
-        	if(day1%7 == 0) {
-                day1--;
-            }
-            if(day2%7 == 0) {
-                day2--;
-            }
-            int w1 = day1 / 7;
-            int w2 = day2 / 7;
-            
-            if(w1 == w2)
-            	return true;
-            else
-            	return false;
-        } 
-        else 
-            return false;
-	}
-	public String book_accepted_event( String customerID,  String eventID,  String eventType)
-	{
-		String response = CommonOutput.bookEventOutput(false, null);;
 
-		if(EventMap.containsKey(eventType.toUpperCase().trim()) && EventMap.get(eventType.toUpperCase().trim()).containsKey(eventID.toUpperCase().trim()))
-		{
-			 int capacity = EventMap.get(eventType.toUpperCase().trim()).get(eventID.toUpperCase().trim()).bookingCapacity;
-			
-			if( capacity == 0)
+	public String book_accepted_event(String customerID, String eventID, String eventType) {
+		String response = CommonOutput.bookEventOutput(false, null);
+
+		if (EventMap.containsKey(eventType.toUpperCase().trim()) && EventMap.get(eventType.toUpperCase().trim()).containsKey(eventID.toUpperCase().trim())) {
+			int capacity = EventMap.get(eventType.toUpperCase().trim()).get(eventID.toUpperCase().trim()).bookingCapacity;
+
+			if (capacity == 0)
 				return CommonOutput.bookEventOutput(false, CommonOutput.bookEvent_fail_no_capacity);
-			else
-			{
+			else {
 				response = CommonOutput.bookEventOutput(true, null);
 			}
-		}
-		else
-		{
+		} else {
 			response = CommonOutput.bookEventOutput(false, CommonOutput.bookEvent_fail_no_such_event);
 		}
 
@@ -869,16 +841,12 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 				response = bookEvent(customerID, newEventID, newEventType);
 				if(response.trim().equals("BOOKING_APPROVED"))
 					return CommonOutput.swapEventOutput(true, null);
-				else
-				{
+				else {
 					bookEvent(customerID, oldEventID, oldEventType);
-					if(response.contains("full"))
-					{							
+					if (response.contains("full")) {
 						return CommonOutput.swapEventOutput(false, CommonOutput.bookEvent_fail_no_capacity);
-					}
-					else if(response.contains("No"))
-					{
-						return CommonOutput.swapEventOutput(false, CommonOutput.bookEvent_fail_no_such_event);
+					} else if (response.contains("No")) {
+						return CommonOutput.swapEventOutput(false, CommonOutput.swapEvent_fail_no_such_event);
 					}
 				}
 			}
@@ -888,18 +856,13 @@ public class ServerClass extends UnicastRemoteObject implements EventManagementI
 		else if(ClientMap.containsKey(customerID.toUpperCase().trim()) && ClientMap.get(customerID.toUpperCase().trim()).containsKey(eventDetail))		
 		{
 			response = bookEvent(customerID, newEventID, newEventType);
-			if(response.trim().contains("successful"))
-			{
+			if (response.trim().contains("successful")) {
 				response = cancelEvent(customerID, oldEventID, oldEventType);
 				return CommonOutput.swapEventOutput(true, null);
-			}
-			else if(response.contains("full"))
-			{							
+			} else if (response.contains("full")) {
 				response = CommonOutput.swapEventOutput(false, CommonOutput.bookEvent_fail_no_capacity);
-			}
-			else if(response.contains("No"))
-			{
-				response = CommonOutput.swapEventOutput(false, CommonOutput.bookEvent_fail_no_such_event);
+			} else if (response.contains("No")) {
+				response = CommonOutput.swapEventOutput(false, CommonOutput.swapEvent_fail_no_such_event);
 			}
 		}
 		else
