@@ -440,3 +440,21 @@ DATE: 2020-04-24 07:14:10 PM  Manager Login successful
 DATE: 2020-04-24 07:14:18 PM  attempting to addEvent
 DATE: 2020-04-24 07:14:19 PM Client Action:  addEvent | RequestParameters:  eventID: MTLA101020 eventType: Conferences eventCapacity: 3  | Server Response: Success:addEvent > Event added successfully
 DATE: 2020-04-24 07:14:24 PM attempting to Logout
+DATE: 2020-04-24 07:25:08 PM  login attempt
+DATE: 2020-04-24 07:25:08 PM  Manager Login successful
+DATE: 2020-04-24 07:26:02 PM  attempting to addEvent
+DATE: 2020-04-24 07:26:02 PM Client Action:  addEvent | RequestParameters:  eventID: MTLE111120 eventType: Seminars eventCapacity: 4  | Server Response: Success:addEvent > Event added successfully
+DATE: 2020-04-24 07:26:07 PM attempting to Logout
+DATE: 2020-04-24 09:23:58 PM  login attempt
+DATE: 2020-04-24 09:23:58 PM  Manager Login successful
+DATE: 2020-04-24 09:24:09 PM  attempting to addEvent
+DATE: 2020-04-24 09:24:11 PM Client Action:  addEvent | RequestParameters:  eventID: MTLA101020 eventType: Conferences eventCapacity: 2  | Server Response: Success:addEvent > Event added successfully
+DATE: 2020-04-24 09:24:27 PM  attempting to addEvent
+DATE: 2020-04-24 09:24:27 PM Client Action:  addEvent | RequestParameters:  eventID: MTLM111120 eventType: Seminars eventCapacity: 3  | Server Response: Success:addEvent > Event added successfully
+DATE: 2020-04-24 09:24:49 PM  attempting to bookEvent
+DATE: 2020-04-24 09:24:49 PM Client Action:  bookEvent | RequestParameters:  customerID: MTLC1234 eventID: MTLA101020 eventType: Conferences  | Server Response: Success:bookEvent > successful
+DATE: 2020-04-24 09:25:12 PM  attempting to bookEvent
+DATE: 2020-04-24 09:25:12 PM Client Action:  bookEvent | RequestParameters:  customerID: MTLC1234 eventID: MTLM111120 eventType: Seminars  | Server Response: Success:bookEvent > successful
+DATE: 2020-04-24 09:25:21 PM  attempting to getBookingSchedule
+DATE: 2020-04-24 09:25:21 PM Client Action:  getBookingSchedule | RequestParameters:  customerID: MTLC1234  | Server Response: Success:getBookingSchedule > CONFERENCES MTLA101020@SEMINARS MTLM111120
+DATE: 2020-04-24 09:25:40 PM attempting to Logout

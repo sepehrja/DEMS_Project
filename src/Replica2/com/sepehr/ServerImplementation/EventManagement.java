@@ -498,11 +498,27 @@ public class EventManagement extends UnicastRemoteObject implements EventManagem
                     String resp1 = bookEvent(customerID, oldEventID, oldEventType);
                     response = "Fail: Your newEvent " + newEventID + " Could not be Booked reason: " + bookResp + " And your old event Rolling back: " + resp1;
                     System.out.println(serverName + ">>>" + response);
-                    response = CommonOutput.swapEventOutput(false, null);
+                    if (bookResp.contains("full")) {
+                        response = CommonOutput.swapEventOutput(false, CommonOutput.bookEvent_fail_no_capacity);
+                    } else if (bookResp.contains("such")) {
+                        response = CommonOutput.swapEventOutput(false, CommonOutput.swapEvent_fail_no_such_event);
+                    } else if (bookResp.contains("limit")) {
+                        response = CommonOutput.swapEventOutput(false, CommonOutput.bookEvent_fail_weekly_limit);
+                    } else {
+                        response = CommonOutput.swapEventOutput(false, null);
+                    }
                 } else {
                     response = "Fail: on Both newEvent " + newEventID + " Booking reason: " + bookResp + " and oldEvent " + oldEventID + " Canceling reason: " + cancelResp;
                     System.out.println(serverName + ">>>" + response);
-                    response = CommonOutput.swapEventOutput(false, null);
+                    if (bookResp.contains("full")) {
+                        response = CommonOutput.swapEventOutput(false, CommonOutput.bookEvent_fail_no_capacity);
+                    } else if (bookResp.contains("such")) {
+                        response = CommonOutput.swapEventOutput(false, CommonOutput.swapEvent_fail_no_such_event);
+                    } else if (bookResp.contains("limit")) {
+                        response = CommonOutput.swapEventOutput(false, CommonOutput.bookEvent_fail_weekly_limit);
+                    } else {
+                        response = CommonOutput.swapEventOutput(false, null);
+                    }
                 }
                 try {
                     Logger.serverLog(serverID, customerID, " swapEvent ", " oldEventID: " + oldEventID + " oldEventType: " + oldEventType + " newEventID: " + newEventID + " newEventType: " + newEventType + " ", response);

@@ -37,3 +37,4 @@ DATE: 2020-04-24 07:14:53 PM  attempting to listEventAvailability
 DATE: 2020-04-24 07:14:53 PM Client Action:  listEventAvailability | RequestParameters:  eventType: Conferences  | Server Response: Success:listEventAvailability > MTLA101020 3
 DATE: 2020-04-24 07:15:20 PM  attempting to listEventAvailability
 DATE: 2020-04-24 07:15:20 PM Client Action:  listEventAvailability | RequestParameters:  eventType: Conferences  | Server Response: Success:listEventAvailability > MTLA101020 3
+DATE: 2020-04-24 07:16:55 PM attempting to Logout
