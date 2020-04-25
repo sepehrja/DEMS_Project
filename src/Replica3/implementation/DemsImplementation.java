@@ -361,8 +361,10 @@ public class DemsImplementation  extends UnicastRemoteObject  implements Manager
 	    	for(String s: al){
 	    		List<String> users = new ArrayList<String>();
 	    	   String[] str3=s.split(" ");
+	    	  if(str3.length==2){
 	    	   users.add(str3[1]);
 	    	   a.put(str3[0], users);
+	    	   }
 	    	
 	}
 
@@ -386,8 +388,10 @@ public class DemsImplementation  extends UnicastRemoteObject  implements Manager
 	    	for(String s: al){
 	    		List<String> users = new ArrayList<String>();
 	    	   String[] str3=s.split(" ");
+	    	   if(str3.length==2){
 	    	   users.add(str3[1]);
 	    	   a.put(str3[0], users);
+	    	   }
 	    	
 	}
 
