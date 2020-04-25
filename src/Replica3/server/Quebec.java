@@ -19,27 +19,29 @@ import java.util.Date;
 import java.util.HashMap;
 
 
-public class Sherbrook {
+
+public class Quebec {
 	
 	
 	public static HashMap<String, String> eventList = new HashMap<String, String>();
 	public static HashMap<String, Integer> a = new HashMap<String, Integer>();
 	public static HashMap<String, Integer> b = new HashMap<String, Integer>();
 	public static HashMap<String, Integer> c = new HashMap<String, Integer>();
-	//public static HashMap<String, ArrayList<String>> Muser2 = new HashMap<String, ArrayList<String>>();
-	public static HashMap<String, HashMap<String, ArrayList<String>>> Muser2 = new HashMap<String, HashMap<String, ArrayList<String>>>();
+	//public static HashMap<String, ArrayList<String>> Muser1 = new HashMap<String, ArrayList<String>>();
+	public static HashMap<String, HashMap<String, ArrayList<String>>> Muser1 = new HashMap<String, HashMap<String, ArrayList<String>>>();
 
 	public static void main(String[] args) throws FileNotFoundException, RemoteException, AlreadyBoundException {
-
-		//get reference to rootpoa &amp; activate
-		/*String location="G:\\workspace\\6231_project\\src\\logger\\clientlog\\Sherbrook.txt";;
+		/*String location="G:\\workspace\\6231_project\\src\\logger\\clientlog\\Quebec.txt";;
 		PrintStream o=new PrintStream(new File(location));
 		System.setOut(o);*/
+		
 		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		Date date = new Date();
 
+		// get reference to rootpoa &amp; activate
+
 		DemsImplementation stub = new DemsImplementation();
-		Registry registry = LocateRegistry.createRegistry(5557);
+		Registry registry = LocateRegistry.createRegistry(5556);
 
 		registry.bind("Function", stub);
 
@@ -48,19 +50,19 @@ public class Sherbrook {
 		eventList.put("TRADESHOWS", "b");
 		eventList.put("SEMINARS", "c");
 
-		System.out.println("Sherbrooke Server ready and waiting ...");
+		System.out.println("Quebec Server ready and waiting ...");
 
 		DatagramSocket MSocket = null;
 		try {
-			MSocket = new DatagramSocket(7002);
+			MSocket = new DatagramSocket(7001);
 			// create socket at agreed port
 			byte[] buffer = new byte[1000];
 
-			System.out.println("Sherbrooke UDP Server started");
+			System.out.println("Quebec UDP Server started");
 	                while (true) {
 	                DatagramPacket request = new DatagramPacket(buffer, buffer.length);
 	                MSocket.receive(request);
-	                Sherbrook m = new Sherbrook();
+	                Quebec m = new Quebec();
 	            
 	                String fullid = new String(request.getData());
 	                if(fullid.substring(0, 10).equalsIgnoreCase("checkCount")){
@@ -82,6 +84,7 @@ public class Sherbrook {
 	                if(fullid.substring(0, 8).equalsIgnoreCase("isBooked")){
                         String customerID=(fullid.substring(8, 16));
                         String eventType=(fullid.substring(16, 26));
+                        
                         String bookingexistence=m.isbooked(customerID,eventType);
                         byte[] msg = bookingexistence.getBytes();
                         DatagramPacket reply = new DatagramPacket(msg, msg.length,
@@ -110,8 +113,8 @@ public class Sherbrook {
 	                String var2 = fullid.substring(1, 8);
 	                
 	                if (var.equalsIgnoreCase("a")  ) {
-	                	String eventType="CONFERENCES";
-	                    if(var2.equalsIgnoreCase("display")){
+		                	String eventType="CONFERENCES";
+		                    if(var2.equalsIgnoreCase("display")){
 	                    String done = m.display(var);
 	                    byte[] msg = done.getBytes();
 	                    DatagramPacket reply = new DatagramPacket(msg, msg.length,
@@ -122,80 +125,9 @@ public class Sherbrook {
 	                        String customerID = fullid.substring( 8,16);
 	                        String eventID = fullid.substring(16, 26);
 	                        if (m.checkAvailabilityOfEvent(var, eventID).equalsIgnoreCase(
-	                                "Available ")) {
-	                        	String s = m.bookedEvent(var,eventID, customerID,eventType);
-	                        	String r=new String();
-								if(s.contains("SecondBooking")){
-									 r= CommonOutput.bookEventOutput(false, null);
-								}else
-								 r=CommonOutput.bookEventOutput(true, null);
-								byte[] msg = r.getBytes();
-	                            DatagramPacket reply = new DatagramPacket(msg, msg.length,
-	                                    request.getAddress(), request.getPort());
-	                            MSocket.send(reply);
-	                        } else if (m.checkAvailabilityOfEvent(var.substring(0, 1), eventID).equalsIgnoreCase(
-									"No Capacity ")) {//it checks both condition capacity and existence
-								String r = CommonOutput.bookEventOutput(false, CommonOutput.bookEvent_fail_no_capacity);
-								byte[] msg = r.getBytes();
-								DatagramPacket reply = new DatagramPacket(msg, msg.length,
-										request.getAddress(), request.getPort());
-								MSocket.send(reply); 
-								
-							}else {
-								String r = CommonOutput.bookEventOutput(false, CommonOutput.bookEvent_fail_no_such_event);
-								//"No such event is available";
-						 byte[] msg = r.getBytes();
-	                            DatagramPacket reply = new DatagramPacket(msg, msg.length,
-	                                    request.getAddress(), request.getPort());
-	                            MSocket.send(reply);
-	                            
-	                        }
-	                    }else if(var2.equalsIgnoreCase("cancel ")){
-							String customerID = fullid.substring( 8,16);
-							String eventID = fullid.substring(16, 26);
-							if (m.checkAvailabilityOfEvent1(var, eventID).equalsIgnoreCase(
-									"available ")) {
-								if (m.checkUserBooking(eventID, customerID,eventType)) {
-									String s = m.canceledEvent(var,eventID, customerID,eventType);
-									String c=CommonOutput.cancelEventOutput(true, null);
-										byte[] msg = c.getBytes();
-									DatagramPacket reply = new DatagramPacket(msg, msg.length,
-											request.getAddress(), request.getPort());
-									MSocket.send(reply);
-								} else{
-									String c =  CommonOutput.cancelEventOutput(false, CommonOutput.cancelEvent_fail_not_registered_in_event);
-									byte[] msg = c.getBytes();
-									DatagramPacket reply = new DatagramPacket(msg, msg.length,
-											request.getAddress(), request.getPort());
-									MSocket.send(reply);
-								}
-									
-							} else {
-								
-								String c = CommonOutput.cancelEventOutput(false, CommonOutput.cancelEvent_fail_no_such_event);
-									byte[] msg = c.getBytes();
-								DatagramPacket reply = new DatagramPacket(msg, msg.length,
-										request.getAddress(), request.getPort());
-								MSocket.send(reply);
-							}
-						}
-	                
-	                } else if (var.equalsIgnoreCase("b")  ) {
-	                	String eventType="TRADESHOWS";	
-	                    if(var2.equalsIgnoreCase("display")){
-	                        String done = m.display(var);
-	                        byte[] msg = done.getBytes();
-	                        DatagramPacket reply = new DatagramPacket(msg, msg.length,
-	                                request.getAddress(), request.getPort());
-	                        MSocket.send(reply);
-	                        }
-	                    else if(var2.equalsIgnoreCase("booked ")){
-	                        String customerID = fullid.substring( 8,16);
-	                        String eventID = fullid.substring(16, 26);
-	                        if (m.checkAvailabilityOfEvent(var, eventID).equalsIgnoreCase(
-	                                "Available ")) {
-	                        	String s = m.bookedEvent(var,eventID, customerID,eventType);
-	                        	String r=new String();
+									"Available ")) {
+								String s = m.bookedEvent(var,eventID, customerID,eventType);
+								String r=new String();
 								if(s.contains("SecondBooking")){
 									 r= CommonOutput.bookEventOutput(false, null);
 								}else
@@ -212,14 +144,85 @@ public class Sherbrook {
 										request.getAddress(), request.getPort());
 								MSocket.send(reply); 
 								
+							}else {
+								String r = CommonOutput.bookEventOutput(false, CommonOutput.bookEvent_fail_no_such_event);
+										//"No such event is available";
+								byte[] msg = r.getBytes();
+								DatagramPacket reply = new DatagramPacket(msg, msg.length,
+										request.getAddress(), request.getPort());
+								MSocket.send(reply);
+								
+							}
+	                    }else if(var2.equalsIgnoreCase("cancel ")){
+							String customerID = fullid.substring( 8,16);
+							String eventID = fullid.substring(16, 26);
+							if (m.checkAvailabilityOfEvent1(var, eventID).equalsIgnoreCase(
+									"available ")) {
+								if (m.checkUserBooking(eventID, customerID,eventType)) {
+									String s = m.canceledEvent(var,eventID, customerID,eventType);
+									String c=CommonOutput.cancelEventOutput(true, null);
+									byte[] msg = c.getBytes();
+									DatagramPacket reply = new DatagramPacket(msg, msg.length,
+											request.getAddress(), request.getPort());
+									MSocket.send(reply);
+								} else{
+									String c =  CommonOutput.cancelEventOutput(false, CommonOutput.cancelEvent_fail_not_registered_in_event);
+									byte[] msg = c.getBytes();
+									DatagramPacket reply = new DatagramPacket(msg, msg.length,
+											request.getAddress(), request.getPort());
+									MSocket.send(reply);
+								}
+									
 							} else {
-	                            String r = "No such event is available";
-	                            byte[] msg = r.getBytes();
-	                            DatagramPacket reply = new DatagramPacket(msg, msg.length,
-	                                    request.getAddress(), request.getPort());
-	                            MSocket.send(reply);
-	                            
+								
+								String c = CommonOutput.cancelEventOutput(false, CommonOutput.cancelEvent_fail_no_such_event);
+								byte[] msg = c.getBytes();
+								DatagramPacket reply = new DatagramPacket(msg, msg.length,
+										request.getAddress(), request.getPort());
+								MSocket.send(reply);
+							}
+						}
+	                
+	                } else if (var.equalsIgnoreCase("b")  ) {
+	                	String eventType="TRADESHOWS";	
+	                    if(var2.equalsIgnoreCase("display")){
+	                        String done = m.display(var);
+	                        byte[] msg = done.getBytes();
+	                        DatagramPacket reply = new DatagramPacket(msg, msg.length,
+	                                request.getAddress(), request.getPort());
+	                        MSocket.send(reply);
 	                        }
+	                    else if(var2.equalsIgnoreCase("booked ")){
+							String customerID = fullid.substring( 8,16);
+							String eventID = fullid.substring(16, 26);
+							if (m.checkAvailabilityOfEvent(var, eventID).equalsIgnoreCase(
+									"Available ")) {
+								String s = m.bookedEvent(var,eventID, customerID,eventType);
+								String r=new String();
+								if(s.contains("SecondBooking")){
+									 r= CommonOutput.bookEventOutput(false, null);
+								}else
+								 r=CommonOutput.bookEventOutput(true, null);
+								byte[] msg = r.getBytes();
+								DatagramPacket reply = new DatagramPacket(msg, msg.length,
+										request.getAddress(), request.getPort());
+								MSocket.send(reply);
+							} else if (m.checkAvailabilityOfEvent(var.substring(0, 1), eventID).equalsIgnoreCase(
+									"No Capacity ")) {//it checks both condition capacity and existence
+								String r = CommonOutput.bookEventOutput(false, CommonOutput.bookEvent_fail_no_capacity);
+								byte[] msg = r.getBytes();
+								DatagramPacket reply = new DatagramPacket(msg, msg.length,
+										request.getAddress(), request.getPort());
+								MSocket.send(reply); 
+								
+							}else {
+								String r = CommonOutput.bookEventOutput(false, CommonOutput.bookEvent_fail_no_such_event);
+								byte[] msg = r.getBytes();
+								DatagramPacket reply = new DatagramPacket(msg, msg.length,
+										request.getAddress(), request.getPort());
+								MSocket.send(reply);
+								
+							}
 	                    }else if(var2.equalsIgnoreCase("cancel ")){
 							String customerID = fullid.substring( 8,16);
 							String eventID = fullid.substring(16, 26);
@@ -258,13 +261,13 @@ public class Sherbrook {
 	                                request.getAddress(), request.getPort());
 	                        MSocket.send(reply);
 	                        }
-	                    else if(var2.equalsIgnoreCase("booked ")){
-	                        String customerID = fullid.substring( 8,16);
-	                        String eventID = fullid.substring(16, 26);
-	                        if (m.checkAvailabilityOfEvent(var, eventID).equalsIgnoreCase(
-	                                "Available ")) {
-	                        	String s = m.bookedEvent(var,eventID, customerID,eventType);
-	                        	String r=new String();
+	                	else if(var2.equalsIgnoreCase("booked ")){
+							String customerID = fullid.substring( 8,16);
+							String eventID = fullid.substring(16, 26);
+							if (m.checkAvailabilityOfEvent(var, eventID).equalsIgnoreCase(
+									"Available ")) {
+								String s = m.bookedEvent(var,eventID, customerID,eventType);
+								String r=new String();
 								if(s.contains("SecondBooking")){
 									 r= CommonOutput.bookEventOutput(false, null);
 								}else
@@ -282,13 +285,13 @@ public class Sherbrook {
 								MSocket.send(reply); 
 								
 							}else {
-	                            String r = "No such event is available";
-	                            byte[] msg = r.getBytes();
-	                            DatagramPacket reply = new DatagramPacket(msg, msg.length,
-	                                    request.getAddress(), request.getPort());
-	                            MSocket.send(reply);
-	                            
-	                        }
+								String r = CommonOutput.bookEventOutput(false, CommonOutput.bookEvent_fail_no_such_event);
+								byte[] msg = r.getBytes();
+								DatagramPacket reply = new DatagramPacket(msg, msg.length,
+										request.getAddress(), request.getPort());
+								MSocket.send(reply);
+								
+							}
 	                    }else if(var2.equalsIgnoreCase("cancel ")){
 							String customerID = fullid.substring( 8,16);
 							String eventID = fullid.substring(16, 26);
@@ -310,7 +313,7 @@ public class Sherbrook {
 								}
 									
 							} else {
-
+								
 								String c = CommonOutput.cancelEventOutput(false, CommonOutput.cancelEvent_fail_no_such_event);
 								byte[] msg = c.getBytes();
 								DatagramPacket reply = new DatagramPacket(msg, msg.length,
@@ -392,8 +395,8 @@ public class Sherbrook {
 			if (a.get(key) != null) {
 				String key1 = key;
 				StringBuffer remover = new StringBuffer("Removed ");
-				if (Muser2.containsKey(key)) {
-					remover.append("Booking found for customer " + Muser2.get(key));
+				if (Muser1.containsKey(key)) {
+					remover.append("Booking found for customer " + Muser1.get(key));
 					char[] c = key.toCharArray();
 					String str = Character.toString(c[4]);
 					String str2 = Character.toString(c[5]);
@@ -406,8 +409,8 @@ public class Sherbrook {
 						if (c1[3] == 'M') {
 							key1 = key.substring(0, 3) + "A" + key1.substring(4);
 							if (a.containsKey(key1) && a.get(key1) != 0) {
-								Muser2.put(key1, Muser2.get(key));
-								Muser2.remove(key);
+								Muser1.put(key1, Muser1.get(key));
+								Muser1.remove(key);
 								int Value = a.get(key1);
 								a.replace(key1, Value - 1);
 												remover.append(". "+"Booking got changed to "+key1);
@@ -418,8 +421,8 @@ public class Sherbrook {
 										if(c1[3]=='A'){
 											key1 = key.substring(0, 3)+"E" + key1.substring(4);
 											if (a.containsKey(key1) && a.get(key1) != 0 ){
-												Muser2.put(key1, Muser2.get(key));
-												Muser2.remove(key);
+												Muser1.put(key1, Muser1.get(key));
+												Muser1.remove(key);
 												int Value = a.get(key1);
 												a.replace(key1, Value - 1);
 												remover.append(". " + "Booking got changed to " + key1);
@@ -436,8 +439,8 @@ public class Sherbrook {
 										if(c1[3]=='E'){
 													key1 = key.substring(0, 3)+"M" + key1.substring(4);
 													if (a.containsKey(key1) && a.get(key1) != 0 ){
-														Muser2.put(key1, Muser2.get(key));
-														Muser2.remove(key);
+														Muser1.put(key1, Muser1.get(key));
+														Muser1.remove(key);
 														int Value=a.get(key1);
 														a.replace(key1, Value-1);
 														remover.append(". "+"Booking got changed to "+key1);
@@ -446,7 +449,7 @@ public class Sherbrook {
 													} }c1 = key1.toCharArray();
 					}
 					if(counter==0){
-						Muser2.remove(key);
+						Muser1.remove(key);
 						remover.append(". "+"All Booking got cancelled for "+key);
 					}
 				}
@@ -461,8 +464,8 @@ public class Sherbrook {
 			if (b.get(key) != null) {
 				String key1 = key;
 				StringBuffer remover = new StringBuffer("Removed ");
-				if (Muser2.containsKey(key)) {
-					remover.append("Booking found for customer " + Muser2.get(key));
+				if (Muser1.containsKey(key)) {
+					remover.append("Booking found for customer " + Muser1.get(key));
 					char[] c = key.toCharArray();
 					String str = Character.toString(c[4]);
 					String str2 = Character.toString(c[5]);
@@ -475,8 +478,8 @@ public class Sherbrook {
 						if (c1[3] == 'M') {
 							key1 = key.substring(0, 3) + "A" + key1.substring(4);
 							if (b.containsKey(key1) && b.get(key1) != 0) {
-								Muser2.put(key1, Muser2.get(key));
-								Muser2.remove(key);
+								Muser1.put(key1, Muser1.get(key));
+								Muser1.remove(key);
 								int Value = b.get(key1);
 								b.replace(key1, Value - 1);
 												remover.append(". "+"Booking got changed to "+key1);
@@ -487,8 +490,8 @@ public class Sherbrook {
 										if(c1[3]=='A'){
 											key1 = key.substring(0, 3)+"E" + key1.substring(4);
 											if (b.containsKey(key1) && b.get(key1) != 0 ){
-												Muser2.put(key1, Muser2.get(key));
-												Muser2.remove(key);
+												Muser1.put(key1, Muser1.get(key));
+												Muser1.remove(key);
 												int Value = b.get(key1);
 												b.replace(key1, Value - 1);
 												remover.append(". " + "Booking got changed to " + key1);
@@ -505,8 +508,8 @@ public class Sherbrook {
 										if(c1[3]=='E'){
 													key1 = key.substring(0, 3)+"M" + key1.substring(4);
 													if (b.containsKey(key1) && b.get(key1) != 0 ){
-														Muser2.put(key1, Muser2.get(key));
-														Muser2.remove(key);
+														Muser1.put(key1, Muser1.get(key));
+														Muser1.remove(key);
 														int Value=b.get(key1);
 														b.replace(key1, Value-1);
 														remover.append(". "+"Booking got changed to "+key1);
@@ -515,7 +518,7 @@ public class Sherbrook {
 													} }c1 = key1.toCharArray();
 					}
 					if(counter==0){
-						Muser2.remove(key);
+						Muser1.remove(key);
 						remover.append(". "+"All Booking got cancelled for "+key);
 					}
 				}
@@ -530,8 +533,8 @@ public class Sherbrook {
 			if (c.get(key) != null) {
 				String key1 = key;
 				StringBuffer remover = new StringBuffer("Removed ");
-				if (Muser2.containsKey(key)) {
-					remover.append("Booking found for customer " + Muser2.get(key));
+				if (Muser1.containsKey(key)) {
+					remover.append("Booking found for customer " + Muser1.get(key));
 					char[] ch = key.toCharArray();
 					String str = Character.toString(ch[4]);
 					String str2 = Character.toString(ch[5]);
@@ -544,8 +547,8 @@ public class Sherbrook {
 						if (c1[3] == 'M') {
 							key1 = key.substring(0, 3) + "A" + key1.substring(4);
 							if (c.containsKey(key1) && c.get(key1) != 0) {
-								Muser2.put(key1, Muser2.get(key));
-								Muser2.remove(key);
+								Muser1.put(key1, Muser1.get(key));
+								Muser1.remove(key);
 								int Value = c.get(key1);
 								c.replace(key1, Value - 1);
 												remover.append(". "+"Booking got changed to "+key1);
@@ -556,8 +559,8 @@ public class Sherbrook {
 										if(c1[3]=='A'){
 											key1 = key.substring(0, 3)+"E" + key1.substring(4);
 											if (c.containsKey(key1) && c.get(key1) != 0 ){
-												Muser2.put(key1, Muser2.get(key));
-												Muser2.remove(key);
+												Muser1.put(key1, Muser1.get(key));
+												Muser1.remove(key);
 												int Value = c.get(key1);
 												c.replace(key1, Value - 1);
 												remover.append(". " + "Booking got changed to " + key1);
@@ -574,8 +577,8 @@ public class Sherbrook {
 										if(c1[3]=='E'){
 													key1 = key.substring(0, 3)+"M" + key1.substring(4);
 													if (c.containsKey(key1) && c.get(key1) != 0 ){
-														Muser2.put(key1, Muser2.get(key));
-														Muser2.remove(key);
+														Muser1.put(key1, Muser1.get(key));
+														Muser1.remove(key);
 														int Value=c.get(key1);
 														c.replace(key1, Value-1);
 														remover.append(". "+"Booking got changed to "+key1);
@@ -584,7 +587,7 @@ public class Sherbrook {
 													} }c1 = key1.toCharArray();
 					}
 					if(counter==0){
-						Muser2.remove(key);
+						Muser1.remove(key);
 						remover.append(". "+"All Booking got cancelled for "+key);
 					}
 				}
@@ -596,15 +599,14 @@ public class Sherbrook {
 				//return("No record");
 			}
 		}
-		return null;
+		return CommonOutput.removeEventOutput(false, null);
 		
 	}
 
 	public synchronized String display(String var) {
 		HashMap<String, Integer> temp = new HashMap<String, Integer>();
-		
 		String value = var;
-        System.out.println("List for event type " );
+		System.out.println("List for event type ");
 		String ss = " ";
 		if (value.equalsIgnoreCase("a")) {
 			a.entrySet().forEach(entry -> {
@@ -635,6 +637,7 @@ public class Sherbrook {
 		return str.toString();
 
 	}
+
 	public synchronized String checkAvailabilityOfEvent(String var, String key) {
 		// key is event id
 
@@ -698,39 +701,38 @@ public class Sherbrook {
 		}
 		return null;
 	}
-
 	public synchronized String bookedEvent(String var,String eventID, String customerID,String eventType) {
 		// TODO Auto-generated method stub
 		char[] ch = customerID.toCharArray();
 		char[] ch1 = {ch[0], ch[1], ch[2]};
 		String server = new String(ch1);
 		ArrayList<String> users = new ArrayList<String>();
-		if (Muser2.containsKey(eventID)) {
-			Sherbrook m = new Sherbrook();
+		if (Muser1.containsKey(eventID)) {
+			Quebec m = new Quebec();
 			if(m.secondBook(eventID,customerID,eventType)){
 				return "SecondBooking";
 			}
 			HashMap<String, ArrayList<String>> h=new HashMap<String, ArrayList<String>>();
-			h= Muser2.get(eventID);
+			h= Muser1.get(eventID);
 			
 			if(h.containsKey(eventType)){
 			users = h.get(eventType);
 			users.add(customerID);
 			h.replace(eventType, users);
-			Muser2.put(eventID, h);
+			Muser1.put(eventID, h);
 			}
 			else{
 				//HashMap<String, ArrayList<String>> h1=new HashMap<String, ArrayList<String>>();
 				users.add(customerID);
 				h.put(eventType, users);
-				Muser2.put(eventID, h);
+				Muser1.put(eventID, h);
 				
 			}
 		} else {
 			HashMap<String, ArrayList<String>> h=new HashMap<String, ArrayList<String>>();
 			users.add(customerID);
 			h.put(eventType, users);
-			Muser2.put(eventID, h);
+			Muser1.put(eventID, h);
 		}
 		
 		if(var.equalsIgnoreCase("a")){
@@ -748,9 +750,9 @@ public class Sherbrook {
 		System.out.println(s);
 		return s;
 	}
-	
+
 	public synchronized boolean secondBook(String eventID,String customerID,String eventType){
-		HashMap<String, ArrayList<String>> h=Muser2.get(eventID); 
+		HashMap<String, ArrayList<String>> h=Muser1.get(eventID); 
 		ArrayList<String> users1 = h.get(eventType);
 		if (/*Muser.containsKey(eventID) &&*/users1 != null && users1.contains(customerID)){
 			return true;
@@ -769,20 +771,20 @@ public class Sherbrook {
 		ArrayList<String> users = new ArrayList<String>();
 		HashMap<String, ArrayList<String>> h=new HashMap<String, ArrayList<String>>();
 		
-		if (Muser2.containsKey(eventID)) {
-			h = Muser2.get(eventID);
+		if (Muser1.containsKey(eventID)) {
+			h = Muser1.get(eventID);
 			/*if(h.size()==1){*/
 			users=h.get(eventType);
 			
 				users.remove(customerID);
 				h.replace(eventType, users);
-				Muser2.put(eventID, h);
+				Muser1.put(eventID, h);
 			
 			
 			if(users.size() == 0){
 			h.remove(eventType);
 			if(h.size()==0)
-				Muser2.remove(eventID);
+				Muser1.remove(eventID);
 			}
 			
 			if(var.equalsIgnoreCase("a")){
@@ -806,9 +808,27 @@ public class Sherbrook {
 			String customerID,String eventType) {
 		// TODO Auto-generated method stub
 		//Muser.put(eventID, customerID);
-		return Muser2.containsKey(eventID)
-				&& (Muser2.get(eventID)).get(eventType).contains(customerID);
+		return Muser1.containsKey(eventID)
+				&& (Muser1.get(eventID)).get(eventType).contains(customerID);
 	}
+
+	public synchronized String getUserData(String customerID) {
+		HashMap<String, String> temp11 = new HashMap<String, String>();
+
+		StringBuffer str = new StringBuffer(" ");
+		Muser1.entrySet().forEach(entry -> {
+			
+			
+			entry.getValue().entrySet().forEach(entry1 -> {
+				System.out.println(entry1.getKey());
+				if (entry1.getValue().contains(customerID))
+					str.append(entry1.getKey()+" "+entry.getKey()+",");
+			});
+		});
+		return str.toString();
+
+	}
+	
 	public synchronized int getOccurances(String customerID,String EventId) {
 		// TODO Auto-generated method stub
 	/*	int[] count = {0};
@@ -830,9 +850,9 @@ public class Sherbrook {
 			int c=i+1;
 			String newEvent = "";
 			if (c >= 1 && c < 10) {
-				newEvent = "MTL" + EventId.substring(3, 4) + "0" + c + EventId.substring(6, 10);
+				newEvent = "QUE" + EventId.substring(3, 4) + "0" + c + EventId.substring(6, 10);
 			} else if (c >= 10) {
-				newEvent = "MTL" + EventId.substring(3, 4) + c + EventId.substring(6, 10);
+				newEvent = "QUE" + EventId.substring(3, 4) + c + EventId.substring(6, 10);
 			}
 			 if(EventId.substring(3,4).equalsIgnoreCase("M")){
             	 ar.add(newEvent);
@@ -850,7 +870,7 @@ public class Sherbrook {
 		}
 		
 		
-		Muser2.entrySet().forEach(entry -> {
+		Muser1.entrySet().forEach(entry -> {
 			
 			if (ar.contains(entry.getKey())){
 				
@@ -867,7 +887,7 @@ public class Sherbrook {
 	 public synchronized String isbooked(String customerID,String EventType) {
 		 StringBuffer str = new StringBuffer();
 		 int[] count = {0};
-         Muser2.entrySet().forEach(entry -> {
+         Muser1.entrySet().forEach(entry -> {
         	 entry.getValue().entrySet().forEach(entry1 -> {
  				//System.out.println(entry1.getKey());
  				if (entry1.getKey().equalsIgnoreCase(EventType) && entry1.getValue().contains(customerID))
@@ -883,27 +903,12 @@ public class Sherbrook {
              str.append("true");
          return str.toString();
      }
-	public synchronized String getUserData(String customerID) {
-		HashMap<String, String> temp11 = new HashMap<String, String>();
-
-		StringBuffer str = new StringBuffer(" ");
-		Muser2.entrySet().forEach(entry -> {
-			
-			
-			entry.getValue().entrySet().forEach(entry1 -> {
-				System.out.println(entry1.getKey());
-				if (entry1.getValue().contains(customerID))
-					str.append(entry1.getKey()+" "+entry.getKey()+",");
-			});
-		});
-		return str.toString();
-
-	}
+	
 	public synchronized String UDPConnect(int serverPort, String combinedId) {
 		DatagramSocket aSocket = null;
 		String str = "";
 		try {
-			System.out.println("Sherbrooke client started");
+			System.out.println("Quebec client started");
 			aSocket = new DatagramSocket();
 			byte[] message = combinedId.getBytes();
 
@@ -934,7 +939,7 @@ public class Sherbrook {
 			if (aSocket != null)
 				aSocket.close();
 		}
-		return null;
+		return str;
 	}
 
 }
