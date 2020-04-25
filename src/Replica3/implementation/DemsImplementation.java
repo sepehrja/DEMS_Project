@@ -154,8 +154,10 @@ public class DemsImplementation  extends UnicastRemoteObject  implements Manager
 			if (serv.equalsIgnoreCase(bookingServ)) {
 				if (mn.checkAvailabilityOfEvent(var.substring(0, 1), eventID).equalsIgnoreCase(
 						"Available ")) {//it checks both condition capacity and existence
-					String r = mn.bookedEvent(var.substring(0, 1),eventID, customerID);
-
+					String r = mn.bookedEvent(var.substring(0, 1),eventID, customerID,eventType);
+					if(r.contains("SecondBooking")){
+						return CommonOutput.bookEventOutput(false, null);
+					}
 					return CommonOutput.bookEventOutput(true, null);
 				} else if (mn.checkAvailabilityOfEvent(var.substring(0, 1), eventID).equalsIgnoreCase(
 						"No Capacity ")) {//it checks both condition capacity and existence
@@ -209,8 +211,10 @@ public class DemsImplementation  extends UnicastRemoteObject  implements Manager
 			if (serv.equalsIgnoreCase(bookingServ)) {
 				if (mn.checkAvailabilityOfEvent(var.substring(0, 1), eventID).equalsIgnoreCase(
 						"Available ")) {
-					String r = mn.bookedEvent(var.substring(0, 1),eventID, customerID);
-
+					String r = mn.bookedEvent(var.substring(0, 1),eventID, customerID,eventType);
+					if(r.contains("SecondBooking")){
+						return CommonOutput.bookEventOutput(false, null);
+					}
 					return CommonOutput.bookEventOutput(true, null);
 				} else if (mn.checkAvailabilityOfEvent(var.substring(0, 1), eventID).equalsIgnoreCase(
 						"No Capacity ")) {//it checks both condition capacity and existence
@@ -261,8 +265,10 @@ public class DemsImplementation  extends UnicastRemoteObject  implements Manager
 			if (serv.equalsIgnoreCase(bookingServ)) {
 				if (mn.checkAvailabilityOfEvent(var.substring(0, 1), eventID).equalsIgnoreCase(
 						"Available ")) {
-					String r = mn.bookedEvent(var.substring(0, 1),eventID, customerID);
-
+					String r = mn.bookedEvent(var.substring(0, 1),eventID, customerID,eventType);
+					if(r.contains("SecondBooking")){
+						return CommonOutput.bookEventOutput(false, null);
+					}
 					return CommonOutput.bookEventOutput(true, null);
 				}else if (mn.checkAvailabilityOfEvent(var.substring(0, 1), eventID).equalsIgnoreCase(
 						"No Capacity ")) {//it checks both condition capacity and existence
@@ -334,9 +340,16 @@ public class DemsImplementation  extends UnicastRemoteObject  implements Manager
 	    		List<String> users = new ArrayList<String>();
 	    	   String[] str3=s.split(" ");
 	    	   if(str3.length==2){
-	    	   users.add(str3[1]);
-	    	   a.put(str3[0], users);
-	    	   }
+		    		  if(a.containsKey(str3[0])){
+		    			  users=a.get(str3[0]);
+		    			  users.add(str3[1]);
+		    			  a.put(str3[0], users);
+		    		  }else{
+		    			  users.add(str3[1]);
+		    			  a.put(str3[0], users);
+		    		  }
+		    			 
+		    	   }
 	    	
 	}
 
@@ -362,8 +375,15 @@ public class DemsImplementation  extends UnicastRemoteObject  implements Manager
 	    		List<String> users = new ArrayList<String>();
 	    	   String[] str3=s.split(" ");
 	    	  if(str3.length==2){
-	    	   users.add(str3[1]);
-	    	   a.put(str3[0], users);
+	    		  if(a.containsKey(str3[0])){
+	    			  users=a.get(str3[0]);
+	    			  users.add(str3[1]);
+	    			  a.put(str3[0], users);
+	    		  }else{
+	    			  users.add(str3[1]);
+	    			  a.put(str3[0], users);
+	    		  }
+	    			 
 	    	   }
 	    	
 	}
@@ -389,9 +409,16 @@ public class DemsImplementation  extends UnicastRemoteObject  implements Manager
 	    		List<String> users = new ArrayList<String>();
 	    	   String[] str3=s.split(" ");
 	    	   if(str3.length==2){
-	    	   users.add(str3[1]);
-	    	   a.put(str3[0], users);
-	    	   }
+		    		  if(a.containsKey(str3[0])){
+		    			  users=a.get(str3[0]);
+		    			  users.add(str3[1]);
+		    			  a.put(str3[0], users);
+		    		  }else{
+		    			  users.add(str3[1]);
+		    			  a.put(str3[0], users);
+		    		  }
+		    			 
+		    	   }
 	    	
 	}
 
@@ -418,8 +445,8 @@ public class DemsImplementation  extends UnicastRemoteObject  implements Manager
 				
 				if (mn.checkAvailabilityOfEvent1(var.substring(0, 1), eventID).equalsIgnoreCase(
 						"available ")) {
-					if (mn.checkUserBooking(eventID, customerID)) {
-						String c = mn.canceledEvent(var.substring(0, 1),eventID, customerID);
+					if (mn.checkUserBooking(eventID, customerID,eventType)) {
+						String c = mn.canceledEvent(var.substring(0, 1),eventID, customerID,eventType);
 
 						 return CommonOutput.cancelEventOutput(true, null);
 					} else
@@ -449,8 +476,8 @@ public class DemsImplementation  extends UnicastRemoteObject  implements Manager
 			if (serv.equalsIgnoreCase(bookingServ)) {
 				if (mn.checkAvailabilityOfEvent1(var.substring(0, 1), eventID).equalsIgnoreCase(
 						"available ")) {
-					if (mn.checkUserBooking(eventID, customerID)) {
-						String c = mn.canceledEvent(var.substring(0, 1),eventID, customerID);
+					if (mn.checkUserBooking(eventID, customerID,eventType)) {
+						String c = mn.canceledEvent(var.substring(0, 1),eventID, customerID,eventType);
 
 						 return CommonOutput.cancelEventOutput(true, null);
 					} else
@@ -479,8 +506,8 @@ public class DemsImplementation  extends UnicastRemoteObject  implements Manager
 			if (serv.equalsIgnoreCase(bookingServ)) {
 				if (mn.checkAvailabilityOfEvent1(var.substring(0, 1), eventID).equalsIgnoreCase(
 						"available ")) {
-					if (mn.checkUserBooking(eventID, customerID)) {
-						String c = mn.canceledEvent(var.substring(0, 1),eventID, customerID);
+					if (mn.checkUserBooking(eventID, customerID,eventType)) {
+						String c = mn.canceledEvent(var.substring(0, 1),eventID, customerID,eventType);
 
 						 return CommonOutput.cancelEventOutput(true, null);
 					} else
@@ -555,7 +582,7 @@ public class DemsImplementation  extends UnicastRemoteObject  implements Manager
 				String var = mn.getHashMap(oldEventType);
 
 				// String variable="isBooked"+customerID;
-				String bookingexistence = mn.isbooked(customerID);
+				String bookingexistence = mn.isbooked(customerID,oldEventType);
 				if (bookingexistence.contains("false")) {
 					return CommonOutput.swapEventOutput(false, CommonOutput.swapEvent_fail_not_registered_in_event);
 				}
@@ -579,7 +606,7 @@ public class DemsImplementation  extends UnicastRemoteObject  implements Manager
 						+ oldEventID;
 				String ans = (mn.UDPConnect(7001, var));
 
-				String variable = "isBooked" + customerID;
+				String variable = "isBooked" + customerID +oldEventType;
 				String bookingexistence = (mn.UDPConnect(7001, variable))
 						;
 				if (bookingexistence.contains("false")) {
@@ -602,7 +629,7 @@ public class DemsImplementation  extends UnicastRemoteObject  implements Manager
 						+ oldEventID;
 				String ans = (mn.UDPConnect(7002, var));
 
-				String variable = "isBooked" + customerID;
+				String variable = "isBooked" + customerID+oldEventType;
 				String bookingexistence = (mn.UDPConnect(7002, variable))
 						;
 				if (bookingexistence.contains("false")) {
@@ -680,7 +707,7 @@ public class DemsImplementation  extends UnicastRemoteObject  implements Manager
 				String var = mn.getHashMap(oldEventType);
 
 				// String variable="isBooked"+customerID;
-				String bookingexistence = mn.isbooked(customerID);
+				String bookingexistence = mn.isbooked(customerID,oldEventType);
 				if (bookingexistence.contains("false")) {
 					return CommonOutput.swapEventOutput(false, CommonOutput.swapEvent_fail_not_registered_in_event);
 				}
@@ -704,7 +731,7 @@ public class DemsImplementation  extends UnicastRemoteObject  implements Manager
 						+ oldEventID;
 				String ans = (mn.UDPConnect(7000, var));
 				//String test2=ans.substring(0, 10);
-				String variable = "isBooked" + customerID;
+				String variable = "isBooked" + customerID+oldEventType;
 				String bookingexistence = (mn.UDPConnect(7000, variable))
 						;
 				if (bookingexistence.contains("false")) {
@@ -727,7 +754,7 @@ public class DemsImplementation  extends UnicastRemoteObject  implements Manager
 						+ oldEventID;
 				String ans = (mn.UDPConnect(7002, var));
 
-				String variable = "isBooked" + customerID;
+				String variable = "isBooked" + customerID+oldEventType;
 				String bookingexistence = (mn.UDPConnect(7002, variable))
 						;
 				if (bookingexistence.contains("false")) {
@@ -805,7 +832,7 @@ public class DemsImplementation  extends UnicastRemoteObject  implements Manager
 				String var = mn.getHashMap(oldEventType);
 
 				// String variable="isBooked"+customerID;
-				String bookingexistence = mn.isbooked(customerID);
+				String bookingexistence = mn.isbooked(customerID,oldEventType);
 				if (bookingexistence.contains("false")) {
 					return CommonOutput.swapEventOutput(false, CommonOutput.swapEvent_fail_not_registered_in_event);
 				}
@@ -829,7 +856,7 @@ public class DemsImplementation  extends UnicastRemoteObject  implements Manager
 						+ oldEventID;
 				String ans = (mn.UDPConnect(7000, var));
 
-				String variable = "isBooked" + customerID;
+				String variable = "isBooked" + customerID+oldEventType;
 				String bookingexistence = (mn.UDPConnect(7000, variable))
 						;
 				if (bookingexistence.contains("false")) {
@@ -852,7 +879,7 @@ public class DemsImplementation  extends UnicastRemoteObject  implements Manager
 						+ oldEventID;
 				String ans = (mn.UDPConnect(7001, var));
 
-				String variable = "isBooked" + customerID;
+				String variable = "isBooked" + customerID+oldEventType;
 				String bookingexistence = (mn.UDPConnect(7001, variable))
 						;
 				if (bookingexistence.contains("false")) {
