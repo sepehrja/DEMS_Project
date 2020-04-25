@@ -213,7 +213,7 @@ public class Sherbrook {
 								MSocket.send(reply); 
 								
 							} else {
-	                            String r = "No such event is available";
+	                            String r = CommonOutput.bookEventOutput(false, CommonOutput.bookEvent_fail_no_such_event);
 	                            byte[] msg = r.getBytes();
 	                            DatagramPacket reply = new DatagramPacket(msg, msg.length,
 	                                    request.getAddress(), request.getPort());
@@ -282,7 +282,7 @@ public class Sherbrook {
 								MSocket.send(reply); 
 								
 							}else {
-	                            String r = "No such event is available";
+	                            String r = CommonOutput.bookEventOutput(false, CommonOutput.bookEvent_fail_no_such_event);
 	                            byte[] msg = r.getBytes();
 	                            DatagramPacket reply = new DatagramPacket(msg, msg.length,
 	                                    request.getAddress(), request.getPort());
@@ -596,7 +596,7 @@ public class Sherbrook {
 				//return("No record");
 			}
 		}
-		return null;
+		return CommonOutput.removeEventOutput(false, null);
 		
 	}
 
@@ -934,7 +934,7 @@ public class Sherbrook {
 			if (aSocket != null)
 				aSocket.close();
 		}
-		return null;
+		return str;
 	}
 
 }
