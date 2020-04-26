@@ -15,3 +15,23 @@ DATE: 2020-04-24 05:51:21 PM Client Action:  bookEvent | RequestParameters:  cus
 DATE: 2020-04-24 05:51:29 PM  attempting to getBookingSchedule
 DATE: 2020-04-24 05:51:29 PM Client Action:  getBookingSchedule | RequestParameters:  customerID: QUEC1234  | Server Response: Success:getBookingSchedule > TRADESHOWS SHEA111120@CONFERENCES MTLE101020@SEMINARS SHEA101020
 DATE: 2020-04-24 05:52:11 PM attempting to Logout
+DATE: 2020-04-25 07:00:04 PM  login attempt
+DATE: 2020-04-25 07:00:04 PM  Manager Login successful
+DATE: 2020-04-25 07:00:53 PM  attempting to addEvent
+DATE: 2020-04-25 07:00:53 PM Client Action:  addEvent | RequestParameters:  eventID: QUEM011020 eventType: TradeShows eventCapacity: 1  | Server Response: Success:addEvent > Event added successfully
+DATE: 2020-04-25 07:00:59 PM  attempting to listEventAvailability
+DATE: 2020-04-25 07:00:59 PM Client Action:  listEventAvailability | RequestParameters:  eventType: TradeShows  | Server Response: Success:listEventAvailability > QUEM011020 1@MTLM011020 1
+DATE: 2020-04-25 07:01:19 PM attempting to Logout
+DATE: 2020-04-25 07:07:38 PM  login attempt
+DATE: 2020-04-25 07:07:38 PM  Manager Login successful
+DATE: 2020-04-25 07:07:40 PM  attempting to listEventAvailability
+DATE: 2020-04-25 07:07:40 PM Client Action:  listEventAvailability | RequestParameters:  eventType: Conferences  | Server Response: Success:listEventAvailability > MTLM101020 2@MTLA111120 3
+DATE: 2020-04-25 07:07:58 PM  attempting to bookEvent
+DATE: 2020-04-25 07:07:58 PM Client Action:  bookEvent | RequestParameters:  customerID: QUEC1234 eventID: MTLM101020 eventType: Conferences  | Server Response: Success:bookEvent > successful
+DATE: 2020-04-25 07:33:52 PM  login attempt
+DATE: 2020-04-25 07:33:52 PM  Manager Login successful
+DATE: 2020-04-25 07:34:06 PM  attempting to addEvent
+DATE: 2020-04-25 07:34:06 PM Client Action:  addEvent | RequestParameters:  eventID: QUEM011020 eventType: TradeShows eventCapacity: 1  | Server Response: Success:addEvent > Event added successfully
+DATE: 2020-04-25 07:34:20 PM  attempting to listEventAvailability
+DATE: 2020-04-25 07:34:20 PM Client Action:  listEventAvailability | RequestParameters:  eventType: TradeShows  | Server Response: Success:listEventAvailability > QUEM011020 1@MTLM011020 1
+DATE: 2020-04-25 07:34:28 PM attempting to Logout

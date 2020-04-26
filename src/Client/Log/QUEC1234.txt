@@ -5,3 +5,24 @@ DATE: 2020-04-24 05:52:56 PM Client Action:  bookEvent | RequestParameters:  eve
 DATE: 2020-04-24 05:53:09 PM  attempting to getBookingSchedule
 DATE: 2020-04-24 05:53:09 PM Client Action:  bookEvent | RequestParameters:  null  | Server Response: Success:getBookingSchedule > TRADESHOWS SHEA111120@TRADESHOWS MTLA111122@CONFERENCES MTLE101020@SEMINARS SHEA101020
 DATE: 2020-04-24 05:55:41 PM  attempting to Logout
+DATE: 2020-04-25 07:01:26 PM  login attempt
+DATE: 2020-04-25 07:01:26 PM  Customer Login successful
+DATE: 2020-04-25 07:01:39 PM  attempting to bookEvent
+DATE: 2020-04-25 07:01:39 PM Client Action:  bookEvent | RequestParameters:  eventID: QUEM011020 eventType: TradeShows  | Server Response: Success:bookEvent > successful
+DATE: 2020-04-25 07:02:05 PM  attempting to swapEvent
+DATE: 2020-04-25 07:02:05 PM Client Action:  swapEvent | RequestParameters:  oldEventID: QUEM011020 oldEventType: TradeShows newEventID: MTLM011020 newEventType: TradeShows  | Server Response: Success:swapEvent > successful
+DATE: 2020-04-25 07:02:33 PM  attempting to Logout
+DATE: 2020-04-25 07:02:41 PM  login attempt
+DATE: 2020-04-25 07:02:41 PM  Customer Login successful
+DATE: 2020-04-25 07:02:43 PM  attempting to getBookingSchedule
+DATE: 2020-04-25 07:02:43 PM Client Action:  bookEvent | RequestParameters:  null  | Server Response: Success:getBookingSchedule > TRADESHOWS MTLM011020
+DATE: 2020-04-25 07:07:11 PM  attempting to Logout
+DATE: 2020-04-25 07:34:34 PM  login attempt
+DATE: 2020-04-25 07:34:34 PM  Customer Login successful
+DATE: 2020-04-25 07:34:49 PM  attempting to bookEvent
+DATE: 2020-04-25 07:34:49 PM Client Action:  bookEvent | RequestParameters:  eventID: QUEM011020 eventType: TradeShows  | Server Response: Success:bookEvent > successful
+DATE: 2020-04-25 07:35:17 PM  attempting to swapEvent
+DATE: 2020-04-25 07:35:17 PM Client Action:  swapEvent | RequestParameters:  oldEventID: QUEM011020 oldEventType: TradeShows newEventID: MTLM011020 newEventType: TradeShows  | Server Response: Success:swapEvent > successful
+DATE: 2020-04-25 07:35:20 PM  attempting to getBookingSchedule
+DATE: 2020-04-25 07:35:20 PM Client Action:  bookEvent | RequestParameters:  null  | Server Response: Success:getBookingSchedule > TRADESHOWS MTLM011020
+DATE: 2020-04-25 07:52:52 PM  attempting to Logout
